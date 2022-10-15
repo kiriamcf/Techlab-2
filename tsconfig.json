@@ -1,0 +1,23 @@
+{
+  "include": ["."],
+  "exclude": [],
+  "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext",
+      "jsx": "preserve",
+      "jsxImportSource": "solid-js",
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "Node",
+      "strict": true,
+      "sourceMap": true,
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "declaration": true,
+      "emitDeclarationOnly": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "isolatedModules": true,
+      "rootDir": "./resources"
+  }
+}
