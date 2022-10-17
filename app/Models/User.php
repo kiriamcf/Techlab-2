@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'admin',
+        'targeta',
     ];
 
     /**
@@ -39,6 +41,15 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'name' => 'string',
+        'email' => 'string',
+        'password' => 'string',
+        'admin' => 'boolean',
+        'targeta' => 'string',
         'email_verified_at' => 'datetime',
     ];
+
+    public function reservation() {
+        return $this->hasMany(Reservation::class);
+    }
 }
