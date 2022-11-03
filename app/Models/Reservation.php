@@ -16,7 +16,9 @@ class Reservation extends Model
 
     protected $casts = [
         'hour' => 'integer',
-        'day' => 'date'
+        'day' => 'date:Y-m-d',
+        // 'updated_at' => 'datetime:d-m-Y',
+        // 'created_at' => 'datetime:d-m-Y',
     ];
 
     public function user() {

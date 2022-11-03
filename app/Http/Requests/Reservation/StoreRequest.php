@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Reservation;
 
+use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -13,7 +16,9 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this
+            ->user()
+            ->can('create', Reservation::class);
     }
 
     /**
@@ -24,7 +29,9 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'hour' => ['required', 'integer'],
+            'day' => ['required', 'date:Y-m-d'],
+            // 'user_id' => ['required', 'integer', Rule::exists(User::class)],
         ];
     }
 }

@@ -10,18 +10,29 @@ use App\Http\Requests\Machine\ShowRequest;
 use App\Http\Requests\Machine\UpdateRequest;
 use App\Http\Requests\Machine\DestroyRequest;
 use App\Http\Resources\MachineResource;
+use App\Models\Laboratory;
 
 class MachineController extends Controller
 {
+    /**
+     * Creates a new controller instance.
+     */
+    public function __construct()
+    {
+        $this
+            ->middleware(['auth:sanctum', 'verified'])
+            ->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(IndexRequest $request, Machine $machine)
+    public function index(IndexRequest $request, Laboratory $laboratory)
     {
         return MachineResource::collection(
-            $machine->all(),
+            $laboratory->machines,
         );
     }
 
@@ -31,10 +42,12 @@ class MachineController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request, Machine $machine)
+    public function store(StoreRequest $request, Laboratory $laboratory)
     {
         return new MachineResource(
-            $machine->create($request->validated())
+            $laboratory
+                ->machines()
+                ->create($request->validated()),
         );
     }
 

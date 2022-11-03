@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Machine;
 
+use App\Models\Machine;
 use Illuminate\Foundation\Http\FormRequest;
 
 class IndexRequest extends FormRequest
@@ -13,7 +14,9 @@ class IndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this
+            ->user()
+            ?->can('viewAny', Machine::class) ?? true;
     }
 
     /**

@@ -14,6 +14,16 @@ use App\Http\Resources\LaboratoryResource;
 class LaboratoryController extends Controller
 {
     /**
+     * Creates a new controller instance.
+     */
+    public function __construct()
+    {
+        $this
+            ->middleware(['auth:sanctum', 'verified'])
+            ->except(['index', 'show']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

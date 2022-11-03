@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('machines', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('admin')->default(0);
-            $table->string('targeta')->default("00 00 00 00");
+            $table->string('description');
+            $table->unsignedBigInteger('laboratory_id');
+            $table->foreign('laboratory_id')->references('id')->on('laboratories')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -10,19 +10,40 @@ use App\Http\Requests\Reservation\ShowRequest;
 use App\Http\Requests\Reservation\UpdateRequest;
 use App\Http\Requests\Reservation\DestroyRequest;
 use App\Http\Resources\ReservationResource;
+use App\Models\Machine;
 
 class ReservationController extends Controller
 {
+    /**
+     * Creates a new controller instance.
+     */
+    public function __construct()
+    {
+        $this
+            ->middleware(['auth:sanctum', 'verified']);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(IndexRequest $request, Reservation $reservation)
+    public function index(IndexRequest $request, Machine $machine)
     {
+        // return ReservationResource::collection(
+        //     $reservation->all(),
+        // );
+
         return ReservationResource::collection(
-            $reservation->all(),
+            Reservation::all(),
         );
+
+        // $reservation = new Reservation($request->validated());
+        // $reservation->user()->associate($machine);
+        // $reservation->user()->associate($request->user());
+        // $reservation->save();
+
+        // return $reservation;
     }
 
     /**
@@ -31,10 +52,15 @@ class ReservationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request, Reservation $reservation)
+    public function store(StoreRequest $request, Machine $machine)
     {
+        $reservation = new Reservation($request->validated());
+        $reservation->machine()->associate($machine);
+        $reservation->user()->associate($request->user());
+        $reservation->save();
+
         return new ReservationResource(
-            $reservation->create($request->validated())
+            $reservation
         );
     }
 

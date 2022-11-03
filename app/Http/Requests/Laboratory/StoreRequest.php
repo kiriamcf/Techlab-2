@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Laboratory;
 
+use App\Models\Laboratory;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -13,7 +14,9 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this
+            ->user()
+            ->can('create', Laboratory::class);
     }
 
     /**
@@ -24,7 +27,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'room_number' => ['required', 'string'],
         ];
     }
 }

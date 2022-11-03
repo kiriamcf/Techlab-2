@@ -13,7 +13,9 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this
+            ->user()
+            ->can('update', $this->route('machine'));
     }
 
     /**
@@ -24,7 +26,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['sometimes', 'string'],
+            'description' => ['sometimes', 'string'],
         ];
     }
 }

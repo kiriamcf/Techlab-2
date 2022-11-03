@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('admin')->default(0);
-            $table->string('targeta')->default("00 00 00 00");
+            $table->integer('hour');
+            // $table->date('day')->format('Y-m-d');
+            $table->date('day');
+            $table->unsignedBigInteger('machine_id');
+            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

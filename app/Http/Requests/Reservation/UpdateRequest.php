@@ -13,7 +13,9 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this
+            ->user()
+            ->can('update', $this->route('reservation'));
     }
 
     /**
@@ -24,7 +26,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'hour' => ['sometimes', 'integer'],
+            'day' => ['sometimes', 'date:Y-m-d'],
         ];
     }
 }

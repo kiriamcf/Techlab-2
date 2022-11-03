@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Reservation;
 
+use App\Models\Reservation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class IndexRequest extends FormRequest
@@ -13,7 +14,9 @@ class IndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this
+            ->user()
+            ->can('viewAny', Reservation::class);
     }
 
     /**

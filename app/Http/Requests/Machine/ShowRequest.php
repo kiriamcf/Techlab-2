@@ -13,7 +13,9 @@ class ShowRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this
+            ->user()
+            ?->can('view', $this->route('machine')) ?? true;
     }
 
     /**
