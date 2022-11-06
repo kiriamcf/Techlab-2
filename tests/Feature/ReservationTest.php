@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Machine;
 use App\Models\Reservation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
@@ -124,7 +125,7 @@ class ReservationTest extends TestCase
                 ]
             ])
             ->assertJsonPath('data.hour', $hour)
-            ->assertJsonPath('data.day', $day);
+            ->assertJsonPath('data.day', Carbon::parse($day)->toJSON());
 
         $this
             ->assertDatabaseCount(Reservation::class, 1)

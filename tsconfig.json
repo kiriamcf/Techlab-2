@@ -1,5 +1,5 @@
 {
-  "include": ["."],
+  "include": ["./resources"],
   "exclude": [],
   "compilerOptions": {
       "target": "ESNext",
@@ -17,7 +17,9 @@
       "noUnusedLocals": true,
       "noUnusedParameters": true,
       "noImplicitReturns": true,
+      "useDefineForClassFields": true,
       "isolatedModules": true,
-      "rootDir": "./resources"
+      "rootDir": "./",
+      "types": ["vite/client"]
   }
 }
