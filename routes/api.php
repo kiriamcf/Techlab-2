@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LaboratoryController;
@@ -25,4 +26,8 @@ Route::name('api.')->group(function () {
     Route::apiResource('laboratory', LaboratoryController::class);
     Route::apiResource('laboratory.machine', MachineController::class)->shallow();
     Route::apiResource('machine.reservation', ReservationController::class)->shallow();
+    Route::post('/signin', [AuthenticationController::class, 'login']);
+    Route::post('/signup', [AuthenticationController::class, 'register']);
+    Route::post('/signout', [AuthenticationController::class, 'signOut']);
+    Route::get('/user', [AuthenticationController::class, 'showUser']);
 });

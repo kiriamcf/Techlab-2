@@ -106,7 +106,7 @@ class ReservationTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $machine = Machine::factory()->create();
-        
+
         $this
             ->postJson(route('api.machine.reservation.store', $machine), [
                 'hour' => $hour = fake()->numberBetween(9, 21),
@@ -133,5 +133,123 @@ class ReservationTest extends TestCase
                 'hour' => $hour,
                 'day' => $day,
             ]);
+    }
+
+    public function testItFailsToCreateReservationsWhenInvalidData()
+    {
+        Sanctum::actingAs(User::factory()->create());
+
+        $machine = Machine::factory()->create();
+
+        $this
+            ->postJson(route('api.machine.reservation.store', $machine), [])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['hour', 'day']);
+
+        $this->assertDatabaseCount(Reservation::class, 0);
+    }
+
+    public function testItFailsToCreateReservationsWhenUnauthenticated()
+    {
+        $machine = Machine::factory()->create();
+
+        $this
+            ->postJson(route('api.machine.reservation.store', $machine))
+            ->assertUnauthorized();
+
+        $this->assertDatabaseCount(Reservation::class, 0);
+    }
+
+    public function testItCanUpdateReservations()
+    {
+        $user = Sanctum::actingAs(User::factory()->create());
+
+        $reservation = Reservation::factory()->for($user)->create();
+
+        $this
+            ->putJson(route('api.reservation.update', $reservation), [
+                'hour' => $hour = fake()->numberBetween(9, 21),
+            ])
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'hour',
+                    'day',
+                    'machine_id',
+                    'user_id',
+                    'created_at',
+                    'updated_at',
+                ]
+            ])
+            ->assertJsonPath('data.hour', $hour)
+            ->assertJsonPath('data.day', Carbon::parse($reservation->day)->toJSON());
+
+        $this
+            ->assertDatabaseCount(Reservation::class, 1)
+            ->assertDatabaseHas(Reservation::class, [
+                'hour' => $hour,
+                'day' => Carbon::parse($reservation->day)->toJSON(),
+            ]);
+    }
+
+    public function testItFailsToUpdateReservationsWhenUnauthenticated()
+    {
+        $reservation = Reservation::factory()->create();
+
+        $this
+            ->putJson(route('api.reservation.update', $reservation), [
+                'hour' => $hour = fake()->numberBetween(9, 21),
+            ])
+            ->assertUnauthorized();
+
+        $this
+            ->assertDatabaseCount(Reservation::class, 1)
+            ->assertDatabaseHas(Reservation::class, [
+                'hour' => $reservation->hour,
+            ]);
+    }
+
+    public function testItFailsToUpdateReservationsWhenUserNotOwnerOfReservation()
+    {
+        Sanctum::actingAs(User::factory()->create());
+
+        $reservation = Reservation::factory()->create();
+
+        $this
+            ->putJson(route('api.reservation.update', $reservation), [
+                'hour' => $hour = fake()->numberBetween(9, 21),
+            ])
+            ->assertForbidden();
+
+        $this
+            ->assertDatabaseCount(Reservation::class, 1)
+            ->assertDatabaseHas(Reservation::class, [
+                'hour' => $reservation->hour,
+            ]);
+    }
+
+    public function testItCanDeleteReservations()
+    {
+        $user = Sanctum::actingAs(User::factory()->create());
+
+        $reservation = Reservation::factory()->for($user)->create();
+
+        $this
+            ->deleteJson(route('api.reservation.destroy', $reservation))
+            ->assertNoContent();
+
+        $this->assertDatabaseCount(Reservation::class, 0);
+    }
+
+    public function testItFailsToDeleteReservationsWhenUnauthenticated()
+    {
+        $reservation = Reservation::factory()->create();
+
+        $this
+            ->deleteJson(route('api.reservation.destroy', $reservation))
+            ->assertUnauthorized();
+
+        $this->assertDatabaseCount(Reservation::class, 1);
     }
 }

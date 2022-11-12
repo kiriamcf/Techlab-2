@@ -165,7 +165,7 @@ class MachineTest extends TestCase
         $user->admin = true;
 
         $laboratory = Laboratory::factory()->create();
-        
+
         $this
             ->postJson(route('api.laboratory.machine.store', $laboratory), [
                 'name' => $name = fake()->text(25),
@@ -212,7 +212,7 @@ class MachineTest extends TestCase
 
     public function testItFailsToUpdateMachinesWhenUserNotAdmin()
     {
-        $machine = Machine::factory()->create(); 
+        $machine = Machine::factory()->create();
 
         Sanctum::actingAs(User::factory()->create());
 

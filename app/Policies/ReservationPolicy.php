@@ -53,7 +53,7 @@ class ReservationPolicy
      */
     public function update(User $user, Reservation $reservation)
     {
-        return $user->id > 0;
+        return $user->id == $reservation->user_id;
     }
 
     /**
@@ -65,6 +65,6 @@ class ReservationPolicy
      */
     public function delete(User $user, Reservation $reservation)
     {
-        return $user->id > 0;
+        return $user->id == $reservation->user_id;
     }
 }

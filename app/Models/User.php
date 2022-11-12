@@ -3,9 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -19,6 +21,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
         'email',
         'password',
         'admin',
@@ -42,12 +45,17 @@ class User extends Authenticatable
      */
     protected $casts = [
         'name' => 'string',
+        'surname' => 'string',
         'email' => 'string',
         'password' => 'string',
         'admin' => 'boolean',
         'targeta' => 'string',
         'email_verified_at' => 'datetime',
     ];
+
+    public function setPasswordAttribute($value) {
+        $this->attributes['password'] = Hash::make($value);
+    }
 
     public function reservation() {
         return $this->hasMany(Reservation::class);

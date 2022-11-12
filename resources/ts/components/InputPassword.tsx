@@ -1,4 +1,4 @@
-import { ParentComponent, JSX, mergeProps } from 'solid-js'
+import { JSX, mergeProps, ParentComponent } from 'solid-js'
 
 interface Props {
   placeholder?: string
@@ -6,11 +6,11 @@ interface Props {
   onChange?: JSX.EventHandlerUnion<HTMLInputElement, Event>
 }
 
-const InputEmail: ParentComponent<Props> = (props) => {
+const InputPassword: ParentComponent<Props> = (props) => {
   props = mergeProps({ placeholder: 'Enter placeholder' }, props)
   return (
     <input
-      type="Email"
+      type="password"
       placeholder={props.placeholder}
       value={props.value}
       onChange={props.onChange}
@@ -20,4 +20,4 @@ const InputEmail: ParentComponent<Props> = (props) => {
   )
 }
 
-export default InputEmail
+export default InputPassword
