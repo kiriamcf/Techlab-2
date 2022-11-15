@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('laboratories', function (Blueprint $table) {
+        Schema::create('machines', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('room_number');
+            $table->string('description');
+            $table->unsignedBigInteger('laboratory_id');
+            $table->foreign('laboratory_id')->references('id')->on('laboratories')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('machines');
     }
 };

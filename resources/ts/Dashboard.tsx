@@ -1,14 +1,13 @@
 import { Component, createSignal, Match, Show, Switch } from 'solid-js'
 import Layout from './Layout'
 import Button from './components/Button'
-import ButtonFaded from './components/ButtonFaded'
 import IconDashboard from './components/Icons/Dashboard'
 import IconCreate from './components/Icons/Create'
 import IconSearch from './components/Icons/Search'
 import IconUser from './components/Icons/User'
 import DashboardContent from './components/DashboardContent'
 import CreateReservationContent from './components/CreateReservationContent'
-import ShowReservationsContent from './components/ShowReservationsContent'
+import ShowReservationContent from './components/ShowReservationContent'
 import AccountContent from './components/AccountContent'
 
 const Dashboard: Component = (props) => {
@@ -80,7 +79,7 @@ const Dashboard: Component = (props) => {
                 <CreateReservationContent />
               </Match>
               <Match when={active() == 'showReservations'}>
-                <ShowReservationsContent />
+                <ShowReservationContent />
               </Match>
               <Match when={active() == 'account'}>
                 <AccountContent />

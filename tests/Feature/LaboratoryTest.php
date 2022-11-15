@@ -151,7 +151,7 @@ class LaboratoryTest extends TestCase
     {
         $user = Sanctum::actingAs(User::factory()->create());
         $user->admin = true;
-        
+
         $this
             ->postJson(route('api.laboratory.store'), [
                 'name' => $name = fake()->text(25),
@@ -197,7 +197,7 @@ class LaboratoryTest extends TestCase
 
     public function testItFailsToUpdateLaboratoriesWhenUserNotAdmin()
     {
-        $laboratory = Laboratory::factory()->create(); 
+        $laboratory = Laboratory::factory()->create();
 
         Sanctum::actingAs(User::factory()->create());
 

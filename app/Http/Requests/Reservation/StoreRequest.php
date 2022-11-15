@@ -18,7 +18,7 @@ class StoreRequest extends FormRequest
     {
         return $this
             ->user()
-            ->can('create', Reservation::class);
+            ->can('create', [Reservation::class, $this->route('machine')]);
     }
 
     /**

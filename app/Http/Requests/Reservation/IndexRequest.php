@@ -16,7 +16,7 @@ class IndexRequest extends FormRequest
     {
         return $this
             ->user()
-            ->can('viewAny', Reservation::class);
+            ->can('viewAny', [Reservation::class, $this->route('machine')]);
     }
 
     /**

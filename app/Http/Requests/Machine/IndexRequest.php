@@ -16,7 +16,7 @@ class IndexRequest extends FormRequest
     {
         return $this
             ->user()
-            ?->can('viewAny', Machine::class) ?? true;
+            ?->can('viewAny', [Machine::class, $this->route('laboratory')]) ?? true;
     }
 
     /**

@@ -189,7 +189,7 @@ class ReservationTest extends TestCase
             ->assertDatabaseCount(Reservation::class, 1)
             ->assertDatabaseHas(Reservation::class, [
                 'hour' => $hour,
-                'day' => Carbon::parse($reservation->day)->toJSON(),
+                'day' => Carbon::parse($reservation->day)->toDateString(),
             ]);
     }
 

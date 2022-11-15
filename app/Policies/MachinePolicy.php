@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Laboratory;
 use App\Models\Machine;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -16,7 +17,7 @@ class MachinePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Laboratory $laboratory)
     {
         return true;
     }
@@ -39,7 +40,7 @@ class MachinePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, Laboratory $laboratory)
     {
         return $user->admin;
     }
