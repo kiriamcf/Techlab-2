@@ -1,16 +1,16 @@
 import { Component } from 'solid-js'
 import Layout from './Layout'
 import DashboardLayout from './DashboardLayout'
-import DashboardContent from './components/DashboardContent'
+import ShowReservationContent from './components/ShowReservationContent'
 
-const Dashboard: Component = () => {
+const ShowReservation: Component = () => {
   return (
     <>
       <Layout auth={true}>
         <main class="w-full max-w-screen-2xl mx-auto flex">
           <DashboardLayout />
           <div class="w-full my-8 mr-8">
-            <DashboardContent />
+            <ShowReservationContent />
           </div>
         </main>
       </Layout>
@@ -18,4 +18,4 @@ const Dashboard: Component = () => {
   )
 }
 
-export default Dashboard
+export default ShowReservation

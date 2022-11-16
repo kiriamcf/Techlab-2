@@ -1,11 +1,12 @@
 import {
   createEffect,
   createMemo,
-  createSignal,
+  Suspense,
   Match,
   ParentComponent,
   Show,
   Switch,
+  useTransition,
 } from 'solid-js'
 import Button from './components/Button'
 import { A, useLocation, useNavigate } from '@solidjs/router'
@@ -27,7 +28,7 @@ const Layout: ParentComponent<Props> = (props) => {
   })
 
   createEffect(() => {
-    setUser(user())
+    setUser(() => user)
   })
 
   const location = useLocation()
@@ -55,7 +56,7 @@ const Layout: ParentComponent<Props> = (props) => {
   }
 
   return (
-    <Show when={user.loading === false}>
+    <Suspense fallback={<div>Loading</div>}>
       <header class="w-full bg-neutral-800 text-white py-5">
         <div class="max-w-5xl mx-auto flex justify-between content-center">
           <Switch fallback={<div>Not found</div>}>
@@ -99,82 +100,8 @@ const Layout: ParentComponent<Props> = (props) => {
       </header>
       {props.children}
       <footer></footer>
-    </Show>
+    </Suspense>
   )
 }
 
 export default Layout
-
-// const Layout: ParentComponent = (props) => {
-//   const [axiosResponse, setAxiosResponse] = createSignal('')
-
-//   axios.get('api/user').then((response) => {
-//     if (response.data == 'User not logged in') {
-//       setAxiosResponse('Not logged in')
-//     } else {
-//       setAxiosResponse('Logged in')
-//     }
-//   })
-//   return (
-//     <>
-//       <Show when={axiosResponse() == 'Not logged in'} fallback={<div>Loading...</div>}>
-//         <header class="w-full bg-neutral-800 text-white py-5">
-//           <div class="max-w-5xl mx-auto flex justify-between content-center">
-//             <A href="/">
-//               <h5 class="uppercase text-2xl font-semibold">techlab</h5>
-//             </A>
-//             <div class="flex items-center space-x-3">
-//               <h5 class="ml-4 uppercase text-sm relative group">
-//                 <span>machines</span>
-//                 <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-300 group-hover:w-1/2 transition-all"></span>
-//                 <span class="absolute -bottom-1 right-1/2 w-0 h-0.5 bg-primary-300 group-hover:w-1/2 transition-all"></span>
-//               </h5>
-//               <h5 class="ml-4 uppercase text-sm relative group">
-//                 <span>laboratories</span>
-//                 <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-300 group-hover:w-1/2 transition-all"></span>
-//                 <span class="absolute -bottom-1 right-1/2 w-0 h-0.5 bg-primary-300 group-hover:w-1/2 transition-all"></span>
-//               </h5>
-//               <A href="/signin">
-//                 <Button>Sign in</Button>
-//               </A>
-//               <A href="/signup">
-//                 <Button>Sign up</Button>
-//               </A>
-//             </div>
-//           </div>
-//         </header>
-//         {props.children}
-//         <footer></footer>
-//       </Show>
-//       <Show when={axiosResponse() == 'Logged in'} fallback={<div>Loading...</div>}>
-//         <header class="w-full bg-neutral-800 text-white py-5">
-//           <div class="max-w-5xl mx-auto flex justify-between content-center">
-//             <A href="/">
-//               <h5 class="uppercase text-2xl font-semibold">techlab</h5>
-//             </A>
-//             <div class="flex items-center space-x-3">
-//               <h5 class="ml-4 uppercase text-sm relative group">
-//                 <span>fuck</span>
-//                 <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-300 group-hover:w-1/2 transition-all"></span>
-//                 <span class="absolute -bottom-1 right-1/2 w-0 h-0.5 bg-primary-300 group-hover:w-1/2 transition-all"></span>
-//               </h5>
-//               <h5 class="ml-4 uppercase text-sm relative group">
-//                 <span>you</span>
-//                 <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-300 group-hover:w-1/2 transition-all"></span>
-//                 <span class="absolute -bottom-1 right-1/2 w-0 h-0.5 bg-primary-300 group-hover:w-1/2 transition-all"></span>
-//               </h5>
-//               <A href="/login">
-//                 <Button>Sign in</Button>
-//               </A>
-//               <A href="/register">
-//                 <Button>Sign up</Button>
-//               </A>
-//             </div>
-//           </div>
-//         </header>
-//         {props.children}
-//         <footer></footer>
-//       </Show>
-//     </>
-//   )
-// }
