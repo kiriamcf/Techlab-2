@@ -19,15 +19,5 @@ class LaboratorySeeder extends Seeder
         Laboratory::create(['name' => 'Main Laboratory', 'room_number' => '1.7']);
 
         Laboratory::create(['name' => 'Secondary Laboratory', 'room_number' => '1.8']);
-
-        // DB::table('laboratories')->insert([
-        //     'name' => "Main Laboratory",
-        //     'room_number' => "1.7",
-        // ]);
-
-        // DB::table('laboratories')->insert([
-        //     'name' => "Secondary Laboratory",
-        //     'room_number' => "1.8",
-        // ]);
     }
 }

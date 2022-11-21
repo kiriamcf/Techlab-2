@@ -1,4 +1,13 @@
-import { Component, createEffect, createSignal, For, onCleanup, Show, Suspense } from 'solid-js'
+import {
+  Component,
+  createEffect,
+  createMemo,
+  createSignal,
+  For,
+  onCleanup,
+  Show,
+  Suspense,
+} from 'solid-js'
 import Card from './Card'
 import CardTitle from './CardTitle'
 import flatpickr from 'flatpickr'
@@ -7,6 +16,10 @@ import Machine from '../contracts/machine'
 import 'flatpickr/dist/themes/dark.css'
 import Button from './Button'
 import { createTurboResource } from 'turbo-solid'
+import Reservation from '../contracts/reservation'
+import Hours from '../contracts/hours'
+import IconLoading from './Icons/Loading'
+import { axios, turbo } from '../Instances'
 
 const CreateReservationContent: Component = (props) => {
   const onRef = (element: HTMLInputElement) => {
@@ -19,21 +32,87 @@ const CreateReservationContent: Component = (props) => {
     onCleanup(() => fp.destroy())
   }
 
-  const [date, setDate] = createSignal<String>()
+  const [date, setDate] = createSignal<string>()
   const [activeLaboratory, setActiveLaboratory] = createSignal<Laboratory>()
   const [activeMachine, setActiveMachine] = createSignal<Machine>()
-  const [ActiveButtonLaboratory, setActiveButtonLaboratory] = createSignal<Laboratory['name']>('')
-  const [ActiveButtonMachine, setActiveButtonMachine] = createSignal<Machine['name']>('')
+  const [activeHour, setActiveHour] = createSignal<number>(-1)
+  const [hours] = createTurboResource<Hours>(() => '/api/get-available-hours')
 
-  const [laboratories] = createTurboResource<Laboratory[]>(() => '/api/laboratory')
+  const [laboratories] = createTurboResource<Laboratory[]>(() => '/api/laboratories')
   const [machines] = createTurboResource<Machine[]>(() =>
-    activeLaboratory() ? `/api/laboratory/${activeLaboratory()?.id}/machine` : null
+    activeLaboratory() ? `/api/laboratories/${activeLaboratory()?.id}/machines` : null
   )
-  // const [hours] = createTurboResource<Machine[]>(() =>
-  //   date() ? `/api/laboratory/${activeLaboratory()?.id}/machine` : null
-  // )
 
-  createEffect(() => console.log(date()))
+  const [reservations] = createTurboResource<Reservation[]>(() => {
+    const machine = activeMachine()
+    const activeDate = date()
+
+    if (!machine || !activeDate || activeDate === '') {
+      return null
+    }
+
+    return `/api/machines/${machine.id}/reservations?date=${activeDate}`
+  })
+
+  const isReserved = (hour: number) => {
+    const activeReservations = reservations()
+
+    if (!activeReservations) {
+      return undefined
+    }
+
+    for (let i = 0; i < activeReservations.length; i++) {
+      if (activeReservations[i].hour === hour) {
+        return true
+      }
+    }
+    return false
+  }
+
+  const assignVariant = (hour: number) => {
+    if (isReserved(hour)) {
+      return 'reserved'
+    }
+
+    if (activeHour() === hour) {
+      return 'bordered'
+    }
+
+    return 'hoverableBordered'
+  }
+
+  // const variantValue = createMemo((hour: number) => {
+  //   if (isReserved(hour)) {
+  //     return 'reserved'
+  //   }
+
+  //   if (activeHour() === hour) {
+  //     return 'bordered'
+  //   }
+
+  //   return 'hoverableBordered'
+  // })
+
+  const dataToSubmit = () => ({
+    hour: activeHour(),
+    day: date(),
+  })
+
+  const create = async (event: Event) => {
+    // console.log('a')
+    // event.preventDefault()
+    const response = await axios.post(
+      `/api/machines/${activeMachine()?.id}/reservations`,
+      dataToSubmit()
+    )
+    // console.log(response.data.data)
+    // turbo.mutate('/api/user', response.data.data)
+  }
+
+  // createEffect(() => {
+  //   console.log('reserves', reservations())
+  // })
+  // createEffect(() => console.log('hours', hours()?.hours))
 
   return (
     <Card>
@@ -52,18 +131,23 @@ const CreateReservationContent: Component = (props) => {
           <Show when={date() !== undefined}>
             <span>Which laboratory do you prefer?</span>
             <div class="flex space-x-2">
-              <Suspense fallback={<div>Loading Laboratories...</div>}>
-                <For each={laboratories()} fallback={<div>Loading</div>}>
+              <Suspense
+                fallback={
+                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black">
+                    <IconLoading class="h-6 w-6 animate-spin text-white" />
+                    <span>Loading Laboratories...</span>
+                  </div>
+                }>
+                <For each={laboratories()}>
                   {(laboratory, i) => (
                     <Button
                       variant={
-                        ActiveButtonLaboratory() == laboratory.name
+                        activeLaboratory()?.name == laboratory.name
                           ? 'bordered'
                           : 'hoverableBordered'
                       }
                       onClick={() => {
                         setActiveLaboratory(laboratory)
-                        setActiveButtonLaboratory(laboratory.name)
                       }}>
                       {laboratory.name}
                     </Button>
@@ -75,16 +159,21 @@ const CreateReservationContent: Component = (props) => {
           <Show when={activeLaboratory() !== undefined}>
             <span>Select one of the available machines:</span>
             <div class="flex space-x-2">
-              <Suspense fallback={<div>Loading Machines...</div>}>
-                <For each={machines()} fallback={<div>Loading</div>}>
+              <Suspense
+                fallback={
+                  <div class="flex space-x-2 p-2 bg-primary-500 text-black rounded">
+                    <IconLoading class="h-6 w-6 animate-spin" />
+                    <span>Loading Machines...</span>
+                  </div>
+                }>
+                <For each={machines()}>
                   {(machine, i) => (
                     <Button
                       variant={
-                        ActiveButtonMachine() == machine.name ? 'bordered' : 'hoverableBordered'
+                        activeMachine()?.name == machine.name ? 'bordered' : 'hoverableBordered'
                       }
                       onClick={() => {
                         setActiveMachine(machine)
-                        setActiveButtonMachine(machine.name)
                       }}>
                       {machine.name}
                     </Button>
@@ -93,24 +182,35 @@ const CreateReservationContent: Component = (props) => {
               </Suspense>
             </div>
           </Show>
-          <Show when={activeMachine() !== undefined}>
+          <Show when={activeMachine() !== undefined && date() !== null}>
             <span>Select one of the available hours:</span>
-            <Suspense fallback={<div>Loading Machines...</div>}>
-              {/* <For each={machines()} fallback={<div>Loading</div>}>
-                {(machine, i) => (
-                  <Button
-                    variant={
-                      ActiveButtonMachine() == machine.name ? 'bordered' : 'hoverableBordered'
-                    }
-                    onClick={() => {
-                      setActiveMachine(machine)
-                      setActiveButtonMachine(machine.name)
-                    }}>
-                    {machine.name}
-                  </Button>
-                )}
-              </For> */}
-            </Suspense>
+            <div class="flex space-x-2">
+              <Suspense
+                fallback={
+                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black">
+                    <IconLoading class="h-6 w-6 animate-spin" />
+                    <span>Loading Hours...</span>
+                  </div>
+                }>
+                <For each={hours()?.hours}>
+                  {(hour, i) => (
+                    <Button
+                      variant={assignVariant(hour)}
+                      disabled={isReserved(hour)}
+                      onClick={() => {
+                        setActiveHour(hour)
+                      }}>
+                      {hour} - {hour + 1}
+                    </Button>
+                  )}
+                </For>
+              </Suspense>
+            </div>
+          </Show>
+          <Show when={activeMachine() !== undefined && date() !== null && activeHour() !== -1}>
+            <Button variant="normal" onClick={create}>
+              Submit
+            </Button>
           </Show>
         </div>
       </div>

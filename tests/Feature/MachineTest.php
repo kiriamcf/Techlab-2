@@ -23,7 +23,7 @@ class MachineTest extends TestCase
             ->create();
 
         $this
-            ->getJson(route('api.laboratory.machine.index', $laboratory))
+            ->getJson(route('api.laboratories.machines.index', $laboratory))
             ->assertOk()
             ->assertJsonCount(5, 'data')
             ->assertJsonStructure([
@@ -51,7 +51,7 @@ class MachineTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->getJson(route('api.laboratory.machine.index', $laboratory))
+            ->getJson(route('api.laboratories.machines.index', $laboratory))
             ->assertOk()
             ->assertJsonCount(5, 'data')
             ->assertJsonStructure([
@@ -73,7 +73,7 @@ class MachineTest extends TestCase
         $machine = Machine::factory()->create();
 
         $this
-            ->getJson(route('api.machine.show', $machine))
+            ->getJson(route('api.machines.show', $machine))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -100,7 +100,7 @@ class MachineTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->getJson(route('api.machine.show', $machine))
+            ->getJson(route('api.machines.show', $machine))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -125,7 +125,7 @@ class MachineTest extends TestCase
         $laboratory = Laboratory::factory()->create();
 
         $this
-            ->postJson(route('api.laboratory.machine.store', $laboratory))
+            ->postJson(route('api.laboratories.machines.store', $laboratory))
             ->assertUnauthorized();
 
         $this->assertDatabaseCount(Machine::class, 0);
@@ -138,7 +138,7 @@ class MachineTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->postJson(route('api.laboratory.machine.store', $laboratory))
+            ->postJson(route('api.laboratories.machines.store', $laboratory))
             ->assertForbidden();
 
         $this->assertDatabaseCount(Machine::class, 0);
@@ -152,7 +152,7 @@ class MachineTest extends TestCase
         $laboratory = Laboratory::factory()->create();
 
         $this
-            ->postJson(route('api.laboratory.machine.store', $laboratory), [])
+            ->postJson(route('api.laboratories.machines.store', $laboratory), [])
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['name', 'description']);
 
@@ -167,7 +167,7 @@ class MachineTest extends TestCase
         $laboratory = Laboratory::factory()->create();
 
         $this
-            ->postJson(route('api.laboratory.machine.store', $laboratory), [
+            ->postJson(route('api.laboratories.machines.store', $laboratory), [
                 'name' => $name = fake()->text(25),
                 'description' => $description = fake()->text(50),
             ])
@@ -198,7 +198,7 @@ class MachineTest extends TestCase
         $machine = Machine::factory()->create();
 
         $this
-            ->putJson(route('api.machine.update', $machine), [
+            ->putJson(route('api.machines.update', $machine), [
                 'name' => fake()->text(25),
             ])
             ->assertUnauthorized();
@@ -217,7 +217,7 @@ class MachineTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->putJson(route('api.machine.update', $machine), [
+            ->putJson(route('api.machines.update', $machine), [
                 'name' => fake()->text(25),
             ])
             ->assertForbidden();
@@ -237,7 +237,7 @@ class MachineTest extends TestCase
         $user->admin = true;
 
         $this
-            ->putJson(route('api.machine.update', $machine), [
+            ->putJson(route('api.machines.update', $machine), [
                 'name' => $name = fake()->text(25),
             ])
             ->assertOk()
@@ -270,7 +270,7 @@ class MachineTest extends TestCase
         $user->admin = true;
 
         $this
-            ->deleteJson(route('api.machine.destroy', $machine))
+            ->deleteJson(route('api.machines.destroy', $machine))
             ->assertNoContent();
 
         $this->assertDatabaseCount(Machine::class, 0);
@@ -281,7 +281,7 @@ class MachineTest extends TestCase
         $machine = Machine::factory()->create();
 
         $this
-            ->deleteJson(route('api.machine.destroy', $machine))
+            ->deleteJson(route('api.machines.destroy', $machine))
             ->assertUnauthorized();
 
         $this->assertDatabaseCount(Machine::class, 1);
@@ -294,7 +294,7 @@ class MachineTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->deleteJson(route('api.machine.destroy', $machine))
+            ->deleteJson(route('api.machines.destroy', $machine))
             ->assertForbidden();
 
         $this->assertDatabaseCount(Machine::class, 1);

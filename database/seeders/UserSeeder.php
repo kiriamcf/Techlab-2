@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'name' => "Kiriam",
             'surname' => "Campobadal Forés",
             'email' => "kiriamcf@gmail.com",
-            'password' => Hash::make("kiriam123"),
+            'password' => '$2y$10$z1KsdsDgSAkONU0JM5qmSelCZqbzIirHLBTUopn13Hwy.oqU.847e',
         ]);
     }
 }

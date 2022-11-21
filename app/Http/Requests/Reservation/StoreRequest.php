@@ -31,7 +31,6 @@ class StoreRequest extends FormRequest
         return [
             'hour' => ['required', 'integer'],
             'day' => ['required', 'date:Y-m-d'],
-            // 'user_id' => ['required', 'integer', Rule::exists(User::class)],
         ];
     }
 }

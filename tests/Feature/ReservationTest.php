@@ -33,7 +33,7 @@ class ReservationTest extends TestCase
             ->create();
 
         $this
-            ->getJson(route('api.machine.reservation.index', $machine))
+            ->getJson(route('api.machines.reservations.index', $machine))
             ->assertOk()
             ->assertJsonCount(5, 'data')
             ->assertJsonStructure([
@@ -60,7 +60,7 @@ class ReservationTest extends TestCase
             ->create();
 
         $this
-            ->getJson(route('api.machine.reservation.index', $machine))
+            ->getJson(route('api.machines.reservations.index', $machine))
             ->assertUnauthorized();
     }
 
@@ -70,7 +70,7 @@ class ReservationTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->getJson(route('api.reservation.show', $reservation))
+            ->getJson(route('api.reservations.show', $reservation))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -97,7 +97,7 @@ class ReservationTest extends TestCase
         $reservation = Reservation::factory()->create();
 
         $this
-            ->getJson(route('api.reservation.show', $reservation))
+            ->getJson(route('api.reservations.show', $reservation))
             ->assertUnauthorized();
     }
 
@@ -108,7 +108,7 @@ class ReservationTest extends TestCase
         $machine = Machine::factory()->create();
 
         $this
-            ->postJson(route('api.machine.reservation.store', $machine), [
+            ->postJson(route('api.machines.reservations.store', $machine), [
                 'hour' => $hour = fake()->numberBetween(9, 21),
                 'day' => $day = fake()->date('Y-m-d'),
             ])
@@ -142,7 +142,7 @@ class ReservationTest extends TestCase
         $machine = Machine::factory()->create();
 
         $this
-            ->postJson(route('api.machine.reservation.store', $machine), [])
+            ->postJson(route('api.machines.reservations.store', $machine), [])
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['hour', 'day']);
 
@@ -154,7 +154,7 @@ class ReservationTest extends TestCase
         $machine = Machine::factory()->create();
 
         $this
-            ->postJson(route('api.machine.reservation.store', $machine))
+            ->postJson(route('api.machines.reservations.store', $machine))
             ->assertUnauthorized();
 
         $this->assertDatabaseCount(Reservation::class, 0);
@@ -167,7 +167,7 @@ class ReservationTest extends TestCase
         $reservation = Reservation::factory()->for($user)->create();
 
         $this
-            ->putJson(route('api.reservation.update', $reservation), [
+            ->putJson(route('api.reservations.update', $reservation), [
                 'hour' => $hour = fake()->numberBetween(9, 21),
             ])
             ->assertOk()
@@ -198,7 +198,7 @@ class ReservationTest extends TestCase
         $reservation = Reservation::factory()->create();
 
         $this
-            ->putJson(route('api.reservation.update', $reservation), [
+            ->putJson(route('api.reservations.update', $reservation), [
                 'hour' => $hour = fake()->numberBetween(9, 21),
             ])
             ->assertUnauthorized();
@@ -217,7 +217,7 @@ class ReservationTest extends TestCase
         $reservation = Reservation::factory()->create();
 
         $this
-            ->putJson(route('api.reservation.update', $reservation), [
+            ->putJson(route('api.reservations.update', $reservation), [
                 'hour' => $hour = fake()->numberBetween(9, 21),
             ])
             ->assertForbidden();
@@ -236,7 +236,7 @@ class ReservationTest extends TestCase
         $reservation = Reservation::factory()->for($user)->create();
 
         $this
-            ->deleteJson(route('api.reservation.destroy', $reservation))
+            ->deleteJson(route('api.reservations.destroy', $reservation))
             ->assertNoContent();
 
         $this->assertDatabaseCount(Reservation::class, 0);
@@ -247,7 +247,7 @@ class ReservationTest extends TestCase
         $reservation = Reservation::factory()->create();
 
         $this
-            ->deleteJson(route('api.reservation.destroy', $reservation))
+            ->deleteJson(route('api.reservations.destroy', $reservation))
             ->assertUnauthorized();
 
         $this->assertDatabaseCount(Reservation::class, 1);

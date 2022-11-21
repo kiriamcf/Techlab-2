@@ -9,6 +9,7 @@ use App\Http\Requests\Reservation\StoreRequest;
 use App\Http\Requests\Reservation\ShowRequest;
 use App\Http\Requests\Reservation\UpdateRequest;
 use App\Http\Requests\Reservation\DestroyRequest;
+use App\Http\Resources\HoursResource;
 use App\Http\Resources\ReservationResource;
 use App\Models\Machine;
 
@@ -30,13 +31,19 @@ class ReservationController extends Controller
      */
     public function index(IndexRequest $request, Machine $machine)
     {
-        // return ReservationResource::collection(
-        //     $reservation->all(),
-        // );
-
         return ReservationResource::collection(
-            Reservation::all(),
+            $machine
+                ->reservations()
+                ->when($request->query('date'), fn ($query, $day) => $query->where('day', $day))
+                ->get(),
         );
+
+            // ?date=2022-02-32
+
+        // return ReservationResource::collection(
+        //     Reservation::when($request->query('date'), fn ($query, $day) => $query->where('day', $day))
+        //         ->get(),
+        // );
 
         // $reservation = new Reservation($request->validated());
         // $reservation->user()->associate($machine);
@@ -103,4 +110,23 @@ class ReservationController extends Controller
 
         return response()->noContent();
     }
+
+    public function getAvailableHours(Request $request)
+    {
+        return new HoursResource(['hours' => [8, 9, 10, 11, 15, 16, 17, 18, 19, 20]]);
+    }
+
+    // /**
+    //  * Return hours already reserved from a specific date.
+    //  *
+    //  * @param  \App\Models\Reservation  $reservation
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function showReservedHours(Request $request, Machine $machine, string $date)
+    // {
+    //     return $machine
+    //         ->reservations()
+    //         ->where('day', $date)
+    //         ->get();
+    // }
 }

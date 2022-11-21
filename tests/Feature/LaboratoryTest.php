@@ -22,7 +22,7 @@ class LaboratoryTest extends TestCase
             ->create();
 
         $this
-            ->getJson(route('api.laboratory.index'))
+            ->getJson(route('api.laboratories.index'))
             ->assertOk()
             ->assertJsonCount(5, 'data')
             ->assertJsonStructure([
@@ -47,7 +47,7 @@ class LaboratoryTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->getJson(route('api.laboratory.index'))
+            ->getJson(route('api.laboratories.index'))
             ->assertOk()
             ->assertJsonCount(5, 'data')
             ->assertJsonStructure([
@@ -68,7 +68,7 @@ class LaboratoryTest extends TestCase
         $laboratory = Laboratory::factory()->create();
 
         $this
-            ->getJson(route('api.laboratory.show', $laboratory))
+            ->getJson(route('api.laboratories.show', $laboratory))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -93,7 +93,7 @@ class LaboratoryTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->getJson(route('api.laboratory.show', $laboratory))
+            ->getJson(route('api.laboratories.show', $laboratory))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -116,7 +116,7 @@ class LaboratoryTest extends TestCase
         $laboratory = Laboratory::factory()->make();
 
         $this
-            ->postJson(route('api.laboratory.store', $laboratory))
+            ->postJson(route('api.laboratories.store', $laboratory))
             ->assertUnauthorized();
 
         $this->assertDatabaseCount(Laboratory::class, 0);
@@ -128,7 +128,7 @@ class LaboratoryTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->postJson(route('api.laboratory.store', $laboratory))
+            ->postJson(route('api.laboratories.store', $laboratory))
             ->assertForbidden();
 
         $this->assertDatabaseCount(Laboratory::class, 0);
@@ -140,7 +140,7 @@ class LaboratoryTest extends TestCase
         $user->admin = true;
 
         $this
-            ->postJson(route('api.laboratory.store'), [])
+            ->postJson(route('api.laboratories.store'), [])
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['name', 'room_number']);
 
@@ -153,7 +153,7 @@ class LaboratoryTest extends TestCase
         $user->admin = true;
 
         $this
-            ->postJson(route('api.laboratory.store'), [
+            ->postJson(route('api.laboratories.store'), [
                 'name' => $name = fake()->text(25),
                 'room_number' => $room = fake()->numerify('####'),
             ])
@@ -183,7 +183,7 @@ class LaboratoryTest extends TestCase
         $laboratory = Laboratory::factory()->create();
 
         $this
-            ->putJson(route('api.laboratory.update', $laboratory), [
+            ->putJson(route('api.laboratories.update', $laboratory), [
                 'name' => fake()->text(25),
             ])
             ->assertUnauthorized();
@@ -202,7 +202,7 @@ class LaboratoryTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->putJson(route('api.laboratory.update', $laboratory), [
+            ->putJson(route('api.laboratories.update', $laboratory), [
                 'name' => fake()->text(25),
             ])
             ->assertForbidden();
@@ -222,7 +222,7 @@ class LaboratoryTest extends TestCase
         $user->admin = true;
 
         $this
-            ->putJson(route('api.laboratory.update', $laboratory), [
+            ->putJson(route('api.laboratories.update', $laboratory), [
                 'name' => $name = fake()->text(25),
             ])
             ->assertOk()
@@ -254,7 +254,7 @@ class LaboratoryTest extends TestCase
         $user->admin = true;
 
         $this
-            ->deleteJson(route('api.laboratory.destroy', $laboratory))
+            ->deleteJson(route('api.laboratories.destroy', $laboratory))
             ->assertNoContent();
 
         $this->assertDatabaseCount(Laboratory::class, 0);
@@ -265,7 +265,7 @@ class LaboratoryTest extends TestCase
         $laboratory = Laboratory::factory()->create();
 
         $this
-            ->deleteJson(route('api.laboratory.destroy', $laboratory))
+            ->deleteJson(route('api.laboratories.destroy', $laboratory))
             ->assertUnauthorized();
 
         $this->assertDatabaseCount(Laboratory::class, 1);
@@ -278,7 +278,7 @@ class LaboratoryTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
 
         $this
-            ->deleteJson(route('api.laboratory.destroy', $laboratory))
+            ->deleteJson(route('api.laboratories.destroy', $laboratory))
             ->assertForbidden();
 
         $this->assertDatabaseCount(Laboratory::class, 1);

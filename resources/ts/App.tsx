@@ -1,7 +1,7 @@
-import { Component, lazy } from 'solid-js'
+import { Component, createEffect, lazy } from 'solid-js'
 import { Routes, Route } from '@solidjs/router'
 import { turbo } from './Instances'
-import { TurboContext, TurboSolidResourceOptions } from 'turbo-solid'
+import { createTurboResource, TurboContext, TurboSolidResourceOptions } from 'turbo-solid'
 const Home = lazy(() => import('./Home'))
 const SignIn = lazy(() => import('./SignIn'))
 const SignUp = lazy(() => import('./SignUp'))

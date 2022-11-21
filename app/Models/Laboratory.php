@@ -19,7 +19,8 @@ class Laboratory extends Model
         'room_number' => 'string'
     ];
 
-    public function machines() {
+    public function machines()
+    {
         return $this->hasMany(Machine::class);
     }
 }

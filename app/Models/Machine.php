@@ -19,11 +19,13 @@ class Machine extends Model
         'description' => 'string'
     ];
 
-    public function laboratory() {
+    public function laboratory()
+    {
         return $this->belongsTo(Laboratory::class);
     }
 
-    public function reservation() {
+    public function reservations()
+    {
         return $this->hasMany(Reservation::class);
     }
 }

@@ -23,11 +23,12 @@ use App\Http\Controllers\ReservationController;
 // });
 
 Route::name('api.')->group(function () {
-    Route::apiResource('laboratory', LaboratoryController::class);
-    Route::apiResource('laboratory.machine', MachineController::class)->shallow();
-    Route::apiResource('machine.reservation', ReservationController::class)->shallow();
+    Route::apiResource('laboratories', LaboratoryController::class);
+    Route::apiResource('laboratories.machines', MachineController::class)->shallow();
+    Route::apiResource('machines.reservations', ReservationController::class)->shallow();
     Route::post('/signin', [AuthenticationController::class, 'login']);
     Route::post('/signup', [AuthenticationController::class, 'register']);
     Route::post('/signout', [AuthenticationController::class, 'signOut']);
     Route::get('/user', [AuthenticationController::class, 'showUser']);
+    Route::get('/get-available-hours', [ReservationController::class, 'getAvailableHours']);
 });
