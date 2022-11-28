@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'surname' => "Campobadal Forés",
             'email' => "kiriamcf@gmail.com",
             'password' => '$2y$10$z1KsdsDgSAkONU0JM5qmSelCZqbzIirHLBTUopn13Hwy.oqU.847e',
+            'admin' => true,
         ]);
     }
 }

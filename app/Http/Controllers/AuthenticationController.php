@@ -14,7 +14,7 @@ class AuthenticationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only('showUser');
+        $this->middleware('auth:sanctum')->except(['login', 'register']);
     }
     /**
      * Checks wether the user is authentificated or not.

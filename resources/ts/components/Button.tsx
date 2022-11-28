@@ -1,7 +1,14 @@
 import { ParentComponent, JSX } from 'solid-js'
 
 interface Props extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'normal' | 'faded' | 'noHover' | 'bordered' | 'hoverableBordered' | 'reserved'
+  variant?:
+    | 'normal'
+    | 'faded'
+    | 'noHover'
+    | 'bordered'
+    | 'hoverableBordered'
+    | 'reserved'
+    | 'disabled'
   disabled?: true | false
 }
 
@@ -19,6 +26,8 @@ const Button: ParentComponent<Props> = (props) => {
       'uppercase bg-transparent py-2 px-6 rounded text-red-500 border-2 border-red-500 font-semibold text-sm flex items-center justify-center space-x-3',
     hoverableBordered:
       'uppercase bg-transparent py-2 px-6 rounded text-white border-2 border-transparent font-semibold text-sm flex items-center justify-center space-x-3 hover:border-primary-500 hover:text-primary-500 transition-colors duration-500',
+    disabled:
+      'uppercase py-2 px-6 rounded text-white font-semibold text-sm flex items-center justify-center space-x-3 opacity-50',
   }
 
   return (

@@ -16,8 +16,8 @@ class LaboratorySeeder extends Seeder
      */
     public function run()
     {
-        Laboratory::create(['name' => 'Main Laboratory', 'room_number' => '1.7']);
+        Laboratory::create(['name' => 'Primary', 'room_number' => '1.7']);
 
-        Laboratory::create(['name' => 'Secondary Laboratory', 'room_number' => '1.8']);
+        Laboratory::create(['name' => 'Secondary', 'room_number' => '1.8']);
     }
 }

@@ -35,7 +35,7 @@ const SignIn: Component = () => {
               <CardTitle>Sign In</CardTitle>
               <div class="flex flex-col my-4 gap-4">
                 <div>
-                  <span>Email</span>
+                  <span class="mb-1 inline-block">Email</span>
                   <InputEmail
                     placeholder="Email"
                     value={email()}
@@ -43,7 +43,7 @@ const SignIn: Component = () => {
                   />
                 </div>
                 <div>
-                  <span>Password</span>
+                  <span class="mb-1 inline-block">Password</span>
                   <InputPassword
                     placeholder="Password"
                     value={password()}

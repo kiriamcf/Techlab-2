@@ -4,6 +4,7 @@ interface Props {
   placeholder?: string
   value?: string
   onChange?: JSX.EventHandlerUnion<HTMLInputElement, Event>
+  disabled?: boolean
 }
 
 const InputText: ParentComponent<Props> = (props) => {
@@ -14,7 +15,8 @@ const InputText: ParentComponent<Props> = (props) => {
       placeholder={props.placeholder}
       value={props.value}
       onChange={props.onChange}
-      class="text-black h-10 w-full pl-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600"
+      class="bg-neutral-700 placeholder-white h-10 w-full pl-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600"
+      disabled={props.disabled}
       required
     />
   )

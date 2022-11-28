@@ -24,7 +24,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => 'password',
             'admin' => false,
-            'targeta' => Str::random(11),
+            'rfid_card' => Str::random(11),
             'remember_token' => Str::random(10),
         ];
     }

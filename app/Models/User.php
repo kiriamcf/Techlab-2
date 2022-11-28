@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reservation::class);
     }
+
+    public function petition()
+    {
+        return $this->hasOne(RFIDPetition::class);
+    }
 }

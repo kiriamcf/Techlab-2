@@ -2,12 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\Machine;
-use App\Models\Reservation;
+use App\Models\RFIDPetition;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
-class ReservationPolicy
+class RFIDPetitionPolicy
 {
     use HandlesAuthorization;
 
@@ -17,21 +17,21 @@ class ReservationPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user, Machine $machine)
+    public function viewAny(User $user)
     {
-        return true;
+        return $user->admin;
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Reservation  $reservation
+     * @param  \App\Models\RFIDPetition  $rFIDPetition
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Reservation $reservation)
+    public function view(User $user, RFIDPetition $rFIDPetition)
     {
-        return true;
+        return $user->admin;
     }
 
     /**
@@ -40,32 +40,32 @@ class ReservationPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user, Machine $machine)
+    public function create(User $user)
     {
-        return true;
+        return $user->petition()->get()->isEmpty();
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Reservation  $reservation
+     * @param  \App\Models\RFIDPetition  $rFIDPetition
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Reservation $reservation)
+    public function update(User $user)
     {
-        return $user->id == $reservation->user_id;
+        return $user->admin;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Reservation  $reservation
+     * @param  \App\Models\RFIDPetition  $rFIDPetition
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Reservation $reservation)
+    public function delete(User $user)
     {
-        return $user->id == $reservation->user_id;
+        return $user->admin;
     }
 }

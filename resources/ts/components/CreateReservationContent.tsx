@@ -20,6 +20,7 @@ import Reservation from '../contracts/reservation'
 import Hours from '../contracts/hours'
 import IconLoading from './Icons/Loading'
 import { axios, turbo } from '../Instances'
+import IconCalendar from '../components/Icons/Calendar'
 
 const CreateReservationContent: Component = (props) => {
   const onRef = (element: HTMLInputElement) => {
@@ -81,18 +82,6 @@ const CreateReservationContent: Component = (props) => {
     return 'hoverableBordered'
   }
 
-  // const variantValue = createMemo((hour: number) => {
-  //   if (isReserved(hour)) {
-  //     return 'reserved'
-  //   }
-
-  //   if (activeHour() === hour) {
-  //     return 'bordered'
-  //   }
-
-  //   return 'hoverableBordered'
-  // })
-
   const dataToSubmit = () => ({
     hour: activeHour(),
     day: date(),
@@ -109,9 +98,17 @@ const CreateReservationContent: Component = (props) => {
     // turbo.mutate('/api/user', response.data.data)
   }
 
-  // createEffect(() => {
-  //   console.log('reserves', reservations())
-  // })
+  createEffect(() => {
+    activeLaboratory()
+
+    setActiveMachine()
+  })
+
+  createEffect(() => {
+    activeMachine()
+
+    setActiveHour(-1)
+  })
   // createEffect(() => console.log('hours', hours()?.hours))
 
   return (
@@ -121,16 +118,21 @@ const CreateReservationContent: Component = (props) => {
         <h5>Fill the following information:</h5>
         <div class="flex flex-col space-y-3">
           <span>Which date would you like to reserve?</span>
-          <input
-            ref={onRef}
-            type="date"
-            class="text-black rounded p-1 outline-none w-40"
-            placeholder="Select a date"
-            onChange={(e) => setDate(e.currentTarget.value)}
-          />
+          <div class="flex">
+            <div class="flex items-center justify-center bg-primary-500 p-2 rounded-l">
+              <IconCalendar class="h-6 w-6 text-black" />
+            </div>
+            <input
+              ref={onRef}
+              type="date"
+              class="rounded-r p-2 outline-none w-fit bg-neutral-700 placeholder-white"
+              placeholder="Select a date"
+              onChange={(e) => setDate(e.currentTarget.value)}
+            />
+          </div>
           <Show when={date() !== undefined}>
             <span>Which laboratory do you prefer?</span>
-            <div class="flex space-x-2">
+            <div class="grid grid-cols-3 gap-2">
               <Suspense
                 fallback={
                   <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black">
@@ -158,7 +160,7 @@ const CreateReservationContent: Component = (props) => {
           </Show>
           <Show when={activeLaboratory() !== undefined}>
             <span>Select one of the available machines:</span>
-            <div class="flex space-x-2">
+            <div class="grid grid-cols-4 gap-2">
               <Suspense
                 fallback={
                   <div class="flex space-x-2 p-2 bg-primary-500 text-black rounded">
@@ -184,7 +186,7 @@ const CreateReservationContent: Component = (props) => {
           </Show>
           <Show when={activeMachine() !== undefined && date() !== null}>
             <span>Select one of the available hours:</span>
-            <div class="flex space-x-2">
+            <div class="grid grid-cols-5 gap-2">
               <Suspense
                 fallback={
                   <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black">

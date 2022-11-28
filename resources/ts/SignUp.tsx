@@ -37,7 +37,7 @@ const SignUp: Component = () => {
               <div class="flex flex-col my-4 gap-4">
                 <div class="flex gap-2">
                   <div>
-                    <span>Name</span>
+                    <span class="mb-1 inline-block">Name</span>
                     <InputText
                       placeholder="Name"
                       value={name()}
@@ -45,7 +45,7 @@ const SignUp: Component = () => {
                     />
                   </div>
                   <div>
-                    <span>Surname</span>
+                    <span class="mb-1 inline-block">Surname</span>
                     <InputText
                       placeholder="Surname"
                       value={surname()}
@@ -54,7 +54,7 @@ const SignUp: Component = () => {
                   </div>
                 </div>
                 <div>
-                  <span>Email</span>
+                  <span class="mb-1 inline-block">Email</span>
                   <InputEmail
                     placeholder="Email"
                     value={email()}
@@ -62,7 +62,7 @@ const SignUp: Component = () => {
                   />
                 </div>
                 <div>
-                  <span>Password</span>
+                  <span class="mb-1 inline-block">Password</span>
                   <InputPassword
                     placeholder="Password"
                     value={password()}
@@ -70,7 +70,7 @@ const SignUp: Component = () => {
                   />
                 </div>
                 <div>
-                  <span>Confirm Password</span>
+                  <span class="mb-1 inline-block">Confirm Password</span>
                   <InputPassword
                     placeholder="Confirm Password"
                     value={confirmPassword()}
