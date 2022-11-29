@@ -9,6 +9,7 @@ interface Props extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
     | 'hoverableBordered'
     | 'reserved'
     | 'disabled'
+    | 'centeredBordered'
   disabled?: true | false
 }
 
@@ -28,6 +29,8 @@ const Button: ParentComponent<Props> = (props) => {
       'uppercase bg-transparent py-2 px-6 rounded text-white border-2 border-transparent font-semibold text-sm flex items-center justify-center space-x-3 hover:border-primary-500 hover:text-primary-500 transition-colors duration-500',
     disabled:
       'uppercase py-2 px-6 rounded text-white font-semibold text-sm flex items-center justify-center space-x-3 opacity-50',
+    centeredBordered:
+      'uppercase w-full border-2 border-transparent rounded p-6 space-y-2 flex flex-col justify-center items-center hover:border-primary-500 transition-colors duration-500',
   }
 
   return (

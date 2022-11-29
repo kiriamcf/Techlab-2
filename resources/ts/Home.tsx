@@ -5,7 +5,7 @@ import IconMap from './components/Icons/Map'
 import Button from './components/Button'
 import Card from './components/Card'
 import CardTitle from './components/CardTitle'
-import Layout from './Layout'
+import Layout from './components/Layout'
 
 const Home: Component = () => {
   return (

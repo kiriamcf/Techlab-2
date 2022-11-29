@@ -1,6 +1,6 @@
 import { Component } from 'solid-js'
-import Layout from './Layout'
-import DashboardLayout from './DashboardLayout'
+import Layout from './components/Layout'
+import DashboardLayout from './components/DashboardLayout'
 import CreateReservationContent from './components/CreateReservationContent'
 
 const CreateReservation: Component = () => {

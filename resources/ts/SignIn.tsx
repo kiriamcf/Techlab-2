@@ -1,5 +1,5 @@
 import { Component, createSignal } from 'solid-js'
-import Layout from './Layout'
+import Layout from './components/Layout'
 import Card from './components/Card'
 import Button from './components/Button'
 import CardTitle from './components/CardTitle'
