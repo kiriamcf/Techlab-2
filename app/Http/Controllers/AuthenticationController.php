@@ -14,7 +14,8 @@ class AuthenticationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['login', 'register']);
+        $this->middleware('auth:sanctum')->only(['showUser', 'signOut']);
+        $this->middleware('guest:sanctum')->only(['login', 'register']);
     }
     /**
      * Checks wether the user is authentificated or not.
@@ -57,7 +58,9 @@ class AuthenticationController extends Controller
      */
     public function signOut(Request $request)
     {
-        Auth::logout();
+        Auth::guard('web')->logout();
+        // $request->user()->currentAccessToken()->delete();
+
 
         return response()->noContent();
     }

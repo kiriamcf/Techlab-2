@@ -29,8 +29,9 @@ class RFIDPetitionController extends Controller
      */
     public function index(IndexRequest $request)
     {
-        return new RFIDPetitionResource(
-            $request->user()->petition,
+        return RFIDPetitionResource::collection(
+            RFIDPetition::with('user')->get(),
+            // $request->user()->petition,
         );
     }
 
