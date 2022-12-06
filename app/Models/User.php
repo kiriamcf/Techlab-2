@@ -25,7 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'admin',
-        'targeta',
+        'rfid_card',
     ];
 
     /**

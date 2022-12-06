@@ -86,6 +86,8 @@ class RFIDPetitionController extends Controller
      */
     public function destroy(DestroyRequest $request, RFIDPetition $rfidPetition)
     {
+        $rfidPetition->user->update($request->validated());
+
         $rfidPetition->delete();
 
         return response()->noContent();

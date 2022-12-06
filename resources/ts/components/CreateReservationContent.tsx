@@ -95,7 +95,10 @@ const CreateReservationContent: Component = (props) => {
       dataToSubmit()
     )
     // console.log(response.data.data)
-    // turbo.mutate('/api/user', response.data.data)
+    turbo.mutate(`/api/machines/${activeMachine()?.id}/reservations`, (old) => [
+      ...old,
+      response.data.data,
+    ])
   }
 
   createEffect(() => {

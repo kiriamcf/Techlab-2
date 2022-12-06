@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\Authentication\AuthenticatedRequest;
 use App\Http\Requests\Authentication\CreateUserRequest;
+use App\Http\Requests\Authentication\UpdateUserRequest;
+use App\Http\Requests\Authentication\DestroyUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Exception;
@@ -51,6 +53,16 @@ class AuthenticationController extends Controller
     public function showUser(Request $request)
     {
         return new UserResource($request->user());
+    }
+
+    /**
+     * updates user information.
+     */
+    public function updateUser(UpdateUserRequest $request, User $user)
+    {
+        return new UserResource(
+            tap($user)->update($request->validated())
+        );
     }
 
     /**

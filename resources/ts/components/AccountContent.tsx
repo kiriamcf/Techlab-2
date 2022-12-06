@@ -8,7 +8,7 @@ import IconCard from './Icons/Card'
 import IconWarning from './Icons/Warning'
 import InputText from '../components/InputText'
 import Button from './Button'
-import { axios } from '../Instances'
+import { axios, turbo } from '../Instances'
 
 const AccountContent: Component = (props) => {
   const requestCard = async (event: Event) => {
@@ -16,7 +16,7 @@ const AccountContent: Component = (props) => {
 
     const response = await axios.post('api/rfid_petitions')
 
-    // turbo.mutate('/api/user', response.data.data)
+    turbo.mutate('api/rfid_petitions', (old) => [...old, response.data.data])
   }
 
   return (

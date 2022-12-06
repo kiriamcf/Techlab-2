@@ -52,7 +52,8 @@ const Layout: ParentComponent<Props> = (props) => {
 
   const logout = async () => {
     await axios.post('/api/signout')
-    turbo.forget('/api/user')
+    // turbo.forget('/api/user')
+    turbo.forget()
   }
 
   return (
