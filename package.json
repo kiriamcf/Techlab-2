@@ -17,7 +17,7 @@
         "babel-preset-solid": "^1.5.7",
         "flatpickr": "^4.6.13",
         "solid-js": "^1.5.7",
-        "turbo-solid": "^1.2.0",
+        "turbo-solid": "^1.3.0",
         "typescript": "^4.8.4",
         "vite-plugin-solid": "^2.3.9"
     }

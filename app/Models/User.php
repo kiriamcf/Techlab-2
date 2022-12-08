@@ -49,7 +49,7 @@ class User extends Authenticatable
         'email' => 'string',
         'password' => 'string',
         'admin' => 'boolean',
-        'targeta' => 'string',
+        'rfid_card' => 'string',
         'email_verified_at' => 'datetime',
     ];
 

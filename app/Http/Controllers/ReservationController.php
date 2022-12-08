@@ -37,20 +37,6 @@ class ReservationController extends Controller
                 ->when($request->query('date'), fn ($query, $day) => $query->where('day', $day))
                 ->get(),
         );
-
-            // ?date=2022-02-32
-
-        // return ReservationResource::collection(
-        //     Reservation::when($request->query('date'), fn ($query, $day) => $query->where('day', $day))
-        //         ->get(),
-        // );
-
-        // $reservation = new Reservation($request->validated());
-        // $reservation->user()->associate($machine);
-        // $reservation->user()->associate($request->user());
-        // $reservation->save();
-
-        // return $reservation;
     }
 
     /**
@@ -116,17 +102,13 @@ class ReservationController extends Controller
         return new HoursResource(['hours' => [8, 9, 10, 11, 15, 16, 17, 18, 19, 20]]);
     }
 
-    // /**
-    //  * Return hours already reserved from a specific date.
-    //  *
-    //  * @param  \App\Models\Reservation  $reservation
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function showReservedHours(Request $request, Machine $machine, string $date)
-    // {
-    //     return $machine
-    //         ->reservations()
-    //         ->where('day', $date)
-    //         ->get();
-    // }
+    public function userIndex(IndexRequest $request)
+    {
+        return ReservationResource::collection(
+            $request->user()
+                ->reservations()
+                ->when($request->query('date'), fn ($query, $day) => $query->where('day', $day))
+                ->get(),
+        );
+    }
 }

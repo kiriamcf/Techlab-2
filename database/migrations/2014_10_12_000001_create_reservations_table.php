@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->integer('hour');
-            // $table->date('day')->format('Y-m-d');
             $table->date('day');
             $table->unsignedBigInteger('machine_id');
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');

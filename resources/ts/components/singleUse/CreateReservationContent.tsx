@@ -7,22 +7,25 @@ import {
   onCleanup,
   Show,
   Suspense,
+  useContext,
 } from 'solid-js'
-import Card from './Card'
-import CardTitle from './CardTitle'
+import Card from '../Card'
+import CardTitle from '../CardTitle'
 import flatpickr from 'flatpickr'
-import Laboratory from '../contracts/laboratory'
-import Machine from '../contracts/machine'
+import Laboratory from '../../contracts/laboratory'
+import Machine from '../../contracts/machine'
 import 'flatpickr/dist/themes/dark.css'
-import Button from './Button'
+import Button from '../Button'
 import { createTurboResource } from 'turbo-solid'
-import Reservation from '../contracts/reservation'
-import Hours from '../contracts/hours'
-import IconLoading from './Icons/Loading'
-import { axios, turbo } from '../Instances'
-import IconCalendar from '../components/Icons/Calendar'
+import Reservation from '../../contracts/reservation'
+import Hours from '../../contracts/hours'
+import IconLoading from '../Icons/Loading'
+import { axios, turbo } from '../../Instances'
+import IconCalendar from '../Icons/Calendar'
+import { NotificationContext } from './Notifications'
 
 const CreateReservationContent: Component = (props) => {
+  const { notify } = useContext(NotificationContext)
   const onRef = (element: HTMLInputElement) => {
     const fp = flatpickr(element, {
       altInput: true,
@@ -31,6 +34,10 @@ const CreateReservationContent: Component = (props) => {
       minDate: 'today',
     })
     onCleanup(() => fp.destroy())
+  }
+
+  const prova = () => {
+    notify('Reservation created successfully')
   }
 
   const [date, setDate] = createSignal<string>()
@@ -70,8 +77,20 @@ const CreateReservationContent: Component = (props) => {
     return false
   }
 
+  const hourPassed = (hour: number) => {
+    let today = new Date().toISOString().slice(0, 10)
+    if (today === date()) {
+      const d = new Date()
+      let currentHour = d.getHours()
+      if (hour < currentHour) {
+        return true
+      }
+    }
+    return false
+  }
+
   const assignVariant = (hour: number) => {
-    if (isReserved(hour)) {
+    if (isReserved(hour) || hourPassed(hour)) {
       return 'reserved'
     }
 
@@ -88,23 +107,37 @@ const CreateReservationContent: Component = (props) => {
   })
 
   const create = async (event: Event) => {
-    // console.log('a')
-    // event.preventDefault()
     const response = await axios.post(
       `/api/machines/${activeMachine()?.id}/reservations`,
       dataToSubmit()
     )
-    // console.log(response.data.data)
+
+    setDate(undefined)
+    setActiveLaboratory(undefined)
+    setActiveMachine(undefined)
+    setActiveHour(-1)
+
     turbo.mutate(`/api/machines/${activeMachine()?.id}/reservations`, (old) => [
-      ...old,
+      ...(old ?? []),
       response.data.data,
     ])
+
+    notify('Reservation created successfully')
   }
+
+  createEffect(() => {
+    date()
+
+    setActiveLaboratory()
+    setActiveMachine()
+    setActiveHour(-1)
+  })
 
   createEffect(() => {
     activeLaboratory()
 
     setActiveMachine()
+    setActiveHour(-1)
   })
 
   createEffect(() => {
@@ -112,7 +145,6 @@ const CreateReservationContent: Component = (props) => {
 
     setActiveHour(-1)
   })
-  // createEffect(() => console.log('hours', hours()?.hours))
 
   return (
     <Card>
@@ -201,7 +233,7 @@ const CreateReservationContent: Component = (props) => {
                   {(hour, i) => (
                     <Button
                       variant={assignVariant(hour)}
-                      disabled={isReserved(hour)}
+                      disabled={isReserved(hour) || hourPassed(hour)}
                       onClick={() => {
                         setActiveHour(hour)
                       }}>
@@ -218,6 +250,9 @@ const CreateReservationContent: Component = (props) => {
             </Button>
           </Show>
         </div>
+        <Button variant="normal" onClick={prova}>
+          hehe
+        </Button>
       </div>
     </Card>
   )

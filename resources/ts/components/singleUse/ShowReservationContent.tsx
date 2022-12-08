@@ -1,9 +1,9 @@
 import { Component, For, Show, Suspense } from 'solid-js'
-import Button from './Button'
-import Card from './Card'
-import CardTitle from './CardTitle'
-import IconLoading from './Icons/Loading'
-import IconWarning from './Icons/Warning'
+import Button from '../Button'
+import Card from '../Card'
+import CardTitle from '../CardTitle'
+import IconLoading from '../Icons/Loading'
+import IconWarning from '../Icons/Warning'
 
 const ShowReservationContent: Component = (props) => {
   return (

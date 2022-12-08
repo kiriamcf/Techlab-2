@@ -2,6 +2,7 @@ import { Component, createEffect, lazy } from 'solid-js'
 import { Routes, Route } from '@solidjs/router'
 import { turbo } from './Instances'
 import { createTurboResource, TurboContext, TurboSolidResourceOptions } from 'turbo-solid'
+import Notifications from './components/singleUse/Notifications'
 const Home = lazy(() => import('./Home'))
 const SignIn = lazy(() => import('./SignIn'))
 const SignUp = lazy(() => import('./SignUp'))
@@ -16,19 +17,21 @@ const App: Component = () => {
   const configuration: TurboSolidResourceOptions = { turbo, clearOnForget: true }
 
   return (
-    <TurboContext.Provider value={configuration}>
-      <Routes>
-        <Route path="/" component={Home} />
-        <Route path="/signin" component={SignIn} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/createReservation" component={CreateReservation} />
-        <Route path="/showReservation" component={ShowReservation} />
-        <Route path="/account" component={Account} />
-        <Route path="/adminpanel" component={AdminPanel}></Route>
-        <Route path="/adminpanel/rfid" component={AdminRFID}></Route>
-      </Routes>
-    </TurboContext.Provider>
+    <Notifications>
+      <TurboContext.Provider value={configuration}>
+        <Routes>
+          <Route path="/" component={Home} />
+          <Route path="/signin" component={SignIn} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/createReservation" component={CreateReservation} />
+          <Route path="/showReservation" component={ShowReservation} />
+          <Route path="/account" component={Account} />
+          <Route path="/adminpanel" component={AdminPanel}></Route>
+          <Route path="/adminpanel/rfid" component={AdminRFID}></Route>
+        </Routes>
+      </TurboContext.Provider>
+    </Notifications>
   )
 }
 

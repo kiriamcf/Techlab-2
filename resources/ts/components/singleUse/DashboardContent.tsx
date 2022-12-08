@@ -1,7 +1,7 @@
 import { Component } from 'solid-js'
-import Card from './Card'
-import { user } from '../signals/user'
-import CardTitle from './CardTitle'
+import Card from '../Card'
+import { user } from '../../signals/user'
+import CardTitle from '../CardTitle'
 
 const DashboardContent: Component = () => {
   return (

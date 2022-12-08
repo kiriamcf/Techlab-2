@@ -1,7 +1,7 @@
 import { Component } from 'solid-js'
 import Layout from './components/Layout'
 import DashboardLayout from './components/DashboardLayout'
-import ShowReservationContent from './components/ShowReservationContent'
+import ShowReservationContent from './components/singleUse/ShowReservationContent'
 
 const ShowReservation: Component = () => {
   return (

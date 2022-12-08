@@ -1,7 +1,7 @@
 import { Component } from 'solid-js'
 import Layout from './components/Layout'
 import DashboardLayout from './components/DashboardLayout'
-import DashboardContent from './components/DashboardContent'
+import DashboardContent from './components/singleUse/DashboardContent'
 
 const Dashboard: Component = () => {
   return (

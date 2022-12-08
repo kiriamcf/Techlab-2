@@ -1,7 +1,7 @@
 import { Component } from 'solid-js'
 import Layout from './components/Layout'
 import DashboardLayout from './components/DashboardLayout'
-import AccountContent from './components/AccountContent'
+import AccountContent from './components/singleUse/AccountContent'
 
 const Account: Component = () => {
   return (
