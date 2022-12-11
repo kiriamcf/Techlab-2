@@ -1,4 +1,4 @@
-import { Component, Show } from 'solid-js'
+import { Component, Show, useContext } from 'solid-js'
 import Card from '../Card'
 import { user } from '../../signals/user'
 import CardTitle from '../CardTitle'
@@ -9,14 +9,18 @@ import IconWarning from '../Icons/Warning'
 import InputText from '../InputText'
 import Button from '../Button'
 import { axios, turbo } from '../../Instances'
+import { NotificationContext } from './Notifications'
 
 const AccountContent: Component = (props) => {
+  const { notify } = useContext(NotificationContext)
   const requestCard = async (event: Event) => {
     // event.preventDefault()
 
     const response = await axios.post('api/rfid_petitions')
 
     turbo.mutate('api/rfid_petitions', (old) => [...old, response.data.data])
+
+    notify('RFID requested successfully')
   }
 
   return (

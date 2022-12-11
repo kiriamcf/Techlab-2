@@ -12,11 +12,15 @@ class Machine extends Model
     protected $fillable = [
         'name',
         'description',
+        'active',
+        'level_required',
     ];
 
     protected $casts = [
         'name' => 'string',
-        'description' => 'string'
+        'description' => 'string',
+        'active' => 'boolean',
+        'level_required' => 'integer',
     ];
 
     public function laboratory()

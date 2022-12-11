@@ -35,7 +35,7 @@ class ReservationController extends Controller
         return ReservationResource::collection(
             $machine
                 ->reservations()
-                ->when($request->query('date'), fn ($query, $day) => $query->where('day', $day))
+                ->when($request->query('date'), fn ($query, $day) => $query->whereDate('day', $day))
                 ->get(),
         );
     }

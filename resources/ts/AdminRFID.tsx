@@ -49,92 +49,90 @@ const AdminRFID: Component = () => {
   return (
     <>
       <Layout auth={true}>
-        <main class="w-full max-w-5xl mx-auto flex">
-          <div class="w-full m-8">
-            <Card>
-              <CardTitle>RFID Requests</CardTitle>
-              <Suspense
+        <div class="w-full mt-8">
+          <Card>
+            <CardTitle>RFID Requests</CardTitle>
+            <Suspense
+              fallback={
+                <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black">
+                  <IconLoading class="h-6 w-6 animate-spin text-white" />
+                  <span>Loading Petitions...</span>
+                </div>
+              }>
+              <Show
+                when={petitions() != undefined && petitions()?.length != 0}
                 fallback={
-                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black">
-                    <IconLoading class="h-6 w-6 animate-spin text-white" />
-                    <span>Loading Petitions...</span>
+                  <div class="flex w-full bg-green-500 rounded select-none">
+                    <div class="flex items-center justify-center p-2">
+                      <IconWarning class="h-6 w-6 text-black" />
+                    </div>
+                    <div class="px-2 flex items-center w-full rounded-r text-black font-medium">
+                      There are currently no petitions to solve
+                    </div>
                   </div>
                 }>
-                <Show
-                  when={petitions() != undefined && petitions()?.length != 0}
-                  fallback={
-                    <div class="flex w-full bg-green-500 rounded select-none">
-                      <div class="flex items-center justify-center p-2">
-                        <IconWarning class="h-6 w-6 text-black" />
-                      </div>
-                      <div class="px-2 flex items-center w-full rounded-r text-black font-medium">
-                        There are currently no petitions to solve
-                      </div>
-                    </div>
-                  }>
-                  <table class="table-auto border-separate border-spacing-y-2">
-                    <thead>
-                      <tr>
-                        <th class="text-left">ID</th>
-                        <th class="text-left">Name</th>
-                        <th class="text-left">Surname</th>
-                        <th class="text-left">Email</th>
-                        <th class="text-left">Created At</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <For each={petitions()}>
-                        {(petition, i) => (
-                          <>
-                            <Portal>
-                              <Show when={activeUser() === petition.user_id}>
-                                <div
-                                  class="fixed inset-0 w-full h-full bg-neutral-900 bg-opacity-75 flex items-center justify-center"
-                                  onclick={(e) => closeModal(e)}>
-                                  <Card>
-                                    <div class="flex items-center space-x-2">
-                                      <span>Currently editing: </span>
-                                      <span class="text-primary-500">{petition.email}</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                      <span class="whitespace-nowrap">New RFID Card:</span>
-                                      <InputText
-                                        placeholder="RFID Code"
-                                        value={rfidCard()}
-                                        onChange={(e) => setRfidCard(e.currentTarget.value)}
-                                      />
-                                    </div>
-                                    <Button onClick={() => solvePetition()}>send</Button>
-                                  </Card>
-                                </div>
-                              </Show>
-                            </Portal>
-                            <tr>
-                              <td>{petition.user_id}</td>
-                              <td>{petition.name}</td>
-                              <td>{petition.surname}</td>
-                              <td>{petition.email}</td>
-                              <td>{petition.created_at}</td>
-                              <td>
-                                <Button
-                                  onClick={() => {
-                                    setActiveUser(petition.user_id), setActivePetition(petition.id)
-                                  }}>
-                                  Solve
-                                </Button>
-                              </td>
-                            </tr>
-                          </>
-                        )}
-                      </For>
-                    </tbody>
-                  </table>
-                </Show>
-              </Suspense>
-            </Card>
-          </div>
-        </main>
+                <table class="table-auto border-separate border-spacing-y-2">
+                  <thead>
+                    <tr>
+                      <th class="text-left">ID</th>
+                      <th class="text-left">Name</th>
+                      <th class="text-left">Surname</th>
+                      <th class="text-left">Email</th>
+                      <th class="text-left">Created At</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <For each={petitions()}>
+                      {(petition, i) => (
+                        <>
+                          <Portal>
+                            <Show when={activeUser() === petition.user_id}>
+                              <div
+                                class="fixed inset-0 w-full h-full bg-neutral-900 bg-opacity-75 flex items-center justify-center"
+                                onclick={(e) => closeModal(e)}>
+                                <Card>
+                                  <div class="flex items-center space-x-2">
+                                    <span>Currently editing: </span>
+                                    <span class="text-primary-500">{petition.email}</span>
+                                  </div>
+                                  <div class="flex items-center space-x-2">
+                                    <span class="whitespace-nowrap">New RFID Card:</span>
+                                    <InputText
+                                      placeholder="RFID Code"
+                                      value={rfidCard()}
+                                      onChange={(e) => setRfidCard(e.currentTarget.value)}
+                                    />
+                                  </div>
+                                  <Button onClick={() => solvePetition()}>send</Button>
+                                </Card>
+                              </div>
+                            </Show>
+                          </Portal>
+                          <tr>
+                            <td>{petition.user_id}</td>
+                            <td>{petition.name}</td>
+                            <td>{petition.surname}</td>
+                            <td>{petition.email}</td>
+                            <td>{petition.created_at}</td>
+                            <td>
+                              <Button
+                                onClick={() => {
+                                  setActiveUser(petition.user_id), setActivePetition(petition.id)
+                                }}>
+                                Solve
+                              </Button>
+                            </td>
+                          </tr>
+                        </>
+                      )}
+                    </For>
+                  </tbody>
+                </table>
+              </Show>
+            </Suspense>
+          </Card>
+        </div>
       </Layout>
     </>
   )

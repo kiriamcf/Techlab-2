@@ -29,7 +29,7 @@ const SignIn: Component = () => {
   return (
     <>
       <Layout auth={false}>
-        <main class="max-w-md mx-auto my-8">
+        <div class="max-w-md mx-auto my-8">
           <Card>
             <form onSubmit={login} class="flex flex-col">
               <CardTitle>Sign In</CardTitle>
@@ -54,7 +54,7 @@ const SignIn: Component = () => {
               <Button type="submit">Sign in</Button>
             </form>
           </Card>
-        </main>
+        </div>
       </Layout>
     </>
   )

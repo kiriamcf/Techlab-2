@@ -18,6 +18,8 @@ class ReservationResource extends JsonResource
             'id' => $this->id,
             'hour' => $this->hour,
             'day' => $this->day,
+            'machine_name' => $this->machine->name,
+            'laboratory_name' => $this->machine->laboratory->name,
             'machine_id' => $this->machine_id,
             'user_id' => $this->user_id,
             'created_at' => $this->created_at,

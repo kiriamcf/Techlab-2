@@ -30,7 +30,7 @@ const SignUp: Component = () => {
   return (
     <>
       <Layout>
-        <main class="max-w-md mx-auto my-8">
+        <div class="max-w-md mx-auto my-8">
           <Card>
             <div class="flex flex-col">
               <CardTitle>Sign up</CardTitle>
@@ -81,7 +81,7 @@ const SignUp: Component = () => {
               <Button onClick={createUser}>Sign up</Button>
             </div>
           </Card>
-        </main>
+        </div>
       </Layout>
     </>
   )

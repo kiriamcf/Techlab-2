@@ -18,6 +18,8 @@ class MachineResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
+            'active' => $this->active,
+            'level_required' => $this->level_required,
             'laboratory_id' => $this->laboratory_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at

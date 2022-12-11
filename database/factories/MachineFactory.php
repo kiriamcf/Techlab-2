@@ -20,6 +20,8 @@ class MachineFactory extends Factory
         return [
             'name' => fake()->text(25),
             'description' => fake()->text(50),
+            'active' => false,
+            'level_required' => 0,
             'laboratory_id' => Laboratory::factory(),
         ];
     }

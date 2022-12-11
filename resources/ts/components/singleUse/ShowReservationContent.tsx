@@ -23,7 +23,7 @@ const ShowReservationContent: Component = (props) => {
               <span>Loading Reservations...</span>
             </div>
           }>
-          {/* <Show
+          <Show
             when={reservations() != undefined && reservations()?.length != 0}
             fallback={
               <div class="flex w-full bg-green-500 rounded select-none">
@@ -38,54 +38,24 @@ const ShowReservationContent: Component = (props) => {
             <table class="table-auto border-separate border-spacing-y-2">
               <thead>
                 <tr>
-                  <th class="text-left">ID</th>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">Surname</th>
-                  <th class="text-left">Email</th>
-                  <th class="text-left">Created At</th>
+                  <th class="text-left">Day</th>
+                  <th class="text-left">Hour</th>
+                  <th class="text-left">Laboratory</th>
+                  <th class="text-left">Machine</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <For each={petitions()}>
-                  {(petition, i) => (
+                <For each={reservations()}>
+                  {(reservation, i) => (
                     <>
-                      <Portal>
-                        <Show when={activeUser() === petition.user_id}>
-                          <div
-                            class="fixed inset-0 w-full h-full bg-neutral-900 bg-opacity-75 flex items-center justify-center"
-                            onclick={(e) => closeModal(e)}>
-                            <Card>
-                              <div class="flex items-center space-x-2">
-                                <span>Currently editing: </span>
-                                <span class="text-primary-500">{petition.email}</span>
-                              </div>
-                              <div class="flex items-center space-x-2">
-                                <span class="whitespace-nowrap">New RFID Card:</span>
-                                <InputText
-                                  placeholder="RFID Code"
-                                  value={rfidCard()}
-                                  onChange={(e) => setRfidCard(e.currentTarget.value)}
-                                />
-                              </div>
-                              <Button onClick={() => solvePetition()}>send</Button>
-                            </Card>
-                          </div>
-                        </Show>
-                      </Portal>
                       <tr>
-                        <td>{petition.user_id}</td>
-                        <td>{petition.name}</td>
-                        <td>{petition.surname}</td>
-                        <td>{petition.email}</td>
-                        <td>{petition.created_at}</td>
+                        <td>{reservation.day}</td>
+                        <td>{reservation.hour}</td>
+                        <td>{reservation.laboratory_name}</td>
+                        <td>{reservation.machine_name}</td>
                         <td>
-                          <Button
-                            onClick={() => {
-                              setActiveUser(petition.user_id), setActivePetition(petition.id)
-                            }}>
-                            Solve
-                          </Button>
+                          <Button onClick={() => {}}>Solve</Button>
                         </td>
                       </tr>
                     </>
@@ -93,7 +63,7 @@ const ShowReservationContent: Component = (props) => {
                 </For>
               </tbody>
             </table>
-          </Show> */}
+          </Show>
         </Suspense>
       </div>
     </Card>

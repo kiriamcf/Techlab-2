@@ -7,6 +7,7 @@ use App\Http\Controllers\LaboratoryController;
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RFIDPetitionController;
+use App\Http\Controllers\HardwareController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,6 @@ Route::name('api.')->group(function () {
     Route::get('/user/reservations', [ReservationController::class, 'userIndex'])->name('reservations.user_index');
     // Route::delete('/user/{user}', [AuthenticationController::class, 'deleteUser']);
     Route::get('/get-available-hours', [ReservationController::class, 'getAvailableHours'])->name('get_available_hours');
-    Route::post('/rfid', [ReservationController::class,'getAvailableHours'])->name('rfid');
-    Route::put('/consum', [ReservationController::class,'getAvailableHours'])->name('rfid');
+    Route::post('/status', [HardwareController::class,'status'])->name('status');
+    Route::put('/diagnostic', [HardwareController::class,'diagnostic'])->name('diagnostic');
 });

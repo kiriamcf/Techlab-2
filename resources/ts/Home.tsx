@@ -11,7 +11,7 @@ const Home: Component = () => {
   return (
     <>
       <Layout>
-        <main class="max-w-5xl mx-auto my-8">
+        <div class="my-8">
           <Card>
             <div class="flex flex-wrap -mx-3 items-center">
               <div class="flex flex-col space-y-3 w-full md:w-2/3 px-3">
@@ -33,7 +33,7 @@ const Home: Component = () => {
               </div>
             </div>
           </Card>
-        </main>
+        </div>
       </Layout>
     </>
   )

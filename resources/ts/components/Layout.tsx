@@ -14,6 +14,7 @@ import { axios, turbo } from '../Instances'
 import { createTurboResource } from 'turbo-solid'
 import User from '../contracts/user'
 import { setUser } from '../signals/user'
+import { Portal } from 'solid-js/web'
 
 interface Props {
   auth?: boolean
@@ -57,7 +58,16 @@ const Layout: ParentComponent<Props> = (props) => {
   }
 
   return (
-    <Suspense fallback={<div>Loading</div>}>
+    <Suspense
+      fallback={
+        <Portal>
+          <div class="fixed inset-0 w-full h-full bg-transparent flex items-center justify-center">
+            <div class="text-white">
+              <span>Loading...</span>
+            </div>
+          </div>
+        </Portal>
+      }>
       <header class="w-full bg-neutral-800 text-white py-5">
         <div class="max-w-5xl mx-auto flex justify-between content-center">
           <Switch fallback={<div>Not found</div>}>
@@ -99,7 +109,7 @@ const Layout: ParentComponent<Props> = (props) => {
           </div>
         </div>
       </header>
-      {props.children}
+      <main class="w-full max-w-5xl mx-auto">{props.children}</main>
       <footer></footer>
     </Suspense>
   )

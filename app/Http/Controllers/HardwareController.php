@@ -2,29 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Machine;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 class HardwareController extends Controller
 {
-    public function rfid(Request $request) {
-        // { 'id_targeta': '1234 1234 1234 1234', 'id_maquina': 'X' }
+    public function status(Request $request) {
+        // { 'machine_id': X }
 
-        // $id_targeta = $request->get('id_targeta');
-        // $id_maquina = $request->get('id_maquina');
+        $machineId = $request->get('machine_id');
 
-        // $now = now();
-        // $user = User::where('targeta', $id_targeta)->firstOrFail();
+        $machine = Machine::where('id', $machineId)->firstOrFail();
 
-        // $r = $user
-        //     ->reservations()
-        //     ->where('machine_id', $id_maquina)
-        //     ->whereDate('date', $now->copy()->startOfDay())
-        //     ->where('hour', strval($now->hour) . '-' . strval($now->hour + 1))
-        //     ->firstOrFail();
+        if ($machine->active) {
+            return response()->json(['active' => true]);
+        }
 
-        // return [
-        //     'nom' => $user->name,
-        //     'temps_restant' => 60 - $now->minute,
-        // ];
+        $now = now();
+
+        $reservation = Reservation::where('machine_id', $machineId)
+                        ->whereDate('day', $now->copy()->startOfDay())
+                        ->where('hour', $now->hour)
+                        ->first();
+
+        if ($reservation === null) {
+            return response()->json(['active' => false, 'rfid_card' => null]);
+        }
+
+        $rfidCard = $reservation->user()->rfid_card;
+
+        return response()->json(['active' => false, 'rfid_card' => $rfidCard]);
+    }
+
+    public function diagnostic(Request $request) {
+        // { 'machine_id': X, 'value': X }
     }
 }
