@@ -1,7 +1,6 @@
 import {
   Component,
   createEffect,
-  createMemo,
   createSignal,
   For,
   onCleanup,
@@ -34,10 +33,6 @@ const CreateReservationContent: Component = (props) => {
       minDate: 'today',
     })
     onCleanup(() => fp.destroy())
-  }
-
-  const prova = () => {
-    notify('Reservation created successfully')
   }
 
   const [date, setDate] = createSignal<string>()
@@ -250,9 +245,6 @@ const CreateReservationContent: Component = (props) => {
             </Button>
           </Show>
         </div>
-        <Button variant="normal" onClick={prova}>
-          hehe
-        </Button>
       </div>
     </Card>
   )

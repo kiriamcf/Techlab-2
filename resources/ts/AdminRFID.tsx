@@ -27,11 +27,6 @@ const AdminRFID: Component = () => {
     }
   }
 
-  createMemo(() => {
-    console.log(petitions())
-    console.log(petitions()?.length)
-  })
-
   const solvePetition = async () => {
     // update user
     // const responseUser = await axios.put(`/api/user/${activeUser()}`, { rfid_card: rfidCard() })
@@ -43,7 +38,7 @@ const AdminRFID: Component = () => {
       '/api/rfid_petitions',
       (old) => old?.filter((petition) => petition.id != activePetition()) ?? []
     )
-    turbo.forget([`/api/rfid_petitions/${activePetition()}`, `/api/user/${activeUser()}`])
+    turbo.forget([`/api/rfid_petitions/${activePetition()}`, `/api/users/${activeUser()}`])
     // turbo.mutate<User>(`/api/user/${activeUser()}`, (oldUser) => ({...oldUser!, rfid_card: rfidCard()}))
     // close modal
     setRfidCard('')

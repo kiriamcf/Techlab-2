@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Http\Requests\Reservation\IndexRequest;
+use App\Http\Requests\Reservation\UserIndexRequest;
 use App\Http\Requests\Reservation\StoreRequest;
 use App\Http\Requests\Reservation\ShowRequest;
 use App\Http\Requests\Reservation\UpdateRequest;
@@ -102,13 +103,34 @@ class ReservationController extends Controller
         return new HoursResource(['hours' => [8, 9, 10, 11, 15, 16, 17, 18, 19, 20]]);
     }
 
-    public function userIndex(IndexRequest $request)
+    public function userIndex(UserIndexRequest $request)
     {
-        return ReservationResource::collection(
-            $request->user()
-                ->reservations()
-                ->when($request->query('date'), fn ($query, $day) => $query->where('day', $day))
-                ->get(),
-        );
+        // dd(now());
+
+        $operation = function (Reservation $r) {
+            if ($r->day > now()->startOfDay()) {
+                return true;
+            }
+            if ($r->day == now()->startOfDay() && $r->hour >= now()->hour) {
+                return true;
+            }
+            return false;
+        };
+
+        $allReservations = $request
+                                ->user()
+                                ->reservations;
+
+        return [
+            'activeReservations' => ReservationResource::collection($allReservations->filter($operation)),
+            'unactiveReservations' => ReservationResource::collection($allReservations->reject($operation)->sortbyDesc('id')->take(15)),
+        ];
+
+        // return ReservationResource::collection(
+        //     $request
+        //         ->user()
+        //         ->reservations()
+        //         ->get(),
+        // );
     }
 }

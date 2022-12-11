@@ -22,6 +22,11 @@ class ReservationPolicy
         return true;
     }
 
+    public function viewAnyUser(User $user)
+    {
+        return true;
+    }
+
     /**
      * Determine whether the user can view the model.
      *

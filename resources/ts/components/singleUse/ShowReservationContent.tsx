@@ -1,4 +1,6 @@
-import { Component, For, Show, Suspense } from 'solid-js'
+import { Component, createMemo, For, Show, Suspense } from 'solid-js'
+import { createTurboResource } from 'turbo-solid'
+import Reservation from '../../contracts/reservation'
 import Button from '../Button'
 import Card from '../Card'
 import CardTitle from '../CardTitle'
@@ -6,6 +8,10 @@ import IconLoading from '../Icons/Loading'
 import IconWarning from '../Icons/Warning'
 
 const ShowReservationContent: Component = (props) => {
+  const [reservations] = createTurboResource<Reservation[]>(() => '/api/user/reservations')
+
+  createMemo(() => console.log(reservations()))
+
   return (
     <Card>
       <div class="flex flex-col space-y-3 w-full">
@@ -18,14 +24,14 @@ const ShowReservationContent: Component = (props) => {
             </div>
           }>
           {/* <Show
-            when={petitions() != undefined && petitions()?.length != 0}
+            when={reservations() != undefined && reservations()?.length != 0}
             fallback={
               <div class="flex w-full bg-green-500 rounded select-none">
                 <div class="flex items-center justify-center p-2">
                   <IconWarning class="h-6 w-6 text-black" />
                 </div>
                 <div class="px-2 flex items-center w-full rounded-r text-black font-medium">
-                  There are currently no petitions to solve
+                  You still haven't made any reservation
                 </div>
               </div>
             }>
