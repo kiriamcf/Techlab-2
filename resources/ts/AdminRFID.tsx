@@ -11,6 +11,7 @@ import InputText from './components/InputText'
 import User from './contracts/user'
 import { axios, turbo } from './Instances'
 import IconWarning from './components/Icons/Warning'
+import dayjs from 'dayjs'
 
 const AdminRFID: Component = () => {
   const [petitions] = createTurboResource<RfidPetition[]>(() => '/api/rfid_petitions')
@@ -114,7 +115,7 @@ const AdminRFID: Component = () => {
                             <td>{petition.name}</td>
                             <td>{petition.surname}</td>
                             <td>{petition.email}</td>
-                            <td>{petition.created_at}</td>
+                            <td>{dayjs(petition.created_at).format('DD/MM/YY')}</td>
                             <td>
                               <Button
                                 onClick={() => {

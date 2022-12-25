@@ -30,7 +30,7 @@ class HardwareController extends Controller
             return response()->json(['active' => false, 'rfid_card' => null]);
         }
 
-        $rfidCard = $reservation->user()->rfid_card;
+        $rfidCard = $reservation->user->rfid_card;
 
         return response()->json(['active' => false, 'rfid_card' => $rfidCard]);
     }

@@ -32,4 +32,9 @@ class Machine extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
+    public function deactivate()
+    {
+        $this->update(['active' => false]);
+    }
 }

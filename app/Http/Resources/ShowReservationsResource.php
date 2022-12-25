@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RFIDPetitionResource extends JsonResource
+class ShowReservationsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,13 +15,8 @@ class RFIDPetitionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'name' => $this->user->name,
-            'surname' => $this->user->surname,
-            'email' => $this->user->email,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'activeReservations' => $this['activeReservations'],
+            'unactiveReservations' => $this['unactiveReservations'],
         ];
     }
 }

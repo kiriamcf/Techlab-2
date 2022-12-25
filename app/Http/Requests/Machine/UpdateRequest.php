@@ -28,6 +28,8 @@ class UpdateRequest extends FormRequest
         return [
             'name' => ['sometimes', 'string'],
             'description' => ['sometimes', 'string'],
+            'active' => ['sometimes', 'boolean'],
+            'level_required' => ['sometimes', 'integer'],
         ];
     }
 }

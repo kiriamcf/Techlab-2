@@ -54,7 +54,7 @@ class MachinePolicy
      */
     public function update(User $user, Machine $machine)
     {
-        return $user->admin;
+        return true;
     }
 
     /**

@@ -12,6 +12,7 @@ use App\Http\Requests\Reservation\UpdateRequest;
 use App\Http\Requests\Reservation\DestroyRequest;
 use App\Http\Resources\HoursResource;
 use App\Http\Resources\ReservationResource;
+use App\Http\Resources\ShowReservationsResource;
 use App\Models\Machine;
 
 class ReservationController extends Controller
@@ -121,16 +122,9 @@ class ReservationController extends Controller
                                 ->user()
                                 ->reservations;
 
-        return [
+        return new ShowReservationsResource([
             'activeReservations' => ReservationResource::collection($allReservations->filter($operation)),
-            'unactiveReservations' => ReservationResource::collection($allReservations->reject($operation)->sortbyDesc('id')->take(15)),
-        ];
-
-        // return ReservationResource::collection(
-        //     $request
-        //         ->user()
-        //         ->reservations()
-        //         ->get(),
-        // );
+            'unactiveReservations' => ReservationResource::collection($allReservations->reject($operation)->sortbyDesc('id')->take(15))
+        ]);
     }
 }
