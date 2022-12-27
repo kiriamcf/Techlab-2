@@ -28,10 +28,10 @@ class LaboratoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(IndexRequest $request, Laboratory $laboratory)
+    public function index(IndexRequest $request)
     {
         return LaboratoryResource::collection(
-            $laboratory->all(),
+            Laboratory::all(),
         );
     }
 

@@ -12,6 +12,8 @@ import User from './contracts/user'
 import { axios, turbo } from './Instances'
 import IconWarning from './components/Icons/Warning'
 import dayjs from 'dayjs'
+import { A } from '@solidjs/router'
+import IconArrowLeft from './components/Icons/ArrowLeft'
 
 const AdminRFID: Component = () => {
   const [petitions] = createTurboResource<RfidPetition[]>(() => '/api/rfid_petitions')
@@ -52,11 +54,18 @@ const AdminRFID: Component = () => {
       <Layout auth={true}>
         <div class="w-full mt-8">
           <Card>
-            <CardTitle>RFID Requests</CardTitle>
+            <div class="flex justify-between">
+              <CardTitle>RFID Petitions</CardTitle>
+              <A href="/adminpanel">
+                <div class="p-2 hover:bg-primary-500 rounded group transition-colors duration-500">
+                  <IconArrowLeft class="h-6 w-6 text-white group-hover:text-black transition-colors duration-500" />
+                </div>
+              </A>
+            </div>
             <Suspense
               fallback={
-                <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black">
-                  <IconLoading class="h-6 w-6 animate-spin text-white" />
+                <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
+                  <IconLoading class="h-6 w-6 animate-spin text-black" />
                   <span>Loading Petitions...</span>
                 </div>
               }>

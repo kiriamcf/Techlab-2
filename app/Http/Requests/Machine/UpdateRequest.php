@@ -30,6 +30,7 @@ class UpdateRequest extends FormRequest
             'description' => ['sometimes', 'string'],
             'active' => ['sometimes', 'boolean'],
             'level_required' => ['sometimes', 'integer'],
+            'laboratory_id' => ['sometimes', 'integer'],
         ];
     }
 }

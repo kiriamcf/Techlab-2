@@ -34,8 +34,8 @@ const ShowReservationContent: Component = (props) => {
         <CardTitle>Show reservations</CardTitle>
         <Suspense
           fallback={
-            <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black">
-              <IconLoading class="h-6 w-6 animate-spin text-white" />
+            <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
+              <IconLoading class="h-6 w-6 animate-spin text-black" />
               <span>Loading Reservations...</span>
             </div>
           }>

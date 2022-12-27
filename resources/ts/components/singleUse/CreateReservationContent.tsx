@@ -155,7 +155,7 @@ const CreateReservationContent: Component = (props) => {
             <input
               ref={onRef}
               type="date"
-              class="rounded-r p-2 outline-none w-fit bg-neutral-700 placeholder-white"
+              class="rounded-r p-2 outline-none w-fit bg-neutral-700"
               placeholder="Select a date"
               onChange={(e) => setDate(e.currentTarget.value)}
             />
@@ -165,8 +165,8 @@ const CreateReservationContent: Component = (props) => {
             <div class="grid grid-cols-3 gap-2">
               <Suspense
                 fallback={
-                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black">
-                    <IconLoading class="h-6 w-6 animate-spin text-white" />
+                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
+                    <IconLoading class="h-6 w-6 animate-spin text-black" />
                     <span>Loading Laboratories...</span>
                   </div>
                 }>
@@ -193,8 +193,8 @@ const CreateReservationContent: Component = (props) => {
             <div class="grid grid-cols-4 gap-2">
               <Suspense
                 fallback={
-                  <div class="flex space-x-2 p-2 bg-primary-500 text-black rounded">
-                    <IconLoading class="h-6 w-6 animate-spin" />
+                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
+                    <IconLoading class="h-6 w-6 animate-spin text-black" />
                     <span>Loading Machines...</span>
                   </div>
                 }>
@@ -219,8 +219,8 @@ const CreateReservationContent: Component = (props) => {
             <div class="grid grid-cols-5 gap-2">
               <Suspense
                 fallback={
-                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black">
-                    <IconLoading class="h-6 w-6 animate-spin" />
+                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
+                    <IconLoading class="h-6 w-6 animate-spin text-black" />
                     <span>Loading Hours...</span>
                   </div>
                 }>

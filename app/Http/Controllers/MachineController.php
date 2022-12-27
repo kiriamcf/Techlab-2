@@ -90,4 +90,11 @@ class MachineController extends Controller
 
         return response()->noContent();
     }
+
+    public function indexAll(Request $request)
+    {
+        return MachineResource::collection(
+            Machine::all(),
+        );
+    }
 }

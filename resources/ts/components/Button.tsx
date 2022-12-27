@@ -26,7 +26,7 @@ const Button: ParentComponent<Props> = (props) => {
     reserved:
       'uppercase bg-transparent py-2 px-6 rounded text-red-500 border-2 border-red-500 font-semibold text-sm flex items-center justify-center space-x-3',
     hoverableBordered:
-      'uppercase bg-transparent py-2 px-6 rounded text-white border-2 border-transparent font-semibold text-sm flex items-center justify-center space-x-3 hover:border-primary-500 hover:text-primary-500 transition-colors duration-500',
+      'uppercase bg-transparent py-2 px-6 rounded text-white border-2 border-neutral-700 font-semibold text-sm flex items-center justify-center space-x-3 hover:border-primary-500 hover:text-primary-500 transition-colors duration-500',
     disabled:
       'uppercase py-2 px-6 rounded text-white font-semibold text-sm flex items-center justify-center space-x-3 opacity-50',
     centeredBordered:

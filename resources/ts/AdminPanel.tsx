@@ -22,18 +22,6 @@ const AdminPanel: Component = () => {
               <CardTitle>Admin Panel</CardTitle>
             </div>
             <div class="grid grid-cols-3 gap-4 w-full">
-              {/* <Button variant={'centeredBordered'}>
-                  <IconLaboratory class="h-40 w-40 text-white mb-2" />
-                  <span>Create / Modify Laboratories</span>
-                </Button>
-                <Button variant={'centeredBordered'}>
-                  <IconMachine class="h-40 w-40 text-white" />
-                  <span>Create / Modify Machines</span>
-                </Button>
-                <Button variant={'centeredBordered'}>
-                  <IconCardShallow class="h-28 w-28 text-white" />
-                  <span>Solve RFID requests</span>
-                </Button> */}
               <A href="/">
                 <div class="group relative w-full h-auto">
                   <img
@@ -46,7 +34,7 @@ const AdminPanel: Component = () => {
                   </div>
                 </div>
               </A>
-              <A href="/">
+              <A href="/adminpanel/machines">
                 <div class="group relative w-full h-full">
                   <img
                     src={machine}
