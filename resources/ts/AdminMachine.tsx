@@ -23,50 +23,107 @@ const AdminMachine: Component = () => {
   const [machines] = createTurboResource<Machine[]>(() => '/api/machines')
   const [laboratories] = createTurboResource<Laboratory[]>(() => '/api/laboratories')
   const [activeMachine, setActiveMachine] = createSignal<number>()
-  const [machineName, setMachineName] = createSignal<string>()
-  const [machineLaboratory, setMachineLaboratory] = createSignal<number>()
-  const [machineDescription, setMachineDescription] = createSignal<string>()
-  const [machineLevelRequired, setMachineLevelRequired] = createSignal<number>()
-  const [machineActive, setMachineActive] = createSignal<boolean>()
+  const [modifyName, setModifyName] = createSignal<string>()
+  const [modifyLaboratory, setModifyLaboratory] = createSignal<number>()
+  const [modifyDescription, setModifyDescription] = createSignal<string>()
+  const [modifyLevelRequired, setModifyLevelRequired] = createSignal<number>()
+  const [modifyActive, setModifyActive] = createSignal<boolean>()
+  const [createName, setCreateName] = createSignal<string>('')
+  const [createLaboratory, setCreateLaboratory] = createSignal<number>()
+  const [createDescription, setCreateDescription] = createSignal<string>('')
+  const [createLevelRequired, setCreateLevelRequired] = createSignal<number>()
 
   const closeModal = (e: Event) => {
     e.preventDefault()
 
     if (e.target === e.currentTarget) {
       setActiveMachine(undefined),
-        setMachineName(undefined),
-        setMachineDescription(undefined),
-        setMachineLevelRequired(undefined),
-        setMachineLaboratory(undefined),
-        setMachineActive(undefined)
+        setModifyName(undefined),
+        setModifyDescription(undefined),
+        setModifyLevelRequired(undefined),
+        setModifyLaboratory(undefined),
+        setModifyActive(undefined)
     }
   }
 
-  const dataToSubmit = () => ({
-    name: machineName(),
-    description: machineDescription(),
-    active: machineActive(),
-    level_required: machineLevelRequired(),
-    laboratory_id: machineLaboratory(),
+  const dataToSubmitModify = () => ({
+    name: modifyName(),
+    description: modifyDescription(),
+    active: modifyActive(),
+    level_required: modifyLevelRequired(),
+    laboratory_id: modifyLaboratory(),
   })
 
   const modifyMachine = async () => {
-    const response = await axios.put(`/api/machines/${activeMachine()}`, dataToSubmit())
+    const response = await axios.put(`/api/machines/${activeMachine()}`, dataToSubmitModify())
 
-    turbo.mutate<Machine>(`/api/machines/${machineActive()}`, response.data.data)
+    turbo.mutate<Machine>(`/api/machines/${modifyActive()}`, response.data.data)
 
     turbo.query('/api/machines', { fresh: true })
 
     setActiveMachine(undefined),
-      setMachineName(undefined),
-      setMachineDescription(undefined),
-      setMachineLevelRequired(undefined),
-      setMachineLaboratory(undefined),
-      setMachineActive(undefined),
+      setModifyName(undefined),
+      setModifyDescription(undefined),
+      setModifyLevelRequired(undefined),
+      setModifyLaboratory(undefined),
+      setModifyActive(undefined),
       notify('Machine modified successfully')
   }
 
-  // createEffect(() => console.log(laboratories()?.[0].name))
+  const dataToSubmitCreate = () => ({
+    name: createName(),
+    description: createDescription(),
+    active: false,
+    level_required: createLevelRequired(),
+  })
+
+  const createMachine = async () => {
+    if (
+      createName() === '' ||
+      createDescription() === '' ||
+      createLaboratory() === undefined ||
+      createLevelRequired() === undefined
+    ) {
+      notify('You must fill in all fields!', 'error')
+      return
+    }
+
+    await axios.post(`/api/laboratories/${createLaboratory()}/machines`, dataToSubmitCreate())
+
+    turbo.query('/api/machines', { fresh: true })
+
+    setCreateName(''),
+      setCreateDescription(''),
+      setCreateLevelRequired(undefined),
+      setCreateLaboratory(undefined),
+      notify('All good!')
+  }
+
+  const activateMachine = async () => {
+    await axios.put(`/api/machines/${activeMachine()}`, { active: true })
+
+    turbo.mutate<Machine>(`/api/machines/${activeMachine()}`, (old) => ({
+      ...old!,
+      active: true,
+    }))
+
+    turbo.query('/api/machines', { fresh: true })
+
+    notify('Machine activated successfully')
+  }
+
+  const deactivateMachine = async () => {
+    await axios.put(`/api/machines/${activeMachine()}`, { active: false })
+
+    turbo.mutate<Machine>(`/api/machines/${activeMachine()}`, (old) => ({
+      ...old!,
+      active: false,
+    }))
+
+    turbo.query('/api/machines', { fresh: true })
+
+    notify('Machine deactivated successfully')
+  }
 
   return (
     <>
@@ -125,8 +182,8 @@ const AdminMachine: Component = () => {
                                         <span class="mb-1 inline-block">Name</span>
                                         <InputText
                                           placeholder="Machine name"
-                                          value={machineName()}
-                                          onChange={(e) => setMachineName(e.currentTarget.value)}
+                                          value={modifyName()}
+                                          onChange={(e) => setModifyName(e.currentTarget.value)}
                                         />
                                       </div>
                                       <div class="flex flex-col w-full">
@@ -134,12 +191,12 @@ const AdminMachine: Component = () => {
                                         <InputSelect
                                           placeholder="Machine level required"
                                           onChange={(e) =>
-                                            setMachineLevelRequired(Number(e.currentTarget.value))
+                                            setModifyLevelRequired(Number(e.currentTarget.value))
                                           }>
                                           <For each={['0', '1', '2']}>
                                             {(option, i) => (
                                               <Show
-                                                when={Number(option) === machineLevelRequired()}
+                                                when={Number(option) === modifyLevelRequired()}
                                                 fallback={
                                                   <option value={Number(option)}>{option}</option>
                                                 }>
@@ -156,12 +213,12 @@ const AdminMachine: Component = () => {
                                         <InputSelect
                                           placeholder="Select laboratory"
                                           onChange={(e) =>
-                                            setMachineLaboratory(Number(e.currentTarget.value))
+                                            setModifyLaboratory(Number(e.currentTarget.value))
                                           }>
                                           <For each={laboratories()}>
                                             {(option, i) => (
                                               <Show
-                                                when={option.id === machineLaboratory()}
+                                                when={option.id === modifyLaboratory()}
                                                 fallback={
                                                   <option value={option.id}>{option.name}</option>
                                                 }>
@@ -177,12 +234,30 @@ const AdminMachine: Component = () => {
                                         <span class="mb-1 inline-block">Description</span>
                                         <InputTextArea
                                           placeholder="Machine description..."
-                                          value={machineDescription()}
+                                          value={modifyDescription()}
+                                          rows={4}
                                           onChange={(e) =>
-                                            setMachineDescription(e.currentTarget.value)
+                                            setModifyDescription(e.currentTarget.value)
                                           }
                                         />
                                       </div>
+                                      <Show
+                                        when={machine.active}
+                                        fallback={
+                                          <Button
+                                            onClick={() => {
+                                              activateMachine()
+                                            }}>
+                                            Activate
+                                          </Button>
+                                        }>
+                                        <Button
+                                          onClick={() => {
+                                            deactivateMachine()
+                                          }}>
+                                          Deactivate
+                                        </Button>
+                                      </Show>
                                       <Button onClick={() => modifyMachine()}>save</Button>
                                     </div>
                                   </form>
@@ -195,11 +270,11 @@ const AdminMachine: Component = () => {
                           class="bg-transparent p-4 rounded border-2 border-neutral-700 hover:border-primary-500 hover:text-primary-500 transition-colors duration-500 space-y-2"
                           onClick={() => (
                             setActiveMachine(machine.id),
-                            setMachineName(machine.name),
-                            setMachineDescription(machine.description),
-                            setMachineLaboratory(machine.laboratory_id),
-                            setMachineLevelRequired(machine.level_required),
-                            setMachineActive(machine.active)
+                            setModifyName(machine.name),
+                            setModifyDescription(machine.description),
+                            setModifyLaboratory(machine.laboratory_id),
+                            setModifyLevelRequired(machine.level_required),
+                            setModifyActive(machine.active)
                           )}>
                           <div class="flex justify-between">
                             <span class="uppercase text-primary-500">{machine.name}</span>
@@ -222,6 +297,69 @@ const AdminMachine: Component = () => {
                 </div>
               </Show>
             </Suspense>
+            <CardTitle type="margined">Create a new machine</CardTitle>
+            <div class="grid grid-cols-3 gap-2">
+              <div class="flex flex-col w-full">
+                <span class="mb-1 inline-block">Name</span>
+                <InputText
+                  placeholder="Machine name"
+                  value={createName()}
+                  onChange={(e) => setCreateName(e.currentTarget.value)}
+                />
+              </div>
+              <div class="flex flex-col w-full">
+                <span class="mb-1 inline-block">Level Required</span>
+                <InputSelect
+                  placeholder="Machine level required"
+                  onChange={(e) => setCreateLevelRequired(Number(e.currentTarget.value))}>
+                  <option value="" disabled selected>
+                    Select a level
+                  </option>
+                  <For each={['0', '1', '2']}>
+                    {(option, i) => (
+                      <Show
+                        when={Number(option) === createLevelRequired()}
+                        fallback={<option value={Number(option)}>{option}</option>}>
+                        <option value={Number(option)} selected>
+                          {option}
+                        </option>
+                      </Show>
+                    )}
+                  </For>
+                </InputSelect>
+              </div>
+              <div class="flex flex-col w-full">
+                <span class="mb-1 inline-block">Laboratory</span>
+                <InputSelect
+                  placeholder="Select laboratory"
+                  onChange={(e) => setCreateLaboratory(Number(e.currentTarget.value))}>
+                  <option value="" disabled selected>
+                    Select a laboratory
+                  </option>
+                  <For each={laboratories()}>
+                    {(option, i) => (
+                      <Show
+                        when={option.id === createLaboratory()}
+                        fallback={<option value={option.id}>{option.name}</option>}>
+                        <option value={option.id} selected>
+                          {option.name}
+                        </option>
+                      </Show>
+                    )}
+                  </For>
+                </InputSelect>
+              </div>
+            </div>
+            <div class="flex flex-col w-full">
+              <span class="mb-1 inline-block">Description</span>
+              <InputTextArea
+                placeholder="Machine description..."
+                value={createDescription()}
+                rows={2}
+                onChange={(e) => setCreateDescription(e.currentTarget.value)}
+              />
+            </div>
+            <Button onClick={() => createMachine()}>create</Button>
           </Card>
         </div>
       </Layout>

@@ -6,6 +6,7 @@ interface Props {
   value?: string
   onChange?: JSX.EventHandlerUnion<HTMLTextAreaElement, Event>
   disabled?: boolean
+  rows?: number
 }
 
 const InputTextArea: ParentComponent<Props> = (props) => {
@@ -14,7 +15,7 @@ const InputTextArea: ParentComponent<Props> = (props) => {
   return (
     <textarea
       id="message"
-      rows="4"
+      rows={props.rows}
       onChange={props.onChange}
       class="block p-2 w-full bg-neutral-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-primary-600 resize-none"
       placeholder={props.placeholder}

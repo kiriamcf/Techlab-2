@@ -17,15 +17,6 @@ const InputSelect: ParentComponent<Props> = (props) => {
       onChange={props.onChange}
       class="bg-neutral-700 border-r-8 border-transparent h-10 w-full p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600">
       {props.children}
-      {/* <For each={props.valueList}>
-        {(option, i) => (
-          <Show when={option === props.value} fallback={<option value={option}>{option}</option>}>
-            <option value={option} selected>
-              {option}
-            </option>
-          </Show>
-        )}
-      </For> */}
     </select>
   )
 }

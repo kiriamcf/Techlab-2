@@ -11,12 +11,6 @@ import { user } from '../signals/user'
 const DashboardLayout: Component = () => {
   const location = useLocation()
 
-  const test = () => {
-    console.log(user()?.()?.rfid_card)
-    console.log(user()?.()?.rfid_card == '00 00 00 00')
-    return user()?.()?.rfid_card == '00 00 00 00'
-  }
-
   return (
     <>
       <div class="pt-8 pr-8 pb-8 flex flex-col space-y-2">
