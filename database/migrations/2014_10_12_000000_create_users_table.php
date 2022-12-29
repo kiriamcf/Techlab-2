@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('admin')->default(0);
             $table->string('rfid_card')->default("00 00 00 00");
+            $table->integer('level_authorization')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

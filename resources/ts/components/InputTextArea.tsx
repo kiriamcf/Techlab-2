@@ -4,7 +4,7 @@ import { mergeProps, ParentComponent, JSX, For, Show } from 'solid-js'
 interface Props {
   placeholder?: string
   value?: string
-  onChange?: JSX.EventHandlerUnion<HTMLInputElement, Event>
+  onChange?: JSX.EventHandlerUnion<HTMLTextAreaElement, Event>
   disabled?: boolean
 }
 
@@ -15,8 +15,9 @@ const InputTextArea: ParentComponent<Props> = (props) => {
     <textarea
       id="message"
       rows="4"
+      onChange={props.onChange}
       class="block p-2 w-full bg-neutral-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-primary-600 resize-none"
-      placeholder="Machine description..."
+      placeholder={props.placeholder}
       value={props.value}></textarea>
   )
 }

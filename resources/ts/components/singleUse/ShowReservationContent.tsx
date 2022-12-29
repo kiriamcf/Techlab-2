@@ -22,7 +22,6 @@ const ShowReservationContent: Component = (props) => {
   const isMachineActive = async (machine_id: number) => {
     const response = await axios.get(`/api/machines/${machine_id}`)
 
-    console.log(response.data.data.active)
     return response.data.data.actives
   }
 

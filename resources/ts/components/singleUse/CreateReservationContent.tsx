@@ -22,6 +22,8 @@ import IconLoading from '../Icons/Loading'
 import { axios, turbo } from '../../Instances'
 import IconCalendar from '../Icons/Calendar'
 import { NotificationContext } from './Notifications'
+import { user } from '../../signals/user'
+import IconQuestion from '../Icons/Question'
 
 const CreateReservationContent: Component = (props) => {
   const { notify } = useContext(NotificationContext)
@@ -34,6 +36,8 @@ const CreateReservationContent: Component = (props) => {
     })
     onCleanup(() => fp.destroy())
   }
+
+  const [openInfo, setOpenInfo] = createSignal<boolean>(false)
 
   const [date, setDate] = createSignal<string>()
   const [activeLaboratory, setActiveLaboratory] = createSignal<Laboratory>()
@@ -143,8 +147,18 @@ const CreateReservationContent: Component = (props) => {
 
   return (
     <Card>
+      <CardTitle>Create reservation</CardTitle>
+      <div
+        class="p-2 hover:bg-neutral-700 absolute !mt-0 top-6 right-6 rounded cursor-pointer transition-colors duration-300"
+        onClick={() => setOpenInfo(!openInfo())}>
+        <IconQuestion class="h-6 w-6 text-white"></IconQuestion>
+      </div>
+      <Show when={openInfo()}>
+        <span class="absolute !-mt-2 top-20 right-6 p-2 bg-neutral-700 rounded max-w-xs">
+          If any machine is disabled, it means that you don't meet the requirements for it
+        </span>
+      </Show>
       <div class="flex flex-col space-y-3 w-full">
-        <CardTitle>Create reservation</CardTitle>
         <h5>Fill the following information:</h5>
         <div class="flex flex-col space-y-3">
           <span>Which date would you like to reserve?</span>
@@ -200,15 +214,23 @@ const CreateReservationContent: Component = (props) => {
                 }>
                 <For each={machines()}>
                   {(machine, i) => (
-                    <Button
-                      variant={
-                        activeMachine()?.name == machine.name ? 'bordered' : 'hoverableBordered'
-                      }
-                      onClick={() => {
-                        setActiveMachine(machine)
-                      }}>
-                      {machine.name}
-                    </Button>
+                    <Show
+                      when={user()?.()?.level_authorization! >= machine.level_required}
+                      fallback={
+                        <Button variant="reserved" disabled>
+                          {machine.name}
+                        </Button>
+                      }>
+                      <Button
+                        variant={
+                          activeMachine()?.name == machine.name ? 'bordered' : 'hoverableBordered'
+                        }
+                        onClick={() => {
+                          setActiveMachine(machine)
+                        }}>
+                        {machine.name}
+                      </Button>
+                    </Show>
                   )}
                 </For>
               </Suspense>

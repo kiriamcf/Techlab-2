@@ -5,4 +5,5 @@ export default interface Machine {
     active: boolean
     level_required: number
     laboratory_name: string
+    laboratory_id: number
 }

@@ -47,7 +47,7 @@ class ReservationPolicy
      */
     public function create(User $user, Machine $machine)
     {
-        return true;
+        return $machine->level_required >= $user->level_authorized;
     }
 
     /**

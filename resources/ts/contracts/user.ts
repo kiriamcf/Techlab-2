@@ -5,4 +5,5 @@ export default interface User {
     email: string
     rfid_card: string
     admin: boolean
+    level_authorization: number
 }

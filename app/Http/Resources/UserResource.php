@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'rfid_card' => $this->rfid_card,
             'admin' => $this->admin,
+            'level_authorization' => $this->level_authorization,
         ];
     }
 }

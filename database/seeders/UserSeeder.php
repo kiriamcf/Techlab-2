@@ -22,6 +22,8 @@ class UserSeeder extends Seeder
             'email' => "kiriamcf@gmail.com",
             'password' => '$2y$10$z1KsdsDgSAkONU0JM5qmSelCZqbzIirHLBTUopn13Hwy.oqU.847e',
             'admin' => true,
+            'rfid_card' => "86 77 9C 14",
+            'level_authorization' => 2,
         ]);
     }
 }

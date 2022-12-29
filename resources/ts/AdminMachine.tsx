@@ -1,4 +1,4 @@
-import { Component, createSignal, For, Show, Suspense } from 'solid-js'
+import { Component, createEffect, createSignal, For, Show, Suspense, useContext } from 'solid-js'
 import Layout from './components/Layout'
 import Card from './components/Card'
 import CardTitle from './components/CardTitle'
@@ -14,14 +14,17 @@ import InputText from './components/InputText'
 import InputSelect from './components/InputSelect'
 import InputTextArea from './components/InputTextArea'
 import Laboratory from './contracts/laboratory'
-import { axios } from './Instances'
+import { axios, turbo } from './Instances'
+import { NotificationContext } from './components/singleUse/Notifications'
 
 const AdminMachine: Component = () => {
+  const { notify } = useContext(NotificationContext)
+
   const [machines] = createTurboResource<Machine[]>(() => '/api/machines')
   const [laboratories] = createTurboResource<Laboratory[]>(() => '/api/laboratories')
   const [activeMachine, setActiveMachine] = createSignal<number>()
   const [machineName, setMachineName] = createSignal<string>()
-  const [machineLaboratory, setMachineLaboratory] = createSignal<string>()
+  const [machineLaboratory, setMachineLaboratory] = createSignal<number>()
   const [machineDescription, setMachineDescription] = createSignal<string>()
   const [machineLevelRequired, setMachineLevelRequired] = createSignal<number>()
   const [machineActive, setMachineActive] = createSignal<boolean>()
@@ -50,9 +53,20 @@ const AdminMachine: Component = () => {
   const modifyMachine = async () => {
     const response = await axios.put(`/api/machines/${activeMachine()}`, dataToSubmit())
 
-    console.log('modification successful')
-    console.log(response)
+    turbo.mutate<Machine>(`/api/machines/${machineActive()}`, response.data.data)
+
+    turbo.query('/api/machines', { fresh: true })
+
+    setActiveMachine(undefined),
+      setMachineName(undefined),
+      setMachineDescription(undefined),
+      setMachineLevelRequired(undefined),
+      setMachineLaboratory(undefined),
+      setMachineActive(undefined),
+      notify('Machine modified successfully')
   }
+
+  // createEffect(() => console.log(laboratories()?.[0].name))
 
   return (
     <>
@@ -118,29 +132,51 @@ const AdminMachine: Component = () => {
                                       <div class="flex flex-col w-full">
                                         <span class="mb-1 inline-block">Level Required</span>
                                         <InputSelect
-                                          placeholder="Machine name"
-                                          value={machineLevelRequired()?.toString()}
-                                          valueList={['0', '1', '2']}
+                                          placeholder="Machine level required"
                                           onChange={(e) =>
                                             setMachineLevelRequired(Number(e.currentTarget.value))
-                                          }
-                                        />
+                                          }>
+                                          <For each={['0', '1', '2']}>
+                                            {(option, i) => (
+                                              <Show
+                                                when={Number(option) === machineLevelRequired()}
+                                                fallback={
+                                                  <option value={Number(option)}>{option}</option>
+                                                }>
+                                                <option value={Number(option)} selected>
+                                                  {option}
+                                                </option>
+                                              </Show>
+                                            )}
+                                          </For>
+                                        </InputSelect>
                                       </div>
                                       <div class="flex flex-col w-full">
                                         <span class="mb-1 inline-block">Laboratory</span>
                                         <InputSelect
-                                          placeholder="Machine name"
-                                          value={machineLaboratory()}
-                                          valueList={laboratories()?.map((lab) => lab.name)}
+                                          placeholder="Select laboratory"
                                           onChange={(e) =>
-                                            setMachineLevelRequired(Number(e.currentTarget.value))
-                                          }
-                                        />
+                                            setMachineLaboratory(Number(e.currentTarget.value))
+                                          }>
+                                          <For each={laboratories()}>
+                                            {(option, i) => (
+                                              <Show
+                                                when={option.id === machineLaboratory()}
+                                                fallback={
+                                                  <option value={option.id}>{option.name}</option>
+                                                }>
+                                                <option value={option.id} selected>
+                                                  {option.name}
+                                                </option>
+                                              </Show>
+                                            )}
+                                          </For>
+                                        </InputSelect>
                                       </div>
                                       <div class="flex flex-col w-full">
                                         <span class="mb-1 inline-block">Description</span>
                                         <InputTextArea
-                                          placeholder="Machine name"
+                                          placeholder="Machine description..."
                                           value={machineDescription()}
                                           onChange={(e) =>
                                             setMachineDescription(e.currentTarget.value)
@@ -161,7 +197,7 @@ const AdminMachine: Component = () => {
                             setActiveMachine(machine.id),
                             setMachineName(machine.name),
                             setMachineDescription(machine.description),
-                            setMachineLaboratory(machine.laboratory_name),
+                            setMachineLaboratory(machine.laboratory_id),
                             setMachineLevelRequired(machine.level_required),
                             setMachineActive(machine.active)
                           )}>

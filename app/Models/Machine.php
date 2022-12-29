@@ -14,6 +14,7 @@ class Machine extends Model
         'description',
         'active',
         'level_required',
+        'laboratory_id'
     ];
 
     protected $casts = [
@@ -21,6 +22,7 @@ class Machine extends Model
         'description' => 'string',
         'active' => 'boolean',
         'level_required' => 'integer',
+        'laboratory_id' => 'integer',
     ];
 
     public function laboratory()
