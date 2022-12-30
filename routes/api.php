@@ -8,6 +8,7 @@ use App\Http\Controllers\MachineController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RFIDPetitionController;
 use App\Http\Controllers\HardwareController;
+use App\Http\Controllers\ConsumptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ Route::name('api.')->group(function () {
     Route::apiResource('laboratories', LaboratoryController::class);
     Route::apiResource('laboratories.machines', MachineController::class)->shallow();
     Route::apiResource('machines.reservations', ReservationController::class)->shallow();
+    Route::apiResource('machines.consumptions', ConsumptionController::class)->shallow();
     Route::apiResource('rfid_petitions', RFIDPetitionController::class)->shallow()->except('destroy');
     Route::match(['put', 'patch'], '/rfid_petitions/{rfid_petition}/solve', [RFIDPetitionController::class, 'destroy'])->name('rfid_petitions.destroy');
     Route::post('/signin', [AuthenticationController::class, 'login'])->name('auth.login');

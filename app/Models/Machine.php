@@ -39,4 +39,9 @@ class Machine extends Model
     {
         $this->update(['active' => false]);
     }
+
+    public function consumptions()
+    {
+        return $this->hasMany(Consumption::class);
+    }
 }
