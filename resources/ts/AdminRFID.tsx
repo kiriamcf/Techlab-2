@@ -72,11 +72,11 @@ const AdminRFID: Component = () => {
               <Show
                 when={petitions() != undefined && petitions()?.length != 0}
                 fallback={
-                  <div class="flex w-full bg-green-500 rounded select-none">
+                  <div class="flex w-full bg-green-500 rounded select-none justify-center">
                     <div class="flex items-center justify-center p-2">
                       <IconWarning class="h-6 w-6 text-black" />
                     </div>
-                    <div class="px-2 flex items-center w-full rounded-r text-black font-medium">
+                    <div class="px-2 flex items-center rounded-r text-black font-medium">
                       There are currently no petitions to solve
                     </div>
                   </div>

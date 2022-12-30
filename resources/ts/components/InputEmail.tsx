@@ -15,7 +15,6 @@ const InputEmail: ParentComponent<Props> = (props) => {
       value={props.value}
       onChange={props.onChange}
       class="bg-neutral-700 h-10 w-full pl-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600"
-      required
     />
   )
 }

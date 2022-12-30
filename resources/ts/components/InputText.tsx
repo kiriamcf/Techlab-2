@@ -26,7 +26,6 @@ const InputText: ParentComponent<Props> = (props) => {
       onChange={props.onChange}
       class={classes[props.style ?? 'normal']}
       disabled={props.disabled}
-      required
     />
   )
 }

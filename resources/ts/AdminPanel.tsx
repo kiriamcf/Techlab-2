@@ -22,7 +22,7 @@ const AdminPanel: Component = () => {
               <CardTitle>Admin Panel</CardTitle>
             </div>
             <div class="grid grid-cols-3 gap-4 w-full">
-              <A href="/">
+              <A href="/adminpanel/laboratories">
                 <div class="group relative w-full h-auto">
                   <img
                     src={laboratory}

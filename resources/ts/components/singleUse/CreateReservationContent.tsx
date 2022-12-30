@@ -24,6 +24,7 @@ import IconCalendar from '../Icons/Calendar'
 import { NotificationContext } from './Notifications'
 import { user } from '../../signals/user'
 import IconQuestion from '../Icons/Question'
+import IconWarning from '../Icons/Warning'
 
 const CreateReservationContent: Component = (props) => {
   const { notify } = useContext(NotificationContext)
@@ -175,15 +176,15 @@ const CreateReservationContent: Component = (props) => {
             />
           </div>
           <Show when={date() !== undefined}>
-            <span>Which laboratory do you prefer?</span>
-            <div class="grid grid-cols-3 gap-2">
-              <Suspense
-                fallback={
-                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
-                    <IconLoading class="h-6 w-6 animate-spin text-black" />
-                    <span>Loading Laboratories...</span>
-                  </div>
-                }>
+            <Suspense
+              fallback={
+                <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
+                  <IconLoading class="h-6 w-6 animate-spin text-black" />
+                  <span>Loading Laboratories...</span>
+                </div>
+              }>
+              <span>Which laboratory do you prefer?</span>
+              <div class="grid grid-cols-3 gap-2">
                 <For each={laboratories()}>
                   {(laboratory, i) => (
                     <Button
@@ -199,53 +200,66 @@ const CreateReservationContent: Component = (props) => {
                     </Button>
                   )}
                 </For>
-              </Suspense>
-            </div>
+              </div>
+            </Suspense>
           </Show>
           <Show when={activeLaboratory() !== undefined}>
-            <span>Select one of the available machines:</span>
-            <div class="grid grid-cols-4 gap-2">
-              <Suspense
+            <Suspense
+              fallback={
+                <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
+                  <IconLoading class="h-6 w-6 animate-spin text-black" />
+                  <span>Loading Machines...</span>
+                </div>
+              }>
+              <Show
+                when={machines()?.length != 0}
                 fallback={
-                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
-                    <IconLoading class="h-6 w-6 animate-spin text-black" />
-                    <span>Loading Machines...</span>
+                  <div class="flex w-full bg-green-500 rounded select-none justify-center">
+                    <div class="flex items-center justify-center p-2">
+                      <IconWarning class="h-6 w-6 text-black" />
+                    </div>
+                    <div class="px-2 flex items-center rounded-r text-black font-medium">
+                      There are no machines associated with this laboratory
+                    </div>
                   </div>
                 }>
-                <For each={machines()}>
-                  {(machine, i) => (
-                    <Show
-                      when={user()?.()?.level_authorization! >= machine.level_required}
-                      fallback={
-                        <Button variant="reserved" disabled>
+                <span>Select one of the available machines:</span>
+                <div class="grid grid-cols-4 gap-2">
+                  <For each={machines()}>
+                    {(machine, i) => (
+                      <Show
+                        when={user()?.()?.level_authorization! >= machine.level_required}
+                        fallback={
+                          <Button variant="reserved" disabled>
+                            {machine.name}
+                          </Button>
+                        }>
+                        <Button
+                          variant={
+                            activeMachine()?.name == machine.name ? 'bordered' : 'hoverableBordered'
+                          }
+                          onClick={() => {
+                            setActiveMachine(machine)
+                          }}>
                           {machine.name}
                         </Button>
-                      }>
-                      <Button
-                        variant={
-                          activeMachine()?.name == machine.name ? 'bordered' : 'hoverableBordered'
-                        }
-                        onClick={() => {
-                          setActiveMachine(machine)
-                        }}>
-                        {machine.name}
-                      </Button>
-                    </Show>
-                  )}
-                </For>
-              </Suspense>
-            </div>
+                      </Show>
+                    )}
+                  </For>
+                </div>
+              </Show>
+            </Suspense>
           </Show>
           <Show when={activeMachine() !== undefined && date() !== null}>
-            <span>Select one of the available hours:</span>
-            <div class="grid grid-cols-5 gap-2">
-              <Suspense
-                fallback={
-                  <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
-                    <IconLoading class="h-6 w-6 animate-spin text-black" />
-                    <span>Loading Hours...</span>
-                  </div>
-                }>
+            <Suspense
+              fallback={
+                <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
+                  <IconLoading class="h-6 w-6 animate-spin text-black" />
+                  <span>Loading Hours...</span>
+                </div>
+              }>
+              <span>Select one of the available hours:</span>
+              <div class="grid grid-cols-5 gap-2">
                 <For each={hours()?.hours}>
                   {(hour, i) => (
                     <Button
@@ -258,8 +272,8 @@ const CreateReservationContent: Component = (props) => {
                     </Button>
                   )}
                 </For>
-              </Suspense>
-            </div>
+              </div>
+            </Suspense>
           </Show>
           <Show when={activeMachine() !== undefined && date() !== null && activeHour() !== -1}>
             <Button variant="normal" onClick={create}>

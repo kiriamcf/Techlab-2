@@ -1,4 +1,4 @@
-import { Component, createSignal } from 'solid-js'
+import { Component, createSignal, useContext } from 'solid-js'
 import axios from 'axios'
 import Layout from './components/Layout'
 import Card from './components/Card'
@@ -7,8 +7,12 @@ import CardTitle from './components/CardTitle'
 import InputText from './components/InputText'
 import InputEmail from './components/InputEmail'
 import InputPassword from './components/InputPassword'
+import { NotificationContext } from './components/singleUse/Notifications'
+import { turbo } from './Instances'
 
 const SignUp: Component = () => {
+  const { notify } = useContext(NotificationContext)
+
   const [name, setName] = createSignal('')
   const [surname, setSurname] = createSignal('')
   const [email, setEmail] = createSignal('')
@@ -21,18 +25,34 @@ const SignUp: Component = () => {
     password: password(),
     password_confirmation: confirmPassword(),
   })
-  const createUser = () => {
-    axios.post('api/signup', dataToSubmit()).then((response) => {
-      console.log(response)
-    })
+  const createUser = async (event: Event) => {
+    event.preventDefault()
+
+    if (
+      name() === '' ||
+      surname() === '' ||
+      email() === '' ||
+      password() === '' ||
+      confirmPassword() === ''
+    ) {
+      notify('You must fill in all fields!', 'error')
+      return
+    }
+    await axios.get('/sanctum/csrf-cookie')
+
+    const response = await axios.post('api/signup', dataToSubmit())
+
+    turbo.mutate('/api/user', response.data.data)
+
+    notify('Signed up successfully!')
   }
 
   return (
     <>
-      <Layout>
+      <Layout auth={false}>
         <div class="max-w-md mx-auto my-8">
           <Card>
-            <div class="flex flex-col">
+            <form onSubmit={createUser} class="flex flex-col">
               <CardTitle>Sign up</CardTitle>
               <div class="flex flex-col my-4 gap-4">
                 <div class="flex gap-2">
@@ -78,8 +98,8 @@ const SignUp: Component = () => {
                   />
                 </div>
               </div>
-              <Button onClick={createUser}>Sign up</Button>
-            </div>
+              <Button type="submit">Sign up</Button>
+            </form>
           </Card>
         </div>
       </Layout>

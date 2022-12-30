@@ -57,7 +57,7 @@ const AdminMachine: Component = () => {
   const modifyMachine = async () => {
     const response = await axios.put(`/api/machines/${activeMachine()}`, dataToSubmitModify())
 
-    turbo.mutate<Machine>(`/api/machines/${modifyActive()}`, response.data.data)
+    turbo.mutate<Machine>(`/api/machines/${activeMachine()}`, response.data.data)
 
     turbo.query('/api/machines', { fresh: true })
 
@@ -96,7 +96,7 @@ const AdminMachine: Component = () => {
       setCreateDescription(''),
       setCreateLevelRequired(undefined),
       setCreateLaboratory(undefined),
-      notify('All good!')
+      notify('Machine created successfully!')
   }
 
   const activateMachine = async () => {

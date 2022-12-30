@@ -44,6 +44,9 @@ class AuthenticationController extends Controller
 
         $user = User::create($credentials);
 
+        Auth::login($user);
+        $request->session()->regenerate();
+
         return new UserResource($user);
     }
 

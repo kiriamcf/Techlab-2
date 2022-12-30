@@ -1,4 +1,4 @@
-import { Component, createSignal } from 'solid-js'
+import { Component, createSignal, useContext } from 'solid-js'
 import Layout from './components/Layout'
 import Card from './components/Card'
 import Button from './components/Button'
@@ -8,8 +8,11 @@ import InputPassword from './components/InputPassword'
 import { axios, turbo } from './Instances'
 import { createTurboResource } from 'turbo-solid'
 import InputEmail from './components/InputEmail'
+import { NotificationContext } from './components/singleUse/Notifications'
 
 const SignIn: Component = () => {
+  const { notify } = useContext(NotificationContext)
+
   const [email, setEmail] = createSignal('')
   const [password, setPassword] = createSignal('')
   const dataToSubmit = () => ({
@@ -20,10 +23,17 @@ const SignIn: Component = () => {
   const login = async (event: Event) => {
     event.preventDefault()
 
+    if (email() === '' || password() === '') {
+      notify('You must fill in all fields!', 'error')
+      return
+    }
+
     await axios.get('/sanctum/csrf-cookie')
     const response = await axios.post('api/signin', dataToSubmit())
 
     turbo.mutate('/api/user', response.data.data)
+
+    notify('Signed in successfully!')
   }
 
   return (

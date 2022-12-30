@@ -45,11 +45,11 @@ const ShowReservationContent: Component = (props) => {
                 reservations()?.unactiveReservations.length !== 0)
             }
             fallback={
-              <div class="flex w-full bg-green-500 rounded select-none">
+              <div class="flex w-full bg-green-500 rounded select-none justify-center">
                 <div class="flex items-center justify-center p-2">
                   <IconWarning class="h-6 w-6 text-black" />
                 </div>
-                <div class="px-2 flex items-center w-full rounded-r text-black font-medium">
+                <div class="px-2 flex items-center rounded-r text-black font-medium">
                   You still haven't made any reservation
                 </div>
               </div>
@@ -82,7 +82,6 @@ const ShowReservationContent: Component = (props) => {
                     <th class="text-left">Hour</th>
                     <th class="text-left">Laboratory</th>
                     <th class="text-left">Machine</th>
-                    {/* <th></th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -96,9 +95,6 @@ const ShowReservationContent: Component = (props) => {
                           </td>
                           <td>{reservation.laboratory_name}</td>
                           <td>{reservation.machine_name}</td>
-                          {/* <td>
-                          <Button onClick={() => {}}>Solve</Button>
-                        </td> */}
                         </tr>
                       </>
                     )}
