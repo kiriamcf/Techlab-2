@@ -15,6 +15,7 @@ import { createTurboResource } from 'turbo-solid'
 import User from '../contracts/user'
 import { setUser } from '../signals/user'
 import { Portal } from 'solid-js/web'
+import IconBurger from './Icons/Burger'
 
 interface Props {
   auth?: boolean
@@ -73,16 +74,16 @@ const Layout: ParentComponent<Props> = (props) => {
           <Switch fallback={<div>Not found</div>}>
             <Match when={!authenticated()}>
               <A href="/">
-                <h5 class="uppercase text-2xl font-semibold">techlab</h5>
+                <h5 class="pl-6 lg:pl-0 uppercase text-2xl font-semibold">techlab</h5>
               </A>
             </Match>
             <Match when={authenticated()}>
               <A href="/dashboard">
-                <h5 class="uppercase text-2xl font-semibold">techlab</h5>
+                <h5 class="pl-6 lg:pl-0 uppercase text-2xl font-semibold">techlab</h5>
               </A>
             </Match>
           </Switch>
-          <div class="flex items-center space-x-3">
+          <div class="hidden md:flex pr-6 lg:pr-0 items-center space-x-3">
             <h5 class="ml-4 uppercase text-sm relative group">
               <span>machines</span>
               <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-300 group-hover:w-1/2 transition-all"></span>
@@ -106,6 +107,11 @@ const Layout: ParentComponent<Props> = (props) => {
                 <Button onClick={logout}>Sign out</Button>
               </Match>
             </Switch>
+          </div>
+          <div class="md:hidden pr-6 items-center space-x-3 flex content-center">
+            <div class="p-2 hover:bg-primary-500 rounded group transition-colors duration-500">
+              <IconBurger class="h-6 w-6 text-white group-hover:text-black transition-colors duration-500" />
+            </div>
           </div>
         </div>
       </header>

@@ -50,7 +50,7 @@ const SignUp: Component = () => {
   return (
     <>
       <Layout auth={false}>
-        <div class="max-w-md mx-auto my-8">
+        <div class="max-w-md mx-auto my-6">
           <Card>
             <form onSubmit={createUser} class="flex flex-col">
               <CardTitle>Sign up</CardTitle>

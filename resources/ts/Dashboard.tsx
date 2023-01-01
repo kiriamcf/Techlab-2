@@ -7,9 +7,9 @@ const Dashboard: Component = () => {
   return (
     <>
       <Layout auth={true}>
-        <div class="flex">
+        <div class="flex lg:flex-row flex-col">
           <DashboardLayout />
-          <div class="w-full my-8">
+          <div class="w-full my-0 lg:my-6">
             <DashboardContent />
           </div>
         </div>

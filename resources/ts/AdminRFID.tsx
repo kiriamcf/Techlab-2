@@ -52,9 +52,9 @@ const AdminRFID: Component = () => {
   return (
     <>
       <Layout auth={true}>
-        <div class="w-full mt-8">
+        <div class="w-full my-6">
           <Card>
-            <div class="flex justify-between">
+            <div class="flex justify-between items-center">
               <CardTitle>RFID Petitions</CardTitle>
               <A href="/adminpanel">
                 <div class="p-2 hover:bg-primary-500 rounded group transition-colors duration-500">
@@ -76,72 +76,140 @@ const AdminRFID: Component = () => {
                     <div class="flex items-center justify-center p-2">
                       <IconWarning class="h-6 w-6 text-black" />
                     </div>
-                    <div class="px-2 flex items-center rounded-r text-black font-medium">
+                    <div class="p-2 flex items-center rounded-r text-black font-medium">
                       There are currently no petitions to solve
                     </div>
                   </div>
                 }>
-                <table class="table-auto border-separate border-spacing-y-2">
-                  <thead>
-                    <tr>
-                      <th class="text-left">ID</th>
-                      <th class="text-left">Name</th>
-                      <th class="text-left">Surname</th>
-                      <th class="text-left">Email</th>
-                      <th class="text-left">Created At</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <For each={petitions()}>
-                      {(petition, i) => (
-                        <>
-                          <Portal>
-                            <Show when={activeUser() === petition.user_id}>
-                              <div
-                                class="fixed inset-0 w-full h-full bg-neutral-900 bg-opacity-75 flex items-center justify-center"
-                                onclick={(e) => closeModal(e)}>
-                                <Card>
-                                  <div class="flex items-center space-x-2">
-                                    <span>Currently editing: </span>
-                                    <span class="text-primary-500">{petition.email}</span>
-                                  </div>
-                                  <div class="flex items-center space-x-2">
-                                    <span class="whitespace-nowrap">New RFID Card:</span>
-                                    <InputText
-                                      placeholder="RFID Code"
-                                      value={rfidCard()}
-                                      onChange={(e) => setRfidCard(e.currentTarget.value)}
-                                    />
-                                  </div>
-                                  <Button onClick={() => solvePetition()}>send</Button>
-                                </Card>
-                              </div>
-                            </Show>
-                          </Portal>
-                          <tr>
-                            <td>{petition.user_id}</td>
-                            <td>{petition.name}</td>
-                            <td>{petition.surname}</td>
-                            <td>{petition.email}</td>
-                            <td>{dayjs(petition.created_at).format('DD/MM/YY')}</td>
-                            <td>
-                              <Button
-                                onClick={() => {
-                                  setActiveUser(petition.user_id), setActivePetition(petition.id)
-                                }}>
-                                Solve
-                              </Button>
-                            </td>
-                          </tr>
-                        </>
-                      )}
-                    </For>
-                  </tbody>
-                </table>
+                <div class="overflow-x-auto hidden md:block rounded">
+                  <table class="w-full text-sm text-left text-gray-400">
+                    <thead class="text-xs uppercase bg-zinc-700 text-gray-400">
+                      <tr>
+                        <th class="py-3 px-6">ID</th>
+                        <th class="py-3 px-6">Name</th>
+                        <th class="py-3 px-6">Surname</th>
+                        <th class="py-3 px-6">Email</th>
+                        <th class="py-3 px-6">Created At</th>
+                        <th class="py-3 px-6">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                      <For each={petitions()}>
+                        {(petition, i) => (
+                          <>
+                            <Portal>
+                              <Show when={activeUser() === petition.user_id}>
+                                <div
+                                  class="fixed inset-0 w-full h-full bg-neutral-900 bg-opacity-75 flex items-center justify-center"
+                                  onclick={(e) => closeModal(e)}>
+                                  <Card>
+                                    <div class="flex items-center space-x-2">
+                                      <span>Currently editing: </span>
+                                      <span class="text-primary-500">{petition.email}</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                      <span class="whitespace-nowrap">New RFID Card:</span>
+                                      <InputText
+                                        placeholder="XX XX XX XX"
+                                        value={rfidCard()}
+                                        onChange={(e) => setRfidCard(e.currentTarget.value)}
+                                      />
+                                    </div>
+                                    <Button onClick={() => solvePetition()}>send</Button>
+                                  </Card>
+                                </div>
+                              </Show>
+                            </Portal>
+                            <tr class="bg-zinc-800 dark:border-gray-700">
+                              <td class="py-4 px-6">{petition.user_id}</td>
+                              <td class="py-4 px-6">{petition.name}</td>
+                              <td class="py-4 px-6">{petition.surname}</td>
+                              <td class="py-4 px-6">{petition.email}</td>
+                              <td class="py-4 px-6">
+                                {dayjs(petition.created_at).format('DD/MM/YY')}
+                              </td>
+                              <td class="py-4 px-6">
+                                <Button
+                                  onClick={() => {
+                                    setActiveUser(petition.user_id), setActivePetition(petition.id)
+                                  }}>
+                                  Solve
+                                </Button>
+                              </td>
+                            </tr>
+                          </>
+                        )}
+                      </For>
+                    </tbody>
+                  </table>
+                </div>
               </Show>
             </Suspense>
           </Card>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden p-6">
+            <Suspense>
+              <Show when={petitions() != undefined && petitions()?.length != 0}>
+                <For each={petitions()}>
+                  {(petition, i) => (
+                    <>
+                      <Portal>
+                        <Show when={activeUser() === petition.user_id}>
+                          <div
+                            class="fixed inset-0 w-full h-full bg-neutral-900 bg-opacity-75 flex items-center justify-center"
+                            onclick={(e) => closeModal(e)}>
+                            <Card>
+                              <div class="flex items-center space-x-2">
+                                <span>Currently editing: </span>
+                                <span class="text-primary-500">{petition.email}</span>
+                              </div>
+                              <div class="flex items-center space-x-2">
+                                <span class="whitespace-nowrap">New RFID Card:</span>
+                                <InputText
+                                  placeholder="XX XX XX XX"
+                                  value={rfidCard()}
+                                  onChange={(e) => setRfidCard(e.currentTarget.value)}
+                                />
+                              </div>
+                              <Button onClick={() => solvePetition()}>send</Button>
+                            </Card>
+                          </div>
+                        </Show>
+                      </Portal>
+                      <Card grid="true">
+                        <div class="flex flex-col w-full">
+                          <span class="mb-1 inline-block">Name</span>
+                          <InputText placeholder="Machine name" value={petition.name} disabled />
+                        </div>
+                        <div class="flex flex-col w-full">
+                          <span class="mb-1 inline-block">Surname</span>
+                          <InputText placeholder="Machine name" value={petition.surname} disabled />
+                        </div>
+
+                        <div class="flex flex-col w-full">
+                          <span class="mb-1 inline-block">Email</span>
+                          <InputText placeholder="Machine name" value={petition.email} disabled />
+                        </div>
+                        <div class="flex flex-col w-full">
+                          <span class="mb-1 inline-block">Created At</span>
+                          <InputText
+                            placeholder="Machine name"
+                            value={dayjs(petition.created_at).format('DD/MM/YY')}
+                            disabled
+                          />
+                        </div>
+                        <Button
+                          onClick={() => {
+                            setActiveUser(petition.user_id), setActivePetition(petition.id)
+                          }}>
+                          Solve
+                        </Button>
+                      </Card>
+                    </>
+                  )}
+                </For>
+              </Show>
+            </Suspense>
+          </div>
         </div>
       </Layout>
     </>

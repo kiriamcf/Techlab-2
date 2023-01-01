@@ -38,8 +38,6 @@ const CreateReservationContent: Component = (props) => {
     onCleanup(() => fp.destroy())
   }
 
-  const [openInfo, setOpenInfo] = createSignal<boolean>(false)
-
   const [date, setDate] = createSignal<string>()
   const [activeLaboratory, setActiveLaboratory] = createSignal<Laboratory>()
   const [activeMachine, setActiveMachine] = createSignal<Machine>()
@@ -149,16 +147,6 @@ const CreateReservationContent: Component = (props) => {
   return (
     <Card>
       <CardTitle>Create reservation</CardTitle>
-      <div
-        class="p-2 hover:bg-neutral-700 absolute !mt-0 top-6 right-6 rounded cursor-pointer transition-colors duration-300"
-        onClick={() => setOpenInfo(!openInfo())}>
-        <IconQuestion class="h-6 w-6 text-white"></IconQuestion>
-      </div>
-      <Show when={openInfo()}>
-        <span class="absolute !-mt-2 top-20 right-6 p-2 bg-neutral-700 rounded max-w-xs">
-          If any machine is disabled, it means that you don't meet the requirements for it
-        </span>
-      </Show>
       <div class="flex flex-col space-y-3 w-full">
         <h5>Fill the following information:</h5>
         <div class="flex flex-col space-y-3">
@@ -184,7 +172,7 @@ const CreateReservationContent: Component = (props) => {
                 </div>
               }>
               <span>Which laboratory do you prefer?</span>
-              <div class="grid grid-cols-3 gap-2">
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                 <For each={laboratories()}>
                   {(laboratory, i) => (
                     <Button
@@ -224,7 +212,7 @@ const CreateReservationContent: Component = (props) => {
                   </div>
                 }>
                 <span>Select one of the available machines:</span>
-                <div class="grid grid-cols-4 gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
                   <For each={machines()}>
                     {(machine, i) => (
                       <Show
@@ -259,7 +247,7 @@ const CreateReservationContent: Component = (props) => {
                 </div>
               }>
               <span>Select one of the available hours:</span>
-              <div class="grid grid-cols-5 gap-2">
+              <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2">
                 <For each={hours()?.hours}>
                   {(hour, i) => (
                     <Button

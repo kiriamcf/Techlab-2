@@ -8,9 +8,9 @@ const ShowReservation: Component = () => {
     <>
       <Layout auth={true}>
         {/* <main class="w-full max-w-screen-2xl mx-auto flex"> */}
-        <div class="flex">
+        <div class="flex lg:flex-row flex-col">
           <DashboardLayout />
-          <div class="w-full my-8">
+          <div class="w-full my-0 lg:my-6">
             <ShowReservationContent />
           </div>
         </div>

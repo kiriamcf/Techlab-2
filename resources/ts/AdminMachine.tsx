@@ -128,7 +128,7 @@ const AdminMachine: Component = () => {
   return (
     <>
       <Layout auth={true}>
-        <div class="w-full mt-8">
+        <div class="w-full my-6">
           <Card>
             <div class="flex justify-between items-center">
               <CardTitle>Existing Machines</CardTitle>
@@ -157,7 +157,7 @@ const AdminMachine: Component = () => {
                     </div>
                   </div>
                 }>
-                <div class="grid grid-cols-3 gap-4 w-full">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
                   <For each={machines()}>
                     {(machine, i) => (
                       <>
@@ -267,7 +267,7 @@ const AdminMachine: Component = () => {
                           </Show>
                         </Portal>
                         <div
-                          class="bg-transparent p-4 rounded border-2 border-neutral-700 hover:border-primary-500 hover:text-primary-500 transition-colors duration-500 space-y-2"
+                          class="bg-transparent p-4 rounded border-2 border-neutral-700 hover:border-primary-500 hover:text-primary-500 transition-colors duration-500 space-y-2 cursor-pointer"
                           onClick={() => (
                             setActiveMachine(machine.id),
                             setModifyName(machine.name),
@@ -298,7 +298,7 @@ const AdminMachine: Component = () => {
               </Show>
             </Suspense>
             <CardTitle type="margined">Create a new machine</CardTitle>
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               <div class="flex flex-col w-full">
                 <span class="mb-1 inline-block">Name</span>
                 <InputText

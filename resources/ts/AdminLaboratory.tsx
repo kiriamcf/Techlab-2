@@ -77,10 +77,10 @@ const AdminLaboratory: Component = () => {
   return (
     <>
       <Layout auth={true}>
-        <div class="w-full mt-8">
+        <div class="w-full my-6">
           <Card>
             <div class="flex justify-between items-center">
-              <CardTitle>Existing Machines</CardTitle>
+              <CardTitle>Existing Laboratories</CardTitle>
               <A href="/adminpanel">
                 <div class="p-2 hover:bg-primary-500 rounded group transition-colors duration-500">
                   <IconArrowLeft class="h-6 w-6 text-white group-hover:text-black transition-colors duration-500" />
@@ -91,7 +91,7 @@ const AdminLaboratory: Component = () => {
               fallback={
                 <div class="flex space-x-2 p-2 bg-primary-500 rounded text-black justify-center">
                   <IconLoading class="h-6 w-6 animate-spin text-black" />
-                  <span>Loading Machines...</span>
+                  <span>Loading Laboratories...</span>
                 </div>
               }>
               <Show
@@ -106,7 +106,7 @@ const AdminLaboratory: Component = () => {
                     </div>
                   </div>
                 }>
-                <div class="grid grid-cols-3 gap-4 w-full">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
                   <For each={laboratories()}>
                     {(laboratory, i) => (
                       <>
@@ -152,7 +152,7 @@ const AdminLaboratory: Component = () => {
                           </Show>
                         </Portal>
                         <div
-                          class="bg-transparent p-4 rounded border-2 border-neutral-700 hover:border-primary-500 hover:text-primary-500 transition-colors duration-500 space-y-2"
+                          class="bg-transparent p-4 rounded border-2 border-neutral-700 hover:border-primary-500 hover:text-primary-500 transition-colors duration-500 space-y-2 cursor-pointer"
                           onClick={() => (
                             setActiveLaboratory(laboratory.id),
                             setModifyName(laboratory.name),
@@ -167,8 +167,8 @@ const AdminLaboratory: Component = () => {
                 </div>
               </Show>
             </Suspense>
-            <CardTitle type="margined">Create a new machine</CardTitle>
-            <div class="grid grid-cols-2 gap-2">
+            <CardTitle type="margined">Create a new laboratory</CardTitle>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div class="flex flex-col w-full">
                 <span class="mb-1 inline-block">Name</span>
                 <InputText

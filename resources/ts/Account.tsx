@@ -8,9 +8,9 @@ const Account: Component = () => {
     <>
       <Layout auth={true}>
         {/* <main class="w-full max-w-screen-2xl mx-auto flex"> */}
-        <main class="w-full max-w-5xl mx-auto flex">
+        <main class="flex lg:flex-row flex-col">
           <DashboardLayout />
-          <div class="w-full my-8">
+          <div class="w-full my-0 lg:my-6">
             <AccountContent />
           </div>
         </main>

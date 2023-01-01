@@ -16,12 +16,12 @@ const AdminPanel: Component = () => {
   return (
     <>
       <Layout auth={true}>
-        <div class="w-full mt-8">
+        <div class="w-full my-6">
           <Card>
             <div class="text-center">
               <CardTitle>Admin Panel</CardTitle>
             </div>
-            <div class="grid grid-cols-3 gap-4 w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
               <A href="/adminpanel/laboratories">
                 <div class="group relative w-full h-auto">
                   <img

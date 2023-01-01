@@ -49,8 +49,8 @@ const ShowReservationContent: Component = (props) => {
                 <div class="flex items-center justify-center p-2">
                   <IconWarning class="h-6 w-6 text-black" />
                 </div>
-                <div class="px-2 flex items-center rounded-r text-black font-medium">
-                  You still haven't made any reservation
+                <div class="p-2 flex items-center rounded-r text-black font-medium">
+                  You still haven't made any reservations
                 </div>
               </div>
             }>
