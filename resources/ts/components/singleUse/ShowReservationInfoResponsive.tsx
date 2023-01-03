@@ -5,13 +5,15 @@ import Machine from '../../contracts/machine'
 import Reservation from '../../contracts/reservation'
 import { axios, turbo } from '../../Instances'
 import Button from '../Button'
+import Card from '../Card'
+import InputText from '../InputText'
 import { NotificationContext } from './Notifications'
 
 interface Props {
   reservation: Reservation
 }
 
-const ShowReservationInfo: Component<Props> = (props) => {
+const ShowReservationInfoResponsive: Component<Props> = (props) => {
   const { notify } = useContext(NotificationContext)
 
   const [reservations, { mutate }] = createTurboResource<{
@@ -75,46 +77,60 @@ const ShowReservationInfo: Component<Props> = (props) => {
 
   return (
     <>
-      <tr class="bg-zinc-800 dark:border-gray-700">
-        <td class="py-4 px-6">{dayjs(props.reservation.day).format('DD/MM/YY')}</td>
-        <td class="py-4 px-6">
-          {props.reservation.hour} - {props.reservation.hour + 1}
-        </td>
-        <td class="py-4 px-6">{props.reservation.laboratory_name}</td>
-        <td class="py-4 px-6">{props.reservation.machine_name}</td>
-        <td class="py-4 px-6">
-          <Show
-            when={isCurrent(props.reservation.day, props.reservation.hour)}
-            fallback={
-              <Button
-                onClick={() => {
-                  deleteReservation()
-                }}>
-                Delete
-              </Button>
-            }>
-            <Show
-              when={machine()?.active}
-              fallback={
-                <Button
-                  onClick={() => {
-                    activateMachine()
-                  }}>
-                  Activate
-                </Button>
-              }>
-              <Button
-                onClick={() => {
-                  deactivateMachine()
-                }}>
-                Deactivate
-              </Button>
-            </Show>
-          </Show>
-        </td>
-      </tr>
+      <Card grid="true">
+        <div class="flex flex-col w-full">
+          <span class="mb-1 inline-block">Day</span>
+          <InputText
+            placeholder="Reservation name"
+            value={dayjs(props.reservation.day).format('DD/MM/YY')}
+            disabled
+          />
+        </div>
+        <div class="flex flex-col w-full">
+          <span class="mb-1 inline-block">Hour</span>
+          <InputText
+            placeholder="Reservation hour"
+            value={[props.reservation.hour, props.reservation.hour + 1].join(' - ')}
+            // value={reservation.hour.toString()}
+            disabled
+          />
+        </div>
+        <div class="flex flex-col w-full">
+          <span class="mb-1 inline-block">Laboratory</span>
+          <InputText
+            placeholder="Reservation laboratory"
+            value={props.reservation.laboratory_name}
+            disabled
+          />
+        </div>
+        <div class="flex flex-col w-full">
+          <span class="mb-1 inline-block">Machine</span>
+          <InputText
+            placeholder="Reservation machine"
+            value={props.reservation.machine_name}
+            disabled
+          />
+        </div>
+        <Show
+          when={machine()?.active}
+          fallback={
+            <Button
+              onClick={() => {
+                activateMachine()
+              }}>
+              Activate
+            </Button>
+          }>
+          <Button
+            onClick={() => {
+              deactivateMachine()
+            }}>
+            Deactivate
+          </Button>
+        </Show>
+      </Card>
     </>
   )
 }
 
-export default ShowReservationInfo
+export default ShowReservationInfoResponsive

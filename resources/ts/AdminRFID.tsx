@@ -184,7 +184,6 @@ const AdminRFID: Component = () => {
                           <span class="mb-1 inline-block">Surname</span>
                           <InputText placeholder="Machine name" value={petition.surname} disabled />
                         </div>
-
                         <div class="flex flex-col w-full">
                           <span class="mb-1 inline-block">Email</span>
                           <InputText placeholder="Machine name" value={petition.email} disabled />
