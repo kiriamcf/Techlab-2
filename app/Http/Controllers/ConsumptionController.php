@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ConsumptionEvent;
 use App\Http\Requests\Consumption\DestroyRequest;
 use App\Http\Requests\Consumption\IndexRequest;
 use App\Http\Requests\Consumption\ShowRequest;
@@ -19,7 +20,7 @@ class ConsumptionController extends Controller
     {
         $this
             ->middleware(['auth:sanctum', 'verified'])
-            ->except(['store']);
+            ->except(['store', 'index']);
     }
 
     /**
@@ -30,7 +31,7 @@ class ConsumptionController extends Controller
     public function index(IndexRequest $request, Machine $machine)
     {
         return ConsumptionResource::collection(
-            $machine->consumptions,
+            $machine->consumptions()->latest()->take(10)->get()->sort(),
         );
     }
 
@@ -42,11 +43,20 @@ class ConsumptionController extends Controller
      */
     public function store(StoreRequest $request, Machine $machine)
     {
-        return new ConsumptionResource(
+        $consumptionResource = new ConsumptionResource(
             $machine
                 ->consumptions()
                 ->create($request->validated()),
         );
+
+        // $indexRequest = IndexRequest::create($request);
+
+        // $indexResult = $this->index($indexRequest, $machine);
+        // dd($indexResult);
+
+        ConsumptionEvent::dispatch($consumptionResource);
+
+        return $consumptionResource;
     }
 
     /**

@@ -58,6 +58,18 @@ const AdminPanel: Component = () => {
                   </div>
                 </div>
               </A>
+              <A href="/adminpanel/consumption">
+                <div class="group relative w-full h-full">
+                  <img
+                    src={rfid}
+                    alt="rfid"
+                    class="rounded object-cover object-center w-full h-full max-h-96"
+                  />
+                  <div class="uppercase text-center rounded-b font-semibold text-black absolute opacity-0 group-hover:opacity-100 duration-500 bottom-0 left-0 w-full py-4 bg-primary-500">
+                    Solve RFID requests
+                  </div>
+                </div>
+              </A>
             </div>
           </Card>
         </div>

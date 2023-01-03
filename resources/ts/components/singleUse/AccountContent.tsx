@@ -78,7 +78,7 @@ const AccountContent: Component = (props) => {
             <div class="flex items-center justify-center p-2">
               <IconWarning class="h-6 w-6 text-black" />
             </div>
-            <div class="px-2 flex items-center rounded-r text-black font-medium">
+            <div class="p-2 flex items-center rounded-r text-black font-medium">
               You need to request an RFID card in order to have access to the services we provide
             </div>
           </div>

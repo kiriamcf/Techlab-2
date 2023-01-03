@@ -14,7 +14,7 @@ class Consumption extends Model
     ];
 
     protected $casts = [
-        'value' => 'integer',
+        'value' => 'float',
     ];
 
     public function machine()

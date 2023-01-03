@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('consumptions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('value');
+            $table->float('value');
             $table->unsignedBigInteger('machine_id');
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
             $table->rememberToken();
