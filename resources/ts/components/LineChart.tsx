@@ -1,5 +1,6 @@
 import { Component, createEffect, createSignal, onCleanup, onMount } from 'solid-js'
 import { Chart, registerables } from 'chart.js'
+import { getModeForResolutionAtIndex } from 'typescript'
 Chart.register(...registerables)
 
 interface Props {
@@ -26,7 +27,8 @@ const LineChart: Component<Props> = (props) => {
     if (props.chartData === undefined) {
       return
     }
-    for (let i = 0; i < oldChartValues(); i++) {
+    const datasetLength = chart().data.datasets[0].data.length
+    for (let i = 0; i < datasetLength; i++) {
       removeData()
     }
     for (let i = 0; i < props.chartData.values.length; i++) {
@@ -37,21 +39,18 @@ const LineChart: Component<Props> = (props) => {
     for (let i = 0; i < props.chartData.labels.length; i++) {
       chart().data.labels.push(props.chartData.labels[i])
     }
-    setOldChartValues(props.chartData.values.length)
     chart().update()
   })
 
   createEffect(() => {
-    console.log('iee', oldChartValues())
     if (props.updatedChartData === undefined) {
       return
     }
-    if (props.chartData === undefined || oldChartValues() < 10) {
+    if (chart().data.datasets[0].data.length < 10) {
       chart().data.datasets.forEach((dataset: any) => {
         dataset.data.push(props.updatedChartData?.value)
       })
       chart().data.labels.push(props.updatedChartData.label)
-      // setOldChartValues(oldChartValues() + 1)
       chart().update()
       return
     }
@@ -60,7 +59,6 @@ const LineChart: Component<Props> = (props) => {
       dataset.data.push(props.updatedChartData?.value)
     })
     chart().data.labels.push(props.updatedChartData.label)
-    setOldChartValues(10)
     chart().update()
   })
 

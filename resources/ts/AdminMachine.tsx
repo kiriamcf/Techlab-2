@@ -23,9 +23,9 @@ const AdminMachine: Component = () => {
   const [machines] = createTurboResource<Machine[]>(() => '/api/machines')
   const [laboratories] = createTurboResource<Laboratory[]>(() => '/api/laboratories')
   const [activeMachine, setActiveMachine] = createSignal<number>()
-  const [modifyName, setModifyName] = createSignal<string>()
+  const [modifyName, setModifyName] = createSignal<string>('')
   const [modifyLaboratory, setModifyLaboratory] = createSignal<number>()
-  const [modifyDescription, setModifyDescription] = createSignal<string>()
+  const [modifyDescription, setModifyDescription] = createSignal<string>('')
   const [modifyLevelRequired, setModifyLevelRequired] = createSignal<number>()
   const [modifyActive, setModifyActive] = createSignal<boolean>()
   const [createName, setCreateName] = createSignal<string>('')
@@ -38,8 +38,8 @@ const AdminMachine: Component = () => {
 
     if (e.target === e.currentTarget) {
       setActiveMachine(undefined),
-        setModifyName(undefined),
-        setModifyDescription(undefined),
+        setModifyName(''),
+        setModifyDescription(''),
         setModifyLevelRequired(undefined),
         setModifyLaboratory(undefined),
         setModifyActive(undefined)
@@ -55,6 +55,21 @@ const AdminMachine: Component = () => {
   })
 
   const modifyMachine = async () => {
+    if (
+      modifyName() === '' ||
+      modifyDescription() === '' ||
+      modifyLaboratory() === undefined ||
+      modifyLevelRequired() === undefined
+    ) {
+      notify('You must fill in all fields!', 'error')
+      return
+    }
+
+    if (modifyDescription().length > 255) {
+      notify('You must not exceed character limits!', 'error')
+      return
+    }
+
     const response = await axios.put(`/api/machines/${activeMachine()}`, dataToSubmitModify())
 
     turbo.mutate<Machine>(`/api/machines/${activeMachine()}`, response.data.data)
@@ -62,8 +77,8 @@ const AdminMachine: Component = () => {
     turbo.query('/api/machines', { fresh: true })
 
     setActiveMachine(undefined),
-      setModifyName(undefined),
-      setModifyDescription(undefined),
+      setModifyName(''),
+      setModifyDescription(''),
       setModifyLevelRequired(undefined),
       setModifyLaboratory(undefined),
       setModifyActive(undefined),
@@ -85,6 +100,11 @@ const AdminMachine: Component = () => {
       createLevelRequired() === undefined
     ) {
       notify('You must fill in all fields!', 'error')
+      return
+    }
+
+    if (createDescription().length > 255) {
+      notify('You must not exceed character limits!', 'error')
       return
     }
 
@@ -231,7 +251,20 @@ const AdminMachine: Component = () => {
                                         </InputSelect>
                                       </div>
                                       <div class="flex flex-col w-full">
-                                        <span class="mb-1 inline-block">Description</span>
+                                        <div class="flex space-x-2 mb-1">
+                                          <span class="inline-block">Description </span>
+                                          <Show
+                                            when={modifyDescription().length > 255}
+                                            fallback={
+                                              <span class="inline-block">
+                                                ({modifyDescription()?.length}/255)
+                                              </span>
+                                            }>
+                                            <span class="inline-block text-red-500">
+                                              ({modifyDescription()?.length}/255)
+                                            </span>
+                                          </Show>
+                                        </div>
                                         <InputTextArea
                                           placeholder="Machine description..."
                                           value={modifyDescription()}
@@ -351,7 +384,14 @@ const AdminMachine: Component = () => {
               </div>
             </div>
             <div class="flex flex-col w-full">
-              <span class="mb-1 inline-block">Description</span>
+              <div class="flex space-x-2 mb-1">
+                <span class="inline-block">Description </span>
+                <Show
+                  when={createDescription().length > 255}
+                  fallback={<span class="inline-block">({createDescription().length}/255)</span>}>
+                  <span class="inline-block text-red-500">({createDescription().length}/255)</span>
+                </Show>
+              </div>
               <InputTextArea
                 placeholder="Machine description..."
                 value={createDescription()}

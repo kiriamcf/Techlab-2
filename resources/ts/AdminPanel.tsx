@@ -1,15 +1,12 @@
 import { Component } from 'solid-js'
 import Layout from './components/Layout'
 import Card from './components/Card'
-import IconMachine from './components/Icons/Machine'
-import IconLaboratory from './components/Icons/Laboratory'
-import IconCardShallow from './components/Icons/CardShallow'
 import CardTitle from './components/CardTitle'
-import Button from './components/Button'
-import upc from '../assets/images/upc.png'
 import laboratory from '../assets/images/laboratory.jpg'
 import machine from '../assets/images/machine.jpg'
 import rfid from '../assets/images/rfid.jpg'
+import consumption from '../assets/images/consumption.jpg'
+import event from '../assets/images/event.jpg'
 import { A } from '@solidjs/router'
 
 const AdminPanel: Component = () => {
@@ -61,12 +58,24 @@ const AdminPanel: Component = () => {
               <A href="/adminpanel/consumption">
                 <div class="group relative w-full h-full">
                   <img
-                    src={rfid}
-                    alt="rfid"
+                    src={consumption}
+                    alt="consumption"
                     class="rounded object-cover object-center w-full h-full max-h-96"
                   />
                   <div class="uppercase text-center rounded-b font-semibold text-black absolute opacity-0 group-hover:opacity-100 duration-500 bottom-0 left-0 w-full py-4 bg-primary-500">
-                    Solve RFID requests
+                    Machine consumption
+                  </div>
+                </div>
+              </A>
+              <A href="/adminpanel/event">
+                <div class="group relative w-full h-full">
+                  <img
+                    src={event}
+                    alt="event"
+                    class="rounded object-cover object-center w-full h-full max-h-96"
+                  />
+                  <div class="uppercase text-center rounded-b font-semibold text-black absolute opacity-0 group-hover:opacity-100 duration-500 bottom-0 left-0 w-full py-4 bg-primary-500">
+                    Create event
                   </div>
                 </div>
               </A>

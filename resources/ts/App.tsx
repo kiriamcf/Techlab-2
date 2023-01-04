@@ -15,6 +15,7 @@ const AdminRFID = lazy(() => import('./AdminRFID'))
 const AdminMachine = lazy(() => import('./AdminMachine'))
 const AdminLaboratory = lazy(() => import('./AdminLaboratory'))
 const AdminConsumption = lazy(() => import('./AdminConsumption'))
+const AdminEvent = lazy(() => import('./AdminEvent'))
 
 const App: Component = () => {
   const configuration: TurboSolidResourceOptions = { turbo, clearOnForget: true }
@@ -35,6 +36,7 @@ const App: Component = () => {
           <Route path="/adminpanel/machines" component={AdminMachine}></Route>
           <Route path="/adminpanel/laboratories" component={AdminLaboratory}></Route>
           <Route path="/adminpanel/consumption" component={AdminConsumption}></Route>
+          <Route path="/adminpanel/event" component={AdminEvent}></Route>
         </Routes>
       </TurboContext.Provider>
     </Notifications>

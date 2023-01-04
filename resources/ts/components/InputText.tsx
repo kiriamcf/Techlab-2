@@ -23,7 +23,7 @@ const InputText: ParentComponent<Props> = (props) => {
       type="text"
       placeholder={props.placeholder}
       value={props.value}
-      onChange={props.onChange}
+      onInput={props.onChange}
       class={classes[props.style ?? 'normal']}
       disabled={props.disabled}
     />

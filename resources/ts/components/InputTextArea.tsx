@@ -16,7 +16,7 @@ const InputTextArea: ParentComponent<Props> = (props) => {
     <textarea
       id="message"
       rows={props.rows}
-      onChange={props.onChange}
+      onInput={props.onChange}
       class="block p-2 w-full bg-neutral-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-primary-600 resize-none"
       placeholder={props.placeholder}
       value={props.value}></textarea>

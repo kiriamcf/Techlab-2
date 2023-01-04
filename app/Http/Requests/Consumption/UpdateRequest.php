@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'value' => ['sometimes', 'integer'],
+            'value' => ['sometimes', 'decimal:0,2'],
         ];
     }
 }

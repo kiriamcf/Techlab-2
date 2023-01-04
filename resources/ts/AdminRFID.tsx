@@ -1,4 +1,4 @@
-import { Component, createMemo, createSignal, For, Show, Suspense } from 'solid-js'
+import { Component, createMemo, createSignal, For, Show, Suspense, useContext } from 'solid-js'
 import Layout from './components/Layout'
 import Card from './components/Card'
 import CardTitle from './components/CardTitle'
@@ -14,8 +14,10 @@ import IconWarning from './components/Icons/Warning'
 import dayjs from 'dayjs'
 import { A } from '@solidjs/router'
 import IconArrowLeft from './components/Icons/ArrowLeft'
+import { NotificationContext } from './components/singleUse/Notifications'
 
 const AdminRFID: Component = () => {
+  const { notify } = useContext(NotificationContext)
   const [petitions] = createTurboResource<RfidPetition[]>(() => '/api/rfid_petitions')
   const [rfidCard, setRfidCard] = createSignal<string>('')
   const [activeUser, setActiveUser] = createSignal<number>()
@@ -47,6 +49,8 @@ const AdminRFID: Component = () => {
     setRfidCard('')
     setActiveUser(undefined)
     setActivePetition(undefined)
+
+    notify('Request sent successfully')
   }
 
   return (

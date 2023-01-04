@@ -22,8 +22,8 @@ const AdminLaboratory: Component = () => {
 
   const [laboratories] = createTurboResource<Laboratory[]>(() => '/api/laboratories')
   const [activeLaboratory, setActiveLaboratory] = createSignal<number>()
-  const [modifyName, setModifyName] = createSignal<string>()
-  const [modifyRoom, setModifyRoom] = createSignal<string>()
+  const [modifyName, setModifyName] = createSignal<string>('')
+  const [modifyRoom, setModifyRoom] = createSignal<string>('')
   const [createName, setCreateName] = createSignal<string>('')
   const [createRoom, setCreateRoom] = createSignal<string>('')
 
@@ -31,7 +31,7 @@ const AdminLaboratory: Component = () => {
     e.preventDefault()
 
     if (e.target === e.currentTarget) {
-      setActiveLaboratory(undefined), setModifyName(undefined), setModifyRoom(undefined)
+      setActiveLaboratory(undefined), setModifyName(''), setModifyRoom('')
     }
   }
 
@@ -41,6 +41,11 @@ const AdminLaboratory: Component = () => {
   })
 
   const modifyLaboratory = async () => {
+    if (modifyName() === '' || modifyRoom() === '') {
+      notify('You must fill in all fields!', 'error')
+      return
+    }
+
     const response = await axios.put(
       `/api/laboratories/${activeLaboratory()}`,
       dataToSubmitModify()
@@ -51,8 +56,8 @@ const AdminLaboratory: Component = () => {
     turbo.query('/api/laboratories', { fresh: true })
 
     setActiveLaboratory(undefined),
-      setModifyName(undefined),
-      setModifyRoom(undefined),
+      setModifyName(''),
+      setModifyRoom(''),
       notify('Laboratory modified successfully')
   }
 

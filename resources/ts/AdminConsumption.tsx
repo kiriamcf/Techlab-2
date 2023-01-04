@@ -34,9 +34,9 @@ const AdminConsumption: Component = () => {
 
   const E = new Echo({
     broadcaster: 'pusher',
-    key: 'ecbbe4362cec6fd03969',
-    cluster: 'eu',
-    forceTLS: true,
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+    forceTLS: import.meta.env.VITE_PUSHER_SCHEME === 'https' ? true : false,
   })
 
   const channel = E.channel('chart')
