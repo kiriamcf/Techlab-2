@@ -35,7 +35,16 @@ class HardwareController extends Controller
         return response()->json(['active' => false, 'rfid_card' => $rfidCard]);
     }
 
-    public function diagnostic(Request $request) {
-        // { 'machine_id': X, 'value': X }
+    public function activate(Request $request)
+    {
+        $machineId = $request->get('machine_id');
+
+        $machine = Machine::where('id', $machineId)->firstOrFail();
+
+        $machine->active = true;
+
+        $machine->save();
+
+        return response()->json(['active' => true]);
     }
 }
