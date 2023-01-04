@@ -25,5 +25,15 @@ class UserSeeder extends Seeder
             'rfid_card' => "86 77 9C 14",
             'level_authorization' => 2,
         ]);
+
+        DB::table('users')->insert([
+            'name' => "Roger",
+            'surname' => "Escudero Junyent",
+            'email' => "roger.escudero@estudiantat.upc.edu",
+            'password' => '$2y$10$Qitg4jTsfjLIH0Yeg1YVvOgbFt3qamSMjL4Xsta7CcPS03QaiW05O',
+            'admin' => true,
+            'rfid_card' => "DD 9E C0 F6",
+            'level_authorization' => 2,
+        ]);
     }
 }
