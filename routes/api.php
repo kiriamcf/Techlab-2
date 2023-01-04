@@ -42,4 +42,5 @@ Route::name('api.')->group(function () {
     Route::match(['put', 'patch'], '/diagnostic', [HardwareController::class,'diagnostic'])->name('diagnostic');
     Route::get('/machines', [MachineController::class,'indexAll'])->name('machines.index');
     Route::post('/machines/activate', [HardwareController::class,'activate'])->name('machines.activate');
+    Route::post('/prova', [HardwareController::class,'prova'])->name('prova');
 });
