@@ -7,6 +7,8 @@ use App\Http\Requests\Authentication\AuthenticatedRequest;
 use App\Http\Requests\Authentication\CreateUserRequest;
 use App\Http\Requests\Authentication\UpdateUserRequest;
 use App\Http\Requests\Authentication\DestroyUserRequest;
+use App\Http\Requests\Authentication\IndexRequest;
+use App\Http\Resources\AllUsersResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Exception;
@@ -16,7 +18,7 @@ class AuthenticationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->only(['showUser', 'signOut']);
+        $this->middleware('auth:sanctum')->only(['showUser', 'signOut', 'index']);
         $this->middleware('guest:sanctum')->only(['login', 'register']);
     }
     /**
@@ -69,7 +71,7 @@ class AuthenticationController extends Controller
     }
 
     /**
-     * Shows the current user logged in.
+     * Signs out of the app.
      */
     public function signOut(Request $request)
     {
@@ -78,5 +80,26 @@ class AuthenticationController extends Controller
 
 
         return response()->noContent();
+    }
+
+    /**
+     * Shows all app users.
+     */
+    public function index(IndexRequest $request)
+    {
+        // return UserResource::collection(
+        //     User::all(),
+        // );
+
+        $allUsers = User::all();
+
+        $operation = function (User $u) {
+            return $u->admin;
+        };
+
+        return new AllUsersResource([
+            'admins' => UserResource::collection($allUsers->filter($operation)),
+            'nonAdmins' => UserResource::collection($allUsers->reject($operation))
+        ]);
     }
 }

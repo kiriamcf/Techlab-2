@@ -194,6 +194,7 @@ const AdminMachine: Component = () => {
                                         <span class="mb-1 inline-block">ID</span>
                                         <InputText
                                           placeholder="Machine name"
+                                          style="bgDisabled"
                                           value={machine.id.toString()}
                                           disabled
                                         />

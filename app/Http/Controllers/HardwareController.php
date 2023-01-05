@@ -48,8 +48,4 @@ class HardwareController extends Controller
         return response()->json(['active' => true]);
     }
 
-    public function prova(Request $request)
-    {
-        return $request->getContent();
-    }
 }

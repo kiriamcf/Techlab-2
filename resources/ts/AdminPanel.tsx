@@ -7,6 +7,7 @@ import machine from '../assets/images/machine.jpg'
 import rfid from '../assets/images/rfid.jpg'
 import consumption from '../assets/images/consumption.jpg'
 import event from '../assets/images/event.jpg'
+import user from '../assets/images/user.jpg'
 import { A } from '@solidjs/router'
 
 const AdminPanel: Component = () => {
@@ -76,6 +77,18 @@ const AdminPanel: Component = () => {
                   />
                   <div class="uppercase text-center rounded-b font-semibold text-black absolute opacity-0 group-hover:opacity-100 duration-500 bottom-0 left-0 w-full py-4 bg-primary-500">
                     Create event
+                  </div>
+                </div>
+              </A>
+              <A href="/adminpanel/user">
+                <div class="group relative w-full h-full">
+                  <img
+                    src={user}
+                    alt="user"
+                    class="rounded object-cover object-center w-full h-full max-h-96"
+                  />
+                  <div class="uppercase text-center rounded-b font-semibold text-black absolute opacity-0 group-hover:opacity-100 duration-500 bottom-0 left-0 w-full py-4 bg-primary-500">
+                    User management
                   </div>
                 </div>
               </A>

@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'admin',
         'rfid_card',
+        'level_authorization'
     ];
 
     /**
@@ -50,6 +51,7 @@ class User extends Authenticatable
         'password' => 'string',
         'admin' => 'boolean',
         'rfid_card' => 'string',
+        'level_authorization' => 'integer',
         'email_verified_at' => 'datetime',
     ];
 

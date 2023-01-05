@@ -5,7 +5,7 @@ interface Props {
   value?: string
   onChange?: JSX.EventHandlerUnion<HTMLInputElement, Event>
   disabled?: boolean
-  style?: 'normal' | 'roundedRight'
+  style?: 'normal' | 'roundedRight' | 'bgDisabled' | 'bgDisabledRoundedRight'
 }
 
 const InputText: ParentComponent<Props> = (props) => {
@@ -16,6 +16,10 @@ const InputText: ParentComponent<Props> = (props) => {
       'bg-neutral-700 h-10 w-full pl-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600',
     roundedRight:
       'bg-neutral-700 h-10 w-full pl-2 rounded-r focus:outline-none focus:ring-2 focus:ring-primary-600',
+    bgDisabled:
+      'bg-zinc-600 cursor-not-allowed h-10 w-full pl-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600',
+    bgDisabledRoundedRight:
+      'bg-zinc-600 cursor-not-allowed h-10 w-full pl-2 rounded-r focus:outline-none focus:ring-2 focus:ring-primary-600',
   }
 
   return (

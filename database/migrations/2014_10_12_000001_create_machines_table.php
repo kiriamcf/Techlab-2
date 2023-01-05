@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->boolean('active');
-            $table->integer('level_required');
+            $table->integer('level_required')->default(0);
             $table->unsignedBigInteger('laboratory_id');
             $table->foreign('laboratory_id')->references('id')->on('laboratories')->onDelete('cascade');
             $table->rememberToken();

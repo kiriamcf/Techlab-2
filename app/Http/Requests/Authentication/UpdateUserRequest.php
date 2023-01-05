@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Authentication;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
@@ -26,7 +27,13 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'rfid_card' => ['required', 'string'],
+            'name' => ['sometimes', 'string'],
+            'surname' => ['sometimes', 'string'],
+            'password' => ['sometimes', 'string', 'min:6'],
+            'email' => ['sometimes', 'email:rfc,dns', Rule::unique('users', 'email')->ignore($this->user->id)],
+            'rfid_card' => ['sometimes', 'string'],
+            'admin' => ['sometimes', 'boolean'],
+            'level_authorization' => ['sometimes', 'integer']
         ];
     }
 }
