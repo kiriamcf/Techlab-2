@@ -39,8 +39,8 @@ Route::name('api.')->group(function () {
     // Route::delete('/user/{user}', [AuthenticationController::class, 'deleteUser']);
     Route::get('/get-available-hours', [ReservationController::class, 'getAvailableHours'])->name('get_available_hours');
     Route::post('/status', [HardwareController::class,'status'])->name('status');
-    Route::match(['put', 'patch'], '/diagnostic', [HardwareController::class,'diagnostic'])->name('diagnostic');
-    Route::get('/machines', [MachineController::class,'indexAll'])->name('machines.index');
+    Route::post('/authorized', [HardwareController::class,'authorized'])->name('authorized');
     Route::post('/machines/activate', [HardwareController::class,'activate'])->name('machines.activate');
+    Route::get('/machines', [MachineController::class,'indexAll'])->name('machines.index');
     Route::get('/users', [AuthenticationController::class,'index'])->name('users.index');
 });

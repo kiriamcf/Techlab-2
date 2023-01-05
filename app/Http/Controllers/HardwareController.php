@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Machine;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class HardwareController extends Controller
 {
@@ -37,6 +38,8 @@ class HardwareController extends Controller
 
     public function activate(Request $request)
     {
+        // { 'machine_id': X }
+
         $machineId = $request->get('machine_id');
 
         $machine = Machine::where('id', $machineId)->firstOrFail();
@@ -48,4 +51,20 @@ class HardwareController extends Controller
         return response()->json(['active' => true]);
     }
 
+    public function authorized(Request $request)
+    {
+        // { 'machine_id': X }
+
+        $machineId = $request->get('machine_id');
+
+        $machine = Machine::where('id', $machineId)->firstOrFail();
+
+        if ($machine->url === '' || $machine->url === null) {
+            return response()->json(['response' => true]);
+        }
+
+        $response = Http::get($machine->url);
+
+        return response()->json(['response' => $response->body()]);
+    }
 }

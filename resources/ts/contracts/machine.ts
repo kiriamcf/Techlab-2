@@ -4,6 +4,7 @@ export default interface Machine {
     description: string
     active: boolean
     level_required: number
+    url: string
     laboratory_name: string
     laboratory_id: number
 }

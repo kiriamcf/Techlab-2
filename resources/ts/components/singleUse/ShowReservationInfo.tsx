@@ -40,7 +40,20 @@ const ShowReservationInfo: Component<Props> = (props) => {
     return true
   }
 
+  const amIAuthorized = async (machine_id: number) => {
+    const responseMachine = await axios.get(`/api/machines/${machine_id}`)
+    if (responseMachine.data.data.url === null || responseMachine.data.data.url === '') {
+      return true
+    }
+    const responseAuthorization = await axios.get(responseMachine.data.data.url)
+    return responseAuthorization
+  }
+
   const activateMachine = () => {
+    if (!amIAuthorized(props.reservation.machine_id)) {
+      notify('You are not authorized to do that')
+      return
+    }
     axios.put(`/api/machines/${props.reservation.machine_id}`, { active: true })
 
     turbo.mutate<Machine>(`/api/machines/${props.reservation.machine_id}`, (old) => ({

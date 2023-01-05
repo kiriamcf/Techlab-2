@@ -35,6 +35,15 @@ const AdminLaboratory: Component = () => {
     }
   }
 
+  const deleteLaboratory = async () => {
+    await axios.delete(`/api/laboratories/${activeLaboratory()}`)
+
+    turbo.query('/api/laboratories', { fresh: true })
+
+    setActiveLaboratory(undefined)
+    notify('Laboratory deleted successfully!')
+  }
+
   const dataToSubmitModify = () => ({
     name: modifyName(),
     room_number: modifyRoom(),
@@ -149,6 +158,13 @@ const AdminLaboratory: Component = () => {
                                         />
                                       </div>
                                       <Button onClick={() => modifyLaboratory()}>save</Button>
+                                      <Button
+                                        variant="bgRed"
+                                        onClick={() => {
+                                          deleteLaboratory()
+                                        }}>
+                                        Delete
+                                      </Button>
                                     </div>
                                   </form>
                                 </Card>

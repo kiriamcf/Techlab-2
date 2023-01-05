@@ -14,6 +14,7 @@ class Machine extends Model
         'description',
         'active',
         'level_required',
+        'url',
         'laboratory_id'
     ];
 
@@ -22,6 +23,7 @@ class Machine extends Model
         'description' => 'string',
         'active' => 'boolean',
         'level_required' => 'integer',
+        'url' => 'string',
         'laboratory_id' => 'integer',
     ];
 

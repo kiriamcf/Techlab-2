@@ -4,5 +4,6 @@ export default interface Reservation {
     day: string
     machine_id: number
     machine_name: string
+    user_id: number
     laboratory_name: string
 }

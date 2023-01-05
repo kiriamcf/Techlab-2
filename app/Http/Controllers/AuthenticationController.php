@@ -87,10 +87,6 @@ class AuthenticationController extends Controller
      */
     public function index(IndexRequest $request)
     {
-        // return UserResource::collection(
-        //     User::all(),
-        // );
-
         $allUsers = User::all();
 
         $operation = function (User $u) {

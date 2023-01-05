@@ -28,10 +28,13 @@ const AdminMachine: Component = () => {
   const [modifyDescription, setModifyDescription] = createSignal<string>('')
   const [modifyLevelRequired, setModifyLevelRequired] = createSignal<number>()
   const [modifyActive, setModifyActive] = createSignal<boolean>()
+  const [modifyUrl, setModifyUrl] = createSignal<string>('')
+  const [modifyOriginalUrl, setModifyOriginalUrl] = createSignal<string>('')
   const [createName, setCreateName] = createSignal<string>('')
   const [createLaboratory, setCreateLaboratory] = createSignal<number>()
   const [createDescription, setCreateDescription] = createSignal<string>('')
   const [createLevelRequired, setCreateLevelRequired] = createSignal<number>()
+  const [createUrl, setCreateUrl] = createSignal<string>('')
 
   const closeModal = (e: Event) => {
     e.preventDefault()
@@ -42,7 +45,9 @@ const AdminMachine: Component = () => {
         setModifyDescription(''),
         setModifyLevelRequired(undefined),
         setModifyLaboratory(undefined),
-        setModifyActive(undefined)
+        setModifyActive(undefined),
+        setModifyUrl('')
+      setModifyOriginalUrl('')
     }
   }
 
@@ -52,6 +57,7 @@ const AdminMachine: Component = () => {
     active: modifyActive(),
     level_required: modifyLevelRequired(),
     laboratory_id: modifyLaboratory(),
+    url: modifyUrl(),
   })
 
   const modifyMachine = async () => {
@@ -70,7 +76,19 @@ const AdminMachine: Component = () => {
       return
     }
 
-    const response = await axios.put(`/api/machines/${activeMachine()}`, dataToSubmitModify())
+    let response
+
+    if (modifyOriginalUrl() === '' && modifyUrl() === '') {
+      response = await axios.put(`/api/machines/${activeMachine()}`, {
+        name: modifyName(),
+        description: modifyDescription(),
+        active: modifyActive(),
+        level_required: modifyLevelRequired(),
+        laboratory_id: modifyLaboratory(),
+      })
+    } else {
+      response = await axios.put(`/api/machines/${activeMachine()}`, dataToSubmitModify())
+    }
 
     turbo.mutate<Machine>(`/api/machines/${activeMachine()}`, response.data.data)
 
@@ -82,7 +100,9 @@ const AdminMachine: Component = () => {
       setModifyLevelRequired(undefined),
       setModifyLaboratory(undefined),
       setModifyActive(undefined),
-      notify('Machine modified successfully')
+      setModifyUrl(''),
+      setModifyOriginalUrl('')
+    notify('Machine modified successfully')
   }
 
   const dataToSubmitCreate = () => ({
@@ -90,6 +110,7 @@ const AdminMachine: Component = () => {
     description: createDescription(),
     active: false,
     level_required: createLevelRequired(),
+    url: createUrl(),
   })
 
   const createMachine = async () => {
@@ -108,7 +129,16 @@ const AdminMachine: Component = () => {
       return
     }
 
-    await axios.post(`/api/laboratories/${createLaboratory()}/machines`, dataToSubmitCreate())
+    if (createUrl() === '') {
+      await axios.post(`/api/laboratories/${createLaboratory()}/machines`, {
+        name: createName(),
+        description: createDescription(),
+        active: false,
+        level_required: createLevelRequired(),
+      })
+    } else {
+      await axios.post(`/api/laboratories/${createLaboratory()}/machines`, dataToSubmitCreate())
+    }
 
     turbo.query('/api/machines', { fresh: true })
 
@@ -116,7 +146,17 @@ const AdminMachine: Component = () => {
       setCreateDescription(''),
       setCreateLevelRequired(undefined),
       setCreateLaboratory(undefined),
+      setCreateUrl(''),
       notify('Machine created successfully!')
+  }
+
+  const deleteMachine = async () => {
+    await axios.delete(`/api/machines/${activeMachine()}`)
+
+    turbo.query('/api/machines', { fresh: true })
+
+    setActiveMachine(undefined)
+    notify('Machine deleted successfully!')
   }
 
   const activateMachine = async () => {
@@ -275,6 +315,14 @@ const AdminMachine: Component = () => {
                                           }
                                         />
                                       </div>
+                                      <div class="flex flex-col w-full">
+                                        <span class="mb-1 inline-block">Url (optional)</span>
+                                        <InputText
+                                          placeholder="Machine url"
+                                          value={modifyUrl()}
+                                          onChange={(e) => setModifyUrl(e.currentTarget.value)}
+                                        />
+                                      </div>
                                       <Show
                                         when={machine.active}
                                         fallback={
@@ -293,6 +341,13 @@ const AdminMachine: Component = () => {
                                         </Button>
                                       </Show>
                                       <Button onClick={() => modifyMachine()}>save</Button>
+                                      <Button
+                                        variant="bgRed"
+                                        onClick={() => {
+                                          deleteMachine()
+                                        }}>
+                                        Delete
+                                      </Button>
                                     </div>
                                   </form>
                                 </Card>
@@ -308,6 +363,8 @@ const AdminMachine: Component = () => {
                             setModifyDescription(machine.description),
                             setModifyLaboratory(machine.laboratory_id),
                             setModifyLevelRequired(machine.level_required),
+                            setModifyUrl(machine.url),
+                            setModifyOriginalUrl(machine.url),
                             setModifyActive(machine.active)
                           )}>
                           <div class="flex justify-between">
@@ -323,7 +380,6 @@ const AdminMachine: Component = () => {
                             </Show>
                           </div>
                           <div>Laboratory: {machine.laboratory_name}</div>
-                          {/* <span class="line-clamp-1">{machine.description}</span> */}
                         </div>
                       </>
                     )}
@@ -332,7 +388,7 @@ const AdminMachine: Component = () => {
               </Show>
             </Suspense>
             <CardTitle type="margined">Create a new machine</CardTitle>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div class="flex flex-col w-full">
                 <span class="mb-1 inline-block">Name</span>
                 <InputText
@@ -382,6 +438,14 @@ const AdminMachine: Component = () => {
                     )}
                   </For>
                 </InputSelect>
+              </div>
+              <div class="flex flex-col w-full">
+                <span class="mb-1 inline-block">Url (optional)</span>
+                <InputText
+                  placeholder="Machine url"
+                  value={createUrl()}
+                  onChange={(e) => setCreateUrl(e.currentTarget.value)}
+                />
               </div>
             </div>
             <div class="flex flex-col w-full">
