@@ -10,6 +10,8 @@ use App\Http\Requests\RFIDPetition\UpdateRequest;
 use App\Http\Resources\RFIDPetitionResource;
 use App\Models\RFIDPetition;
 use App\Models\User;
+use App\Notifications\CardAssigned;
+use App\Notifications\UserRegistered;
 
 class RFIDPetitionController extends Controller
 {
@@ -89,6 +91,8 @@ class RFIDPetitionController extends Controller
         $rfidPetition->user->update($request->validated());
 
         $rfidPetition->delete();
+
+        $rfidPetition->user->notify(new CardAssigned());
 
         return response()->noContent();
     }

@@ -11,6 +11,7 @@ use App\Http\Requests\Authentication\IndexRequest;
 use App\Http\Resources\AllUsersResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Notifications\UserRegistered;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,6 +49,8 @@ class AuthenticationController extends Controller
 
         Auth::login($user);
         $request->session()->regenerate();
+
+        $user->notify(new UserRegistered());
 
         return new UserResource($user);
     }
