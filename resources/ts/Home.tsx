@@ -1,4 +1,4 @@
-import { Component } from 'solid-js'
+import { Component, createSignal, onMount } from 'solid-js'
 import { A } from '@solidjs/router'
 import upc from '../assets/images/upc.png'
 import IconMap from './components/Icons/Map'
@@ -6,8 +6,13 @@ import Button from './components/Button'
 import Card from './components/Card'
 import CardTitle from './components/CardTitle'
 import Layout from './components/Layout'
+import epsem from '../assets/images/epsem.png'
 
 const Home: Component = () => {
+  const [currentYear, setCurrentYear] = createSignal<string>()
+
+  onMount(() => setCurrentYear(new Date().getFullYear().toString()))
+
   return (
     <>
       <Layout>
@@ -92,6 +97,24 @@ const Home: Component = () => {
           />
         </div>
       </Layout>
+      <footer>
+        <div class="flex flex-col">
+          <div class="w-full bg-neutral-800 text-white p-4">
+            <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center">
+              <div class="flex flex-row sm:flex-col space-x-2 items-center sm:space-x-0">
+                <span class="tracking-wide">Contact</span>
+                <span class="text-sm text-primary-500">contact@techlab.cat</span>
+              </div>
+              <div class="w-80">
+                <img src={epsem} alt="epsem" class="w-full" />
+              </div>
+            </div>
+            <h1 class="text-center text-gray-400 mt-2 sm:mt-0">
+              © {currentYear()} Techlab. All rights reserved
+            </h1>
+          </div>
+        </div>
+      </footer>
     </>
   )
 }
