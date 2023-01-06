@@ -8,6 +8,7 @@ import {
   Switch,
   useTransition,
   createSignal,
+  onMount,
 } from 'solid-js'
 import Button from './Button'
 import { A, useLocation, useNavigate } from '@solidjs/router'
@@ -17,12 +18,14 @@ import User from '../contracts/user'
 import { setUser } from '../signals/user'
 import { Portal } from 'solid-js/web'
 import IconBurger from './Icons/Burger'
+import epsem from '../../assets/images/epsem.png'
 
 interface Props {
   auth?: boolean
 }
 
 const Layout: ParentComponent<Props> = (props) => {
+  const [currentYear, setCurrentYear] = createSignal<string>()
   const [openBurger, setOpenBurger] = createSignal(false)
   const [user] = createTurboResource<User>(() => '/api/user', {
     async fetcher(key, { signal }) {
@@ -30,6 +33,8 @@ const Layout: ParentComponent<Props> = (props) => {
       return response?.data.data
     },
   })
+
+  onMount(() => setCurrentYear(new Date().getFullYear().toString()))
 
   const toggleBurger = () => {
     setOpenBurger(!openBurger())
@@ -60,7 +65,6 @@ const Layout: ParentComponent<Props> = (props) => {
 
   const logout = async () => {
     await axios.post('/api/signout')
-    // turbo.forget('/api/user')
     turbo.forget()
   }
 
@@ -161,7 +165,24 @@ const Layout: ParentComponent<Props> = (props) => {
         </div>
       </header>
       <main class="w-full max-w-5xl mx-auto">{props.children}</main>
-      <footer></footer>
+      <footer>
+        <div class="flex flex-col">
+          <div class="w-full bg-neutral-800 text-white p-4">
+            <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center">
+              <div class="flex flex-row sm:flex-col space-x-2 items-center sm:space-x-0">
+                <span class="tracking-wide">Contact</span>
+                <span class="text-sm text-primary-500">contact@techlab.cat</span>
+              </div>
+              <div class="w-80">
+                <img src={epsem} alt="epsem" class="w-full" />
+              </div>
+            </div>
+            <h1 class="text-center text-gray-400 mt-2 sm:mt-0">
+              © {currentYear()} Techlab. All rights reserved
+            </h1>
+          </div>
+        </div>
+      </footer>
     </Suspense>
   )
 }

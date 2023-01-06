@@ -129,7 +129,7 @@ const AdminLaboratory: Component = () => {
                             <div
                               class="fixed inset-0 w-full h-full bg-neutral-900 bg-opacity-75 flex items-center justify-center"
                               onclick={(e) => closeModal(e)}>
-                              <div class="w-96 mx-4 overflow-y-auto">
+                              <div class="w-96 max-h-96 max-w-96 mx-4 overflow-y-scroll">
                                 <Card>
                                   <form action="">
                                     <div class="flex flex-col space-y-3 w-full">
