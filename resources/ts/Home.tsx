@@ -27,9 +27,9 @@ const Home: Component = () => {
 
           <div class="max-w-screen-md">
             <h3 class="text-xl text-center antialiased">
-              A unique and innovative space where you can develop and create, together with the
-              necessary materials and tools, your ideas. The project aims to give everyone access to
-              a fun environment where they can use all the services free of charge.
+              A unique and innovative space where you can develop and create your ideas, together
+              with the necessary materials and tools. The project aims to give everyone access to a
+              fun environment where they can use all the services free of charge.
             </h3>
           </div>
 
