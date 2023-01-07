@@ -21,7 +21,7 @@ class MachineController extends Controller
     {
         $this
             ->middleware(['auth:sanctum', 'verified'])
-            ->except(['index', 'show', 'activate']);
+            ->except(['index', 'show', 'activate', 'indexAll']);
     }
 
     /**

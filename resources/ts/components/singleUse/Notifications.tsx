@@ -2,6 +2,7 @@ import { render, Portal } from 'solid-js/web'
 import { Motion, Presence } from '@motionone/solid'
 import { createSignal, Show, createContext, useContext, onCleanup, ParentComponent } from 'solid-js'
 import IconCheck from '../Icons/Check'
+import IconCross from '../Icons/Cross'
 
 export const NotificationContext = createContext<{ notify: (msg: string, type?: string) => void }>({
   notify: () => {},
@@ -42,7 +43,7 @@ const Notifications: ParentComponent = (props) => {
                 when={type() === 'normal'}
                 fallback={
                   <div class="bg-red-500 rounded mt-8 p-4 text-black flex space-x-2 items-center max-w-xl pointer-events-auto">
-                    <IconCheck class="h-6 w-6" />
+                    <IconCross class="h-6 w-6" />
                     <span>{message()}</span>
                   </div>
                 }>

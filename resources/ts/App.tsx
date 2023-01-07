@@ -17,6 +17,7 @@ const AdminLaboratory = lazy(() => import('./AdminLaboratory'))
 const AdminConsumption = lazy(() => import('./AdminConsumption'))
 const AdminEvent = lazy(() => import('./AdminEvent'))
 const AdminUser = lazy(() => import('./AdminUser'))
+const Services = lazy(() => import('./Services'))
 
 const App: Component = () => {
   const configuration: TurboSolidResourceOptions = { turbo, clearOnForget: true }
@@ -26,6 +27,7 @@ const App: Component = () => {
       <TurboContext.Provider value={configuration}>
         <Routes>
           <Route path="/" component={Home} />
+          <Route path="/services" component={Services}></Route>
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/dashboard" component={Dashboard} />

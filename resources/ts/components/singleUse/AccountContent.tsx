@@ -99,9 +99,6 @@ const AccountContent: Component = (props) => {
                   onChange={(e) => setModifyName(e.currentTarget.value)}
                 />
               </Show>
-              {/* <div class="bg-neutral-700 px-2 flex items-center w-full rounded-r">
-                {user()?.()?.name}
-              </div> */}
             </div>
           </div>
           <div class="flex flex-col w-full">
@@ -127,14 +124,13 @@ const AccountContent: Component = (props) => {
                   onChange={(e) => setModifySurname(e.currentTarget.value)}
                 />
               </Show>
-              {/* <div class="bg-neutral-700 px-2 flex items-center w-full rounded-r">
-                {user()?.()?.surname}
-              </div> */}
             </div>
           </div>
         </div>
         <div class="flex flex-col w-full">
-          <Show when={isEditing()} fallback={<span class="mb-1 inline-block">Password</span>}>
+          <Show
+            when={isEditing()}
+            fallback={<span class="mb-1 inline-block">Password (Hashed)</span>}>
             <span class="mb-1 inline-block">New Password</span>
           </Show>
           <div class="flex w-full">
@@ -158,9 +154,6 @@ const AccountContent: Component = (props) => {
                 onChange={(e) => setModifyPassword(e.currentTarget.value)}
               />
             </Show>
-            {/* <div class="bg-neutral-700 px-2 flex items-center w-full rounded-r">
-              {user()?.()?.password}
-            </div> */}
           </div>
         </div>
         <div class="flex flex-col w-full">
@@ -186,9 +179,6 @@ const AccountContent: Component = (props) => {
                 onChange={(e) => setModifyEmail(e.currentTarget.value)}
               />
             </Show>
-            {/* <div class="bg-neutral-700 px-2 flex items-center w-full rounded-r">
-              {user()?.()?.email}
-            </div> */}
           </div>
         </div>
         <div class="flex flex-col w-full">
@@ -214,9 +204,6 @@ const AccountContent: Component = (props) => {
                 disabled
               />
             </Show>
-            {/* <div class="bg-neutral-700 px-2 flex items-center w-full rounded-r">
-              {user()?.()?.rfid_card}
-            </div> */}
           </div>
         </div>
         <Show when={user()?.()?.rfid_card == '00 00 00 00'}>

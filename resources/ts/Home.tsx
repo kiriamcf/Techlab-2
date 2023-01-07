@@ -49,7 +49,7 @@ const Home: Component = () => {
               <p class="flex-grow text-center">
                 A list of open laboratories distributed around the university campus.
               </p>
-              <A href="/">
+              <A href="/services#laboratories">
                 <Button>
                   <span>View all Laboratories</span>
                 </Button>
@@ -60,7 +60,7 @@ const Home: Component = () => {
               <p class="flex-grow text-center">
                 A wide range of different kind of machines which are configured and ready for use.
               </p>
-              <A href="/">
+              <A href="/services#machines">
                 <Button>
                   <span>View all Machines</span>
                 </Button>
@@ -101,7 +101,7 @@ const Home: Component = () => {
         <div class="flex flex-col">
           <div class="w-full bg-neutral-800 text-white p-4">
             <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center">
-              <div class="flex flex-row sm:flex-col space-x-2 items-center sm:space-x-0">
+              <div class="flex flex-row sm:flex-col space-x-2 items-center sm:items-start sm:space-x-0">
                 <span class="tracking-wide">Contact</span>
                 <span class="text-sm text-primary-500">contact@techlab.cat</span>
               </div>

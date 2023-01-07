@@ -83,6 +83,11 @@ const ShowReservationInfo: Component<Props> = (props) => {
       unactiveReservations: old?.unactiveReservations ?? [],
     }))
 
+    let today = new Date().toISOString().slice(0, 10)
+    turbo.query(`/api/machines/${props.reservation.machine_id}/reservations?date=${today}`, {
+      fresh: true,
+    })
+
     notify('Reservation deleted successfully')
   }
 

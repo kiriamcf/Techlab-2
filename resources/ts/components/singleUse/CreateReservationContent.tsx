@@ -23,7 +23,6 @@ import { axios, turbo } from '../../Instances'
 import IconCalendar from '../Icons/Calendar'
 import { NotificationContext } from './Notifications'
 import { user } from '../../signals/user'
-import IconQuestion from '../Icons/Question'
 import IconWarning from '../Icons/Warning'
 
 const CreateReservationContent: Component = (props) => {
@@ -105,20 +104,36 @@ const CreateReservationContent: Component = (props) => {
   })
 
   const create = async (event: Event) => {
+    let today = new Date().toISOString().slice(0, 10)
+    const todayReservationsResponse = await axios.get(
+      `/api/machines/${activeMachine()?.id}/reservations?date=${today}`
+    )
+
+    if (todayReservationsResponse.data.data.length == 2) {
+      notify("You can't book more than 2 hours on a machine in a day", 'error')
+      return
+    }
+
     const response = await axios.post(
       `/api/machines/${activeMachine()?.id}/reservations`,
       dataToSubmit()
     )
 
-    setDate(undefined)
-    setActiveLaboratory(undefined)
-    setActiveMachine(undefined)
-    setActiveHour(-1)
-
     turbo.mutate(`/api/machines/${activeMachine()?.id}/reservations`, (old) => [
       ...(old ?? []),
       response.data.data,
     ])
+
+    turbo.query(`/api/machines/${activeMachine()?.id}/reservations?date=${today}`, { fresh: true })
+
+    setDate(undefined)
+    setActiveLaboratory(undefined)
+    setActiveMachine(undefined)
+    setActiveHour(-1)
+    // turbo.mutate(`/api/machines/${activeMachine()}/reservations?date=${today}`, (old) => [
+    //   ...(old ?? []),
+    //   response.data.data,
+    // ])
 
     notify('Reservation created successfully')
   }

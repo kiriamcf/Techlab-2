@@ -92,16 +92,20 @@ const Layout: ParentComponent<Props> = (props) => {
                 </Match>
               </Switch>
               <div class="hidden md:flex items-center space-x-3">
-                <h5 class="uppercase text-sm relative group">
-                  <span>machines</span>
-                  <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-500 group-hover:w-1/2 transition-all"></span>
-                  <span class="absolute -bottom-1 right-1/2 w-0 h-0.5 bg-primary-500 group-hover:w-1/2 transition-all"></span>
-                </h5>
-                <h5 class="uppercase text-sm relative group">
-                  <span>laboratories</span>
-                  <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-500 group-hover:w-1/2 transition-all"></span>
-                  <span class="absolute -bottom-1 right-1/2 w-0 h-0.5 bg-primary-500 group-hover:w-1/2 transition-all"></span>
-                </h5>
+                <A href="/services#machines">
+                  <h5 class="uppercase text-sm relative group">
+                    <span>machines</span>
+                    <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-500 group-hover:w-1/2 transition-all"></span>
+                    <span class="absolute -bottom-1 right-1/2 w-0 h-0.5 bg-primary-500 group-hover:w-1/2 transition-all"></span>
+                  </h5>
+                </A>
+                <A href="/services#laboratories">
+                  <h5 class="uppercase text-sm relative group">
+                    <span>laboratories</span>
+                    <span class="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary-500 group-hover:w-1/2 transition-all"></span>
+                    <span class="absolute -bottom-1 right-1/2 w-0 h-0.5 bg-primary-500 group-hover:w-1/2 transition-all"></span>
+                  </h5>
+                </A>
                 <Switch fallback={<div>Not found</div>}>
                   <Match when={!authenticated()}>
                     <A href="/signin">

@@ -72,6 +72,11 @@ const ShowReservationInfoResponsive: Component<Props> = (props) => {
       unactiveReservations: old?.unactiveReservations ?? [],
     }))
 
+    let today = new Date().toISOString().slice(0, 10)
+    turbo.query(`/api/machines/${props.reservation.machine_id}/reservations?date=${today}`, {
+      fresh: true,
+    })
+
     notify('Reservation deleted successfully')
   }
 
@@ -112,21 +117,32 @@ const ShowReservationInfoResponsive: Component<Props> = (props) => {
           />
         </div>
         <Show
-          when={machine()?.active}
+          when={isCurrent(props.reservation.day, props.reservation.hour)}
           fallback={
             <Button
               onClick={() => {
-                activateMachine()
+                deleteReservation()
               }}>
-              Activate
+              Delete
             </Button>
           }>
-          <Button
-            onClick={() => {
-              deactivateMachine()
-            }}>
-            Deactivate
-          </Button>
+          <Show
+            when={machine()?.active}
+            fallback={
+              <Button
+                onClick={() => {
+                  activateMachine()
+                }}>
+                Activate
+              </Button>
+            }>
+            <Button
+              onClick={() => {
+                deactivateMachine()
+              }}>
+              Deactivate
+            </Button>
+          </Show>
         </Show>
       </Card>
     </>
