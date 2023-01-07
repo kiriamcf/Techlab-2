@@ -43,4 +43,5 @@ Route::name('api.')->group(function () {
     Route::post('/machines/activate', [HardwareController::class,'activate'])->name('machines.activate');
     Route::get('/machines', [MachineController::class,'indexAll'])->name('machines.index');
     Route::get('/users', [AuthenticationController::class,'index'])->name('users.index');
+    Route::get('/machines/{machine}/consumptions/historic', [ConsumptionController::class,'indexHistoric'])->name('consumptions.historic');
 });

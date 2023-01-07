@@ -29,6 +29,10 @@ const AdminConsumption: Component = () => {
 
   const [chartData, setChartData] = createSignal<{ values: number[]; labels: string[] }>()
   const [updateChartData, setUpdateChartData] = createSignal<{ value: number; label: string }>()
+  const [chartDataHistoric, setChartDataHistoric] = createSignal<{
+    values: number[]
+    labels: string[]
+  }>()
 
   Pusher
 
@@ -63,6 +67,25 @@ const AdminConsumption: Component = () => {
       dayjs(x.updated_at).format('DD/MM/YY HH:mm')
     )
     setChartData({ values: resValues, labels: resLabels })
+  }
+
+  const getDatasetHistoric = async (machine_id: number) => {
+    const response = await axios.get(`/api/machines/${machine_id}/consumptions/historic`)
+    var resValues = []
+    for (let i = 5; i >= 1; i--) {
+      if (response.data.data[i.toString().concat(' ', 'days ago')][1] === null) {
+        resValues.push(0)
+      } else {
+        resValues.push(response.data.data[i.toString().concat(' ', 'days ago')][1])
+      }
+    }
+    var resLabels = []
+    resLabels.push(response.data.data['5 days ago'][0])
+    resLabels.push(response.data.data['4 days ago'][0])
+    resLabels.push(response.data.data['3 days ago'][0])
+    resLabels.push(response.data.data['2 days ago'][0])
+    resLabels.push(response.data.data['1 days ago'][0])
+    setChartDataHistoric({ values: resValues, labels: resLabels })
   }
 
   return (
@@ -102,7 +125,11 @@ const AdminConsumption: Component = () => {
                     {(machine, i) => (
                       <div
                         class="bg-transparent p-4 rounded border-2 border-neutral-700 hover:border-primary-500 hover:text-primary-500 transition-colors duration-500 space-y-2 cursor-pointer"
-                        onClick={() => (setActiveMachine(machine.id), getDataset(machine.id))}>
+                        onClick={() => (
+                          setActiveMachine(machine.id),
+                          getDataset(machine.id),
+                          getDatasetHistoric(machine.id)
+                        )}>
                         <div class="flex justify-between">
                           <span class="uppercase text-primary-500">{machine.name}</span>
                           <Show
@@ -123,11 +150,16 @@ const AdminConsumption: Component = () => {
               </Show>
             </Suspense>
             <Show when={activeMachine()}>
+              <h5 class="text-primary-500 uppercase text-center !mt-6">Real time consumption</h5>
               <div class="!mt-6">
                 <LineChart
                   ref={activeMachine()}
                   chartData={chartData()}
                   updatedChartData={updateChartData()}></LineChart>
+              </div>
+              <h5 class="text-primary-500 uppercase text-center !mt-6">Last 5 days</h5>
+              <div class="!mt-6">
+                <LineChart ref={activeMachine()} chartData={chartDataHistoric()}></LineChart>
               </div>
             </Show>
           </Card>
