@@ -33,7 +33,7 @@ const AdminEvent: Component = () => {
       description: description(),
     })
 
-    turbo.mutate<Event[]>('/api/rfid_petitions', (old) => [...(old ?? []), response.data.data])
+    turbo.mutate<Event[]>('/api/events', (old) => [...(old ?? []), response.data.data])
 
     setTitle('')
     setDescription('')
