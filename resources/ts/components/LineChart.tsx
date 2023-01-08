@@ -70,7 +70,7 @@ const LineChart: Component<Props> = (props) => {
           labels: props.chartData?.labels,
           datasets: [
             {
-              label: 'Consumption',
+              label: 'Consumption (A)',
               data: props.chartData?.values,
               borderWidth: 1,
               tension: 0.1,
