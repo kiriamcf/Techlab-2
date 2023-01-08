@@ -8,8 +8,6 @@ export const NotificationContext = createContext<{ notify: (msg: string, type?: 
   notify: () => {},
 })
 
-// const { notify } = useContext(NotificationContext);
-
 const Notifications: ParentComponent = (props) => {
   const [message, setMessage] = createSignal<string>()
   const [id, setId] = createSignal<number>()

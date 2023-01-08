@@ -106,8 +106,6 @@ class ReservationController extends Controller
 
     public function userIndex(UserIndexRequest $request)
     {
-        // dd(now());
-
         $operation = function (Reservation $r) {
             if ($r->day > now()->startOfDay()) {
                 return true;

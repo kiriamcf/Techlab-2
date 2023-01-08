@@ -96,7 +96,6 @@ const ShowReservationInfoResponsive: Component<Props> = (props) => {
           <InputText
             placeholder="Reservation hour"
             value={[props.reservation.hour, props.reservation.hour + 1].join(' - ')}
-            // value={reservation.hour.toString()}
             disabled
           />
         </div>

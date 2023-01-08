@@ -42,9 +42,7 @@ const Layout: ParentComponent<Props> = (props) => {
 
   const location = useLocation()
   const navigate = useNavigate()
-  // createEffect(() => console.log('user', user()))
   const authenticated = createMemo(() => user() !== undefined)
-  // createEffect(() => console.log('authenticated', authenticated()))
 
   createEffect(() => {
     if (user.loading || props.auth === undefined) {

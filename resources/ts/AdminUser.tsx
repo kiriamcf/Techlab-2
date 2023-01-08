@@ -462,7 +462,6 @@ const AdminUser: Component = () => {
                               <InputText
                                 placeholder="Name"
                                 value={webUser.name}
-                                // value={reservation.hour.toString()}
                                 disabled
                               />
                             </div>

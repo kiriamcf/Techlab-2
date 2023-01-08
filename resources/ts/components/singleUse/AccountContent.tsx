@@ -62,8 +62,6 @@ const AccountContent: Component = (props) => {
   }
 
   const requestCard = async () => {
-    // event.preventDefault()
-
     const response = await axios.post('api/rfid_petitions')
 
     turbo.mutate('api/rfid_petitions', (old) => [...(old ?? []), response.data.data])

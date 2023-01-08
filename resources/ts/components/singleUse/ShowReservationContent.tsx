@@ -159,7 +159,6 @@ const ShowReservationContent: Component = (props) => {
                           <InputText
                             placeholder="Reservation hour"
                             value={[reservation.hour, reservation.hour + 1].join(' - ')}
-                            // value={reservation.hour.toString()}
                             disabled
                           />
                         </div>

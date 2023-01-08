@@ -130,10 +130,6 @@ const CreateReservationContent: Component = (props) => {
     setActiveLaboratory(undefined)
     setActiveMachine(undefined)
     setActiveHour(-1)
-    // turbo.mutate(`/api/machines/${activeMachine()}/reservations?date=${today}`, (old) => [
-    //   ...(old ?? []),
-    //   response.data.data,
-    // ])
 
     notify('Reservation created successfully')
   }

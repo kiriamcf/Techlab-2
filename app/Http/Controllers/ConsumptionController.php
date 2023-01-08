@@ -51,11 +51,6 @@ class ConsumptionController extends Controller
                 ->create($request->validated()),
         );
 
-        // $indexRequest = IndexRequest::create($request);
-
-        // $indexResult = $this->index($indexRequest, $machine);
-        // dd($indexResult);
-
         ConsumptionEvent::dispatch($consumptionResource);
 
         return $consumptionResource;
