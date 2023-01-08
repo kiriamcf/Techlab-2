@@ -74,11 +74,13 @@ const DashboardContent: Component = () => {
                     {dayjs(event.created_at).format('DD/MM/YY')}
                   </span>
                   <p>{event.description}</p>
-                  <div
-                    class="p-2 hover:bg-primary-500 rounded group transition-colors duration-500 absolute top-2 right-4"
-                    onClick={() => setActiveEvent(event.id)}>
-                    <IconTrash class="h-5 w-5 text-white group-hover:text-black transition-colors duration-500" />
-                  </div>
+                  <Show when={user()?.()?.admin}>
+                    <div
+                      class="p-2 hover:bg-primary-500 rounded group transition-colors duration-500 absolute top-2 right-4"
+                      onClick={() => setActiveEvent(event.id)}>
+                      <IconTrash class="h-5 w-5 text-white group-hover:text-black transition-colors duration-500" />
+                    </div>
+                  </Show>
                 </div>
               </>
             )}
