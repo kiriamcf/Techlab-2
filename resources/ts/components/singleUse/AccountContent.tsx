@@ -66,7 +66,7 @@ const AccountContent: Component = (props) => {
 
     const response = await axios.post('api/rfid_petitions')
 
-    turbo.mutate('api/rfid_petitions', (old) => [...old, response.data.data])
+    turbo.mutate('api/rfid_petitions', (old) => [...(old ?? []), response.data.data])
 
     notify('RFID requested successfully')
   }
