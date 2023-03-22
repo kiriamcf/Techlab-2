@@ -1,66 +1,72 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Techlab
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Techlab is an application made specifically for UPC as the final project for one of its courses. The purpose of this project is to create an app capable of monitoring physical machines, manage users, reservations, permissions, etc.
 
-## About Laravel
+In this application, you can do the following:
+- ## List all the laboratories and machines in the system.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+![Machine and Laboratory list](public/images/machines-laboratories.png)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- ## View dashboard and events created by admins.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+![Dashboard view](public/images/dashboard.png)
 
-## Learning Laravel
+- ## Create reservations for an existing machine.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+You can only make a reservation on a future or actual day. If you choose to make a reservation for the actual day, only hours past the current (taking in consideration the user timezone) will be available. If a specific hour for a specific machine is already reserved by another user, it's unavailable to everyone else.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+![Create reservation](public/images/make-reservation.png)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- ## View existing reservations.
 
-## Laravel Sponsors
+If an active reservation is happening right now, you can choose to activate the machine from this view, otherwise the only way to activate the machine is via the RFID card. Users have the ability to delete future reservations in case they don't want to attend them anymore.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+![Show reservations](public/images/show-reservations.png)
 
-### Premium Partners
+- ## View user information
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Check your own information and edit it in case you want to change any of the fields provided.
 
-## Contributing
+![User information](public/images/user-info.png)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- ## List all admin actions in the admin panel.
 
-## Code of Conduct
+![Admin actions](public/images/admin-panel.png)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- ## Create / edit laboratories.
 
-## Security Vulnerabilities
+![Create laboratory](public/images/laboratories.png)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+![Edit laboratory](public/images/laboratories-edit.png)
 
-## License
+- ## Create / edit machines.
+
+![Create machine](public/images/machines.png)
+
+![Edit machine](public/images/machines-edit.png)
+
+- ## Solve RFID petitions.
+
+![Rfid petitions](public/images/rfid.png)
+
+![Rfid petition solve](public/images/rfid-edit.png)
+
+- ## Show machine consumption.
+
+![Machine consumption](public/images/consumption.png)
+
+- ## Create events.
+
+![Create Event](public/images/events.png)
+
+- ## Manage users.
+
+![Users list](public/images/users.png)
+
+<img src="public/images/users-edit-admin.png"  width="500" height="300">
+
+<img src="public/images/users-edit-normal.png"  width="500" height="300">
+
+# License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
